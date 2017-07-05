@@ -1,6 +1,6 @@
 ---
 layout: post
-title: First post!
+title: %th July snips
 image: /img/hello_world.jpeg
 tags: [automation, orchestration, labs, Ansible, security, SDN, Juniper, Cisco, EVE-NG, VMware, NSX, ESXi, failure, IPAM, DCIM, optical, DWDM, intent, BGP, python, opendaylight]
 ---

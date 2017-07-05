@@ -17,7 +17,7 @@ If you only read one thing then make it the last link in this post about the BA 
 * NetDevOps Ansible 101, 1hr 37min [YouTube video](https://www.youtube.com/watch?v=ArqvSGRzUBw&)
 * Repository of [Juniper Vagrant boxes](https://app.vagrantup.com/juniper) and [top level box search](https://app.vagrantup.com/boxes/search)
 * Ansible [webinars](https://www.ansible.com/webinars-training)
-* Brief YouTube [video intro](https://youtu.be/_o_1XLt1hi8) to a Python course for Network engineers. 
+* Brief YouTube [video intro](https://youtu.be/_o_1XLt1hi8) to a Python course for Network engineers 
 * France-IX’s Approach to [Network Automation](https://forums.juniper.net/t5/Customer-Stories-and-Successes/France-IX-s-Approach-to-Network-Automation/ba-p/308939)
 
 
@@ -86,6 +86,6 @@ this is after you have defined business processes, automated, orchestrated and i
 
 ## Various
 
-* To Jumbo or Not to Jumbo? [Blog post](http://blog.ipspace.net/2017/06/to-jumbo-or-not-to-jumbo.html?m=1 
-* [Carrier-Grade Networking](https://www.packetfabric.com/) Only US based at the moment and have only just started operation. Details in this [podcast](http://blog.ipspace.net/2017/06/packet-fabric-on-software-gone-wild.html). They have a very high capacity and available network comprising of Juniper QFX10Ks, MXs and some vMXs + a load of optical kit and experience with a easy to use and powerful provisioning portal. It uses VXVLAN with BGP-EVPN along with some MPLS (RSVP-TE) – they seem to be offering highly available, high speed, high capacity connectivity across North America with low contract terms built using Ansible and custom software to give customers very fast turn up of connectivity and flexibility on billing. They seem to be planning rapid expansion in the US along with European presence by the end of this year along with parts of Asia.
+* To Jumbo or Not to Jumbo? [Blog post](http://blog.ipspace.net/2017/06/to-jumbo-or-not-to-jumbo.html?m=1)
+* [Carrier-Grade Networking](https://www.packetfabric.com/) Only US based at the moment and have only just started operation. Details in this [podcast](http://blog.ipspace.net/2017/06/packet-fabric-on-software-gone-wild.html). They have a very high capacity and available network comprising of Juniper QFX10Ks, MXs and some vMXs + a load of optical kit and experience with a easy to use and powerful provisioning portal. It uses VXVLAN with BGP-EVPN along with some MPLS (RSVP-TE) – they seem to be offering highly available, high speed, high capacity connectivity across North America with low contract terms built using Ansible and custom software to give customers very fast turn up of connectivity and flexibility on billing. They seem to be planning rapid expansion in the US along with European presence by the end of this year along with parts of Asia
 * British Airways failure. Nicely dovetails into the last posts link about inevitable failure – [BA failure analysis](https://www.theregister.co.uk/2017/06/05/british_airways_critical_path_analysis/)

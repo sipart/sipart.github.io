@@ -11,7 +11,7 @@ If you only read one thing then make it the last link in this post about the BA 
 ## Automation, orchestration and labs
 
 * Vagrant setup on windows (Cumulus Spine and leaf with Ubuntu servers) – [very easy to follow with detailed instructions](https://github.com/CumulusNetworks/cldemo-vagrant-onwindows/blob/master/README.md)
-* Fujitsus Jon Spriggs - [Test Driven Development (TDD) for networks, using Ansible.](https://jon.sprig.gs/blog/post/537)
+* [Jon Spriggs](https://twitter.com/jontheniceguy?lang=en) - [Test Driven Development (TDD) for networks, using Ansible.](https://jon.sprig.gs/blog/post/537)
 * Ansible config management [a starters guide](https://www.youtube.com/watch?v=fYd_KQpfBs8&)
 * Realworld network automation 1hr [YouTube video](https://www.youtube.com/watch?v=s-eL6M0bOQw&)
 * NetDevOps Ansible 101, 1hr 37min [YouTube video](https://www.youtube.com/watch?v=ArqvSGRzUBw&)

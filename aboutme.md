@@ -1,16 +1,17 @@
 ---
 layout: page
 title: About me
-subtitle: Why you'd want to go on a date with me
+subtitle: Not Alan! Near the Derbyshire Dales and Peaks :-)
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+My name is Simon Partridge. An ex wood machiest, was an aspiring product designer but self taught IT professional path started in 1997:
 
-- I rock a great mustache
-- I'm extremely loyal to my family
+- Now a servive provider network engineer
+- Happy family man with a love of the Derbyshure Peak district
 
-What else do you need?
+What else do you need in your live?
 
 ### my history
 
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](http://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
+Check out my linkdin profile: https://www.linkedin.com/in/simon-partridge-24a66b40/
+And my very occassianl tweets (mainly re-tweets): @sipart

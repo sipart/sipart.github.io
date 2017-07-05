@@ -56,7 +56,8 @@ If you only read one thing then make it the last link in this post about the BA 
 * Routing with NSX using multiple sites (eBGP) [YouTube video](https://www.youtube.com/watch?v=JRVHjWhj2_Y)
 
 
-## Intent or Intuitive networking - this is after you have defined business processes, automated, orchestrated and implemented continuous integration on the network!
+## Intent or Intuitive networking
+this is after you have defined business processes, automated, orchestrated and implemented continuous integration on the network!
 
 * Data Centre related - watch "Apstra Operating System (AOS): Vendor-Agnostic, Intent-Driven Network Automation" on [YouTube](https://youtu.be/kyNxXcX0m-0)
 

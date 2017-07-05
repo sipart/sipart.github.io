@@ -8,12 +8,12 @@ tags: [automation, orchestration, labs, Ansible, security, SDN, Juniper, Cisco, 
 If you only read one thing then make it the last link in this email about the BA failure….
 
 
- ## Automation/Orchestration and Labs
+## Automation/Orchestration and Labs
 
 Vagrant setup on windows (Cumulus Spine and leaf with Ubuntu servers) –
-very easy to follow and detailed instructions: https://github.com/CumulusNetworks/cldemo-vagrant-onwindows/blob/master/README.md
+very easy to follow and detailed instructions: (https://github.com/CumulusNetworks/cldemo-vagrant-onwindows/blob/master/README.md)
 Fujitsus Jon Spriggs - Test Driven Development (TDD) for networks, using
-Ansible: https://jon.sprig.gs/blog/post/537
+Ansible: (https://jon.sprig.gs/blog/post/537)
 Ansible config mgmt. a starters guide: https://www.youtube.com/watch?v=fYd_KQpfBs8&
 Realworld network automation (1hr): https://www.youtube.com/watch?v=s-eL6M0bOQw&
 NetDevOps Ansible 101 (1hr 37mins): https://www.youtube.com/watch?v=ArqvSGRzUBw&
@@ -81,65 +81,22 @@ Impressive tool that’s just past its one year open source birthday: https://gi
 List of Free or Low-Cost IT Training: http://www.network-node.com/blog/2017/4/22/list-of-free-or-low-cost-it-training
 
 
-
-
-
-
-
-
- 
-
-
 ## Data Centre
-
 
 EVPN DCI options & config (Juniper): https://packet-expert.org/2017/06/08/evpn-based-data-center-interconnect-juniper-design-option-and-config-guide/
 Compliments of Cumulus, BGP in the Data Centre: https://cumulusnetworks.com/learn/web-scale-networking-resources/whitepapers/9781491983386.pdf
 with accompanying GitHub code: https://github.com/oreillymedia/bgp_in_the_data_center
 
 
+## Optical networking
+
+Everything You Always Wanted to Know About Optical Networking (1hr 27mins): https://www.youtube.com/watch?v=_KFpXuHqHQg
+Juniper poster - Packet Optical Networks and Forward Error Correction (FEC): http://juni.pr/2sn0jIs  
 
 
- 
+## Various
 
-
-Optical networking
-
-
-Everything You Always Wanted to
-Know About Optical Networking (1hr 27mins): https://www.youtube.com/watch?v=_KFpXuHqHQg
-Juniper poster - Packet Optical Networks and Forward Error Correction
-(FEC): http://juni.pr/2sn0jIs  
- 
-
-
-
-
-
-
-Various
-
-
-To Jumbo or Not to Jumbo?: http://blog.ipspace.net/2017/06/to-jumbo-or-not-to-jumbo.html?m=1
-Carrier-Grade
-Networking: https://www.packetfabric.com/
-Only US based at the moment and have only just
-started operation. Details in this podcast: http://blog.ipspace.net/2017/06/packet-fabric-on-software-gone-wild.html
-They have a very high
-capacity and available network comprising of Juniper QFX10Ks, MXs and some vMXs
-+ a load of optical kit and experience with a easy to use and powerful
-provisioning portal. It uses VXVLAN with BGP-EVPN along with some MPLS
-(RSVP-TE) – they seem to be offering highly available, high speed, high
-capacity connectivity across North America with low contract terms built using
-Ansible and custom software to give customers very fast turn up of connectivity
-and flexibility on billing. They seem to be planning rapid expansion in the US
-along with European presence by the end of this year along with parts of Asia.
-Nicely dovetails into the last emails links about inevitable failure –
-BA failure analysis: https://www.theregister.co.uk/2017/06/05/british_airways_critical_path_analysis/
-
-
-
-
-
-
-
+To Jumbo or Not to Jumbo?: http://blog.ipspace.net/2017/06/to-jumbo-or-not-to-jumbo.html?m=1 Carrier-Grade Networking: https://www.packetfabric.com/
+Only US based at the moment and have only just started operation. Details in this podcast: http://blog.ipspace.net/2017/06/packet-fabric-on-software-gone-wild.html
+They have a very high capacity and available network comprising of Juniper QFX10Ks, MXs and some vMXs + a load of optical kit and experience with a easy to use and powerful provisioning portal. It uses VXVLAN with BGP-EVPN along with some MPLS (RSVP-TE) – they seem to be offering highly available, high speed, high capacity connectivity across North America with low contract terms built using Ansible and custom software to give customers very fast turn up of connectivity and flexibility on billing. They seem to be planning rapid expansion in the US along with European presence by the end of this year along with parts of Asia.
+Nicely dovetails into the last emails links about inevitable failure – BA failure analysis: https://www.theregister.co.uk/2017/06/05/british_airways_critical_path_analysis/

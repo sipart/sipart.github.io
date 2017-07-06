@@ -14,6 +14,7 @@ What else do you need in your life?
 
 ### My professional history
 Check out my [Linkedin](https://www.linkedin.com/in/simon-partridge-24a66b40/) profile.
+
 And my very occasional tweets (mainly re-tweets!): [@sipart](https://twitter.com/Sipart?lang=en-gb)
 
 

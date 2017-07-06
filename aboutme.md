@@ -4,7 +4,7 @@ title: About me
 subtitle: Not Alan! Near the Derbyshire Dales and Peaks :-)
 ---
 
-Hi. My name is Simon Partridge. An ex wood machinist, was an aspiring product designer but now a IT professional; my path in IT started in 1997:
+Hi. My name is Simon Partridge. An ex wood machinist, was an aspiring product designer but now a IT professional; my path in IT started in 1997 a former Win2K MCSE:
 
 - Currently a [Juniper](http://www.juniper.net/uk/en/) Certified Service Provider Network Engineer
 - Happy family man with a love of the [Derbyshire Peak district](https://www.visitpeakdistrict.com/)

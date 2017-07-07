@@ -13,6 +13,4 @@ Technology, family and the great outdoors!
 What else do you need in your life?
 
 ### My professional history
-Check out my [Linkedin](https://www.linkedin.com/in/simon-partridge-24a66b40/) profile
-My [Acclaim page](https://www.youracclaim.com/user/simon-partridge)
-And my very occasional tweets (mainly re-tweets!): [@sipart](https://twitter.com/Sipart?lang=en-gb)
+Check out my [Linkedin](https://www.linkedin.com/in/simon-partridge-24a66b40/) profile, my [Acclaim page](https://www.youracclaim.com/user/simon-partridge), and my very occasional tweets (mainly re-tweets!): [@sipart](https://twitter.com/Sipart?lang=en-gb)

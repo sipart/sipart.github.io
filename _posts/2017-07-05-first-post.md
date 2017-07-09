@@ -62,12 +62,12 @@ If you only read one thing then make it the last link in this post about the BA 
 * Data Centre related - watch "Apstra Operating System (AOS): Vendor-Agnostic, Intent-Driven Network Automation" on [YouTube](https://youtu.be/kyNxXcX0m-0)
 
 
-## IP address Mgmt/Data Centre Infrastructure Mgmt (IPAM/DCIM)
+## IP address Mgmt and Data Centre Infrastructure Mgmt (IPAM/DCIM)
 
 * Impressive tool that’s just past its one year open source birthday. [Netbox Open source IPAM](https://github.com/digitalocean/netbox)
 
 
-## Training/knowledge
+## Training and knowledge
 
 * List of Free or Low-Cost [IT Training](http://www.network-node.com/blog/2017/4/22/list-of-free-or-low-cost-it-training)
 

@@ -2,6 +2,7 @@
 layout: page
 title: About me
 subtitle: Not Alan! Near the Derbyshire Dales and Peaks :-)
+bigimg: /img/path.jpg
 ---
 
 Hi. My name is Simon Partridge. An ex wood machinist, was an aspiring product designer but now an IT professional; former Win2K MCSE, my path in IT started in 1997:

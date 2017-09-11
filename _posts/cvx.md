@@ -23,9 +23,11 @@ Quickstart: Dual-Attach (MLAG) Demo:
 	net add routing route 0.0.0.0/0 192.168.0.1
 	net commit
 
-	sudo nano /etc/apt/sources.list
+	
 
-Uncomment the early access repository lines and save the file:
+Edit the sources file and uncomment the early access repository lines and save the file:
+
+	sudo nano /etc/apt/sources.list
 
 	deb http://repo3.cumulusnetworks.com/repo CumulusLinux-3-earlyaccess cumulus
 	deb-src http://repo3.cumulusnetworks.com/repo CumulusLinux-3-early-access cumulus

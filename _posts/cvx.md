@@ -15,7 +15,7 @@ Quickstart: Dual-Attach (MLAG) Demo:
 
 	https://github.com/CumulusNetworks/cldemo-evpn
 
-## NETQ setup
+## **NETQ setup**
 
 
 ## Changes to all switches in the fabric to enable NETQ
@@ -63,7 +63,9 @@ Check status of REDIS service:
 
 	systemctl status redis-server.service
 
-logfile /var/log/redis/redis-server.log
+Log location for troubleshooting:
+	
+	logfile /var/log/redis/redis-server.log
 
 
 ## Client switches

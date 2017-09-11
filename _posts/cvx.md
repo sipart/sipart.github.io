@@ -5,4 +5,4 @@ image: /img/ansible.png
 subtitle: Cumulux EVE-NG DC lab
 tags: [Cumulus, EVE-NG]
 ---
-![Cumulus Fabirc](/img/cumulus DC.png)
+![Cumulus Fabirc](/img/cumulus-DC.png)

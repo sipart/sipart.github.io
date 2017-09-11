@@ -15,15 +15,15 @@ Quickstart: Dual-Attach (MLAG) Demo:
 
 	https://github.com/CumulusNetworks/cldemo-evpn
 
-## **NETQ setup**
+## NETQ setup
+
+[NetQ](https://cumulusnetworks.com/products/netq/) is a telemetry-based fabric validation system. You can try this out on Cumulus VX with the important caveat that you can't try out the NETQ telemetry server as you need a Cumulus licence to download the VM. But you can setup all the other components and run NETQ valiadation commands that query the REDIS server to see the fabric state.
 
 
 ## Changes to all switches in the fabric to enable NETQ
 
 	net add routing route 0.0.0.0/0 192.168.0.1
 	net commit
-
-	
 
 Edit the sources file and uncomment the early access repository lines and save the file:
 

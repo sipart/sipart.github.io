@@ -77,7 +77,7 @@ For example:
 
 ## Verification commands
 
-Full fabreic checks from any of the devices in the fabric:
+Full fabric checks from any of the devices in the fabric:
 
 	netq show agents
 	netq show bgp

@@ -77,12 +77,15 @@ For example:
 
 ## Verification commands
 
-Basic check for any of the devices in the fabric:
+Basic check from any of the devices in the fabric:
+
 	netq show agents
 
 To show full list of commands:
 
 	netq show 
+
+Or specific queries:
 
 	netq show bgp
 	netq show interfaces
@@ -90,4 +93,9 @@ To show full list of commands:
 	netq show services
 	netq <nodename> show stp topology
 	netq show lldp
+	
+You can query any other device from any other device:
+
+	netq spine01 show bgp
+	netq leaf03 show interfaces
 	netq show clag

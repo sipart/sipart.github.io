@@ -24,7 +24,7 @@ Additional elements are the devices outside the DC fabric - the ZTP_DHCP device 
 	net add routing route 0.0.0.0/0 192.168.0.1
 	net commit
 
-Edit the sources file and uncomment the early access repository lines and save the file **NOTE these next steps to get early access may no longer be needed if using the latest Cumulus VX images**:
+Edit the sources file and uncomment the early access repository lines and save the file. **NOTE: these next steps to get early access may no longer be needed if using the latest Cumulus VX images**:
 
 	sudo nano /etc/apt/sources.list
 

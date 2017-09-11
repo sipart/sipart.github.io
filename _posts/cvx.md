@@ -8,12 +8,15 @@ tags: [Cumulus, EVE-NG]
 ![Cumulus Fabirc](/img/cumulus-DC.png)
 
 Moving from Quagga to FRRouting:
+
 	https://docs.cumulusnetworks.com/display/DOCS/Upgrading+from+Quagga+to+FRRouting
 
 Quickstart: Dual-Attach (MLAG) Demo:
+
 	https://github.com/CumulusNetworks/cldemo-evpn
 
 ## NETQ setup
+
 
 ## Changes to all switches in the fabric to enable NETQ
 
@@ -31,32 +34,7 @@ Run the following commands in a terminal to install the cumulus-netq package:
 
 	sudo apt update
 	sudo apt install cumulus-netq -y
-
-
-## Client switches
-
-Specify the IP address of the REDIS server and start the agent. 
-For example:
-
-	sudo netq add server 192.168.0.250
-	sudo netq agent start
-
-## Verification commands
-
-Basic check for any of the devices in the fabric:
-	netq show agents
-
-To show full list of commands:
-	netq show 
-
-	netq show bgp
-	netq show interfaces
-	netq show macs
-	netq show services
-	netq <nodename> show stp topology
-	netq show lldp
-	netq show clag
-
+	
 
 ## REDIS server / switch
 
@@ -84,3 +62,30 @@ Check status of REDIS service:
 	systemctl status redis-server.service
 
 logfile /var/log/redis/redis-server.log
+
+
+## Client switches
+
+Specify the IP address of the REDIS server and start the agent. 
+For example:
+
+	sudo netq add server 192.168.0.250
+	sudo netq agent start
+	
+
+## Verification commands
+
+Basic check for any of the devices in the fabric:
+	netq show agents
+
+To show full list of commands:
+
+	netq show 
+
+	netq show bgp
+	netq show interfaces
+	netq show macs
+	netq show services
+	netq <nodename> show stp topology
+	netq show lldp
+	netq show clag

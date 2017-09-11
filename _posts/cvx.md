@@ -91,11 +91,12 @@ Or specific queries:
 	netq show interfaces
 	netq show macs
 	netq show services
-	netq <nodename> show stp topology
 	netq show lldp
+	netq show clag
 	
 You can query any other device from any other device:
 
 	netq spine01 show bgp
 	netq leaf03 show interfaces
-	netq show clag
+	netq spine02 show stp topology
+	

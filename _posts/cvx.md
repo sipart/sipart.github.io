@@ -44,10 +44,12 @@ Use apt-get to install the packages:
 	sudo apt update
 	sudo apt install redis-server redis-tools
 
-	sudo nano /etc/redis/redis.conf
+Open the redis.conf file and if the bind line links to localhost (127.0.0.1) then change it to the IP address of one or more external ports, such as eth0:
 
-If the bind line links to localhost (127.0.0.1) then change it to the IP address of one or more external ports, such as eth0:
+	sudo nano /etc/redis/redis.conf
 	
+Edit the bind line in the file:
+
 	bind 192.168.0.250
 
 Restart the REDIS server service:

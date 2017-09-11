@@ -1,9 +1,12 @@
 ---
 layout: draft
-title: Cumulus VX - EVPN, BGP unnumbered, netq
+title: 'Cumulus VX - EVPN, BGP unnumbered, netq'
 image: /img/cumulus-networks-logo.png
 subtitle: Cumulux EVE-NG DC lab
-tags: [Cumulus, EVE-NG]
+tags:
+  - Cumulus
+  - EVE-NG
+published: true
 ---
 ## NETQ setup on an exisiting DC fabric lab (real or virtual)
 
@@ -19,7 +22,7 @@ Additional elements are the devices outside the DC fabric - the ZTP_DHCP device 
 [NetQ](https://cumulusnetworks.com/products/netq/) is a telemetry-based fabric validation system. You can try this out for free using Cumulus VX with the important caveat that you can't try out the NETQ telemetry server as you need a Cumulus licence to download the VM. But you can setup all the other components and run NETQ valiadation commands that query the REDIS server to see the fabric state.
 
 
-## Changes to all switches in the fabric to enable NETQ
+### Changes to all switches in the fabric to enable NETQ
 
 	net add routing route 0.0.0.0/0 192.168.0.1
 	net commit
@@ -37,7 +40,7 @@ Run the following commands in a terminal to install the cumulus-netq package:
 	sudo apt install cumulus-netq -y
 	
 
-## REDIS server / switch
+### REDIS server / switch
 
 Use apt-get to install the packages:
 
@@ -69,7 +72,7 @@ Log location for troubleshooting:
 	logfile /var/log/redis/redis-server.log
 
 
-## Client switches
+### Client switches
 
 Specify the IP address of the REDIS server and start the agent. 
 For example:
@@ -78,7 +81,7 @@ For example:
 	sudo netq agent start
 	
 
-## Verification commands
+### Verification commands
 
 Full fabric checks from any of the devices in the fabric:
 

@@ -10,10 +10,10 @@ tags: [Cumulus, EVE-NG]
 ![Cumulus Fabirc](/img/cumulus-DC.png)
 
 
-The above lab created in [EVE-NG](http://www.eve-ng.net/) is based on the **Quickstart Dual-Attach (MLAG) Demo** from this [Cumulus github page](https://github.com/CumulusNetworks/cldemo-evpn)
+The above lab created in [EVE-NG](http://www.eve-ng.net/) is based on the **Quickstart Dual-Attach (MLAG) Demo** from this [Cumulus github page](https://github.com/CumulusNetworks/cldemo-evpn).
 
 	
-Addotional elements are the devices outside the DC fabirc - the ZTP_DHCP is acting as the REDIS device in the NETQ setup below. The ztp-net and cumulus_ztp_test devices are not used in this post.
+Additional elements are the devices outside the DC fabirc - the ZTP_DHCP is acting as the REDIS device in the NETQ setup below. The ztp-net and cumulus_ztp_test devices are not used in this post.
 
 
 [NetQ](https://cumulusnetworks.com/products/netq/) is a telemetry-based fabric validation system. You can try this out on Cumulus VX with the important caveat that you can't try out the NETQ telemetry server as you need a Cumulus licence to download the VM. But you can setup all the other components and run NETQ valiadation commands that query the REDIS server to see the fabric state.
@@ -24,7 +24,7 @@ Addotional elements are the devices outside the DC fabirc - the ZTP_DHCP is acti
 	net add routing route 0.0.0.0/0 192.168.0.1
 	net commit
 
-Edit the sources file and uncomment the early access repository lines and save the file:
+Edit the sources file and uncomment the early access repository lines and save the file **NOTE these next steps to get early access may no longer be needed if using the latest Cumulus VX images):
 
 	sudo nano /etc/apt/sources.list
 

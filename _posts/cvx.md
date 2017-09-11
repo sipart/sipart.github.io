@@ -13,7 +13,7 @@ Moving from Quagga to FRRouting:
 Quickstart: Dual-Attach (MLAG) Demo:
 	https://github.com/CumulusNetworks/cldemo-evpn
 
-### NETQ setup
+## NETQ setup
 
 ## Changes to all switches in the fabric to enable NETQ
 

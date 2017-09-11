@@ -14,7 +14,9 @@ https://github.com/CumulusNetworks/cldemo-evpn
 
 Quickstart: Dual-Attach (MLAG) Demo
 
-###ALL###
+### NETQ setup
+
+## Changes to all switches in the fabric to enable netq
 
 	net add routing route 0.0.0.0/0 192.168.0.1
 	net commit
@@ -32,8 +34,7 @@ Run the following commands in a terminal to install the cumulus-netq package:
 	sudo apt install cumulus-netq -y
 
 
-
-###CLIENT SWITCHES###
+## CLIENT SWITCHES
 
 Specify the IP address of the redis server and start the agent. 
 For example:
@@ -41,8 +42,7 @@ For example:
 	sudo netq add server 192.168.0.250
 	sudo netq agent start
 
-
-###verification commands###
+## Verification commands
 
 Basic check for any of the devices in the fabric:
 	netq show agents
@@ -59,7 +59,7 @@ To show full list of commands:
 	netq show clag
 
 
-###RDIS SERVER###
+## RDIS server / switch
 
 Use apt-get to install the packages:
 
@@ -68,15 +68,20 @@ Use apt-get to install the packages:
 
 	sudo nano /etc/redis/redis.conf
 
-If the bind line links to localhost (127.0.0.1). 
-Change it to the IP address of one or more external
-ports, such as eth0:
+If the bind line links to localhost (127.0.0.1) then change it to the IP address of one or more external ports, such as eth0:
 	
 	bind 192.168.0.250
 
+Restart the RDIS server service:
 
 	sudo systemctl restart redis-server.service
+	
+Set the RDIS service to start on boot:
+
 	sudo systemctl enable redis-server.service
+
+Check status of RDIS service:
+
 	systemctl status redis-server.service
 
 logfile /var/log/redis/redis-server.log

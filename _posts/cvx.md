@@ -8,7 +8,7 @@ tags:
   - EVE-NG
 published: true
 ---
-## NETQ setup on an exisiting DC fabric lab (real or virtual)
+## Cumulus NETQ setup on an exisiting DC fabric lab (real or virtual)
 
 ![Cumulus Fabirc](/img/cumulus-DC.png)
 

@@ -13,7 +13,7 @@ published: true
 ![Cumulus Fabirc](/img/cumulus-DC.png)
 
 
-The above lab created in [EVE-NG](http://www.eve-ng.net/) is based on the **Quickstart Dual-Attach (MLAG) Demo** from this [Cumulus github page](https://github.com/CumulusNetworks/cldemo-evpn).
+The above lab created in [EVE-NG](http://www.eve-ng.net/) is based on the **Quickstart Dual-Attach (MLAG) Demo** from this [Cumulus github page](https://github.com/CumulusNetworks/cldemo-evpn). All the devices in the lab above except the 'clouds' are all the same Cumulus VX images.
 
 	
 Additional elements are the devices outside the DC fabric - the ZTP_DHCP device is acting as the REDIS server in the NETQ setup below. The ztp-net and cumulus_ztp_test devices are not used in this post.
@@ -24,8 +24,7 @@ Additional elements are the devices outside the DC fabric - the ZTP_DHCP device 
 
 ### Changes to all switches in the fabric to enable NETQ
 
-	net add routing route 0.0.0.0/0 192.168.0.1
-	net commit
+Make sure you have inter-device reachablilty on your managment network (Cumulus uses eth0 as a mgmt. port) - NETQ uses this to send data to the REDIS server).
 
 Edit the sources file and uncomment the early access repository lines and save the file. **NOTE: these next steps to get early access may no longer be needed if using the latest Cumulus VX images**:
 

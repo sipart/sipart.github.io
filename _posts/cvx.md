@@ -13,7 +13,7 @@ published: true
 ![Cumulus Fabirc](/img/cumulus-DC.png)
 
 
-The above lab created in [EVE-NG](http://www.eve-ng.net/) is based on the **Quickstart: Dual-Attach (MLAG) Demo** from this [Cumulus github page](https://github.com/CumulusNetworks/cldemo-evpn). All the devices in the lab above except the 'clouds' are all the same Cumulus VX images.
+The above lab created in [EVE-NG](http://www.eve-ng.net/) is based on the **Quickstart: Dual-Attach (MLAG) Demo** from this [Cumulus github page](https://github.com/CumulusNetworks/cldemo-evpn). All the devices in the lab above are all the same Cumulus VX images.
 
 	
 Additional elements are the devices outside the DC fabric - the ZTP_DHCP device is acting as the REDIS server in the NETQ setup below. The ztp-net and cumulus_ztp_test devices are not used in this post.

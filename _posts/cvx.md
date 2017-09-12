@@ -10,7 +10,7 @@ published: true
 ---
 ## Cumulus NETQ setup on an exisiting DC fabric lab (real or virtual)
 
-![Cumulus Fabirc](<img align="..." src="/img/cumulus-DC.png" alt="...">)
+![Cumulus Fabirc](<img align=".." src="/img/cumulus-DC.png" alt="...">)
 
 
 The above lab created in [EVE-NG](http://www.eve-ng.net/) is based on the **Quickstart: Dual-Attach (MLAG) Demo** from this [Cumulus github page](https://github.com/CumulusNetworks/cldemo-evpn). All the devices in the lab above are all the same Cumulus VX images.

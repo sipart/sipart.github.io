@@ -24,7 +24,7 @@ Additional elements are the devices outside the DC fabric - the ZTP_DHCP device 
 
 ### Changes to all switches in the fabric to enable NETQ
 
-Make sure you have inter-device reachablilty on your managment network (Cumulus uses eth0 as a mgmt. port) - NETQ uses this to send data to the REDIS server).
+Make sure you have inter-device reachablilty on your management network (Cumulus uses eth0 as a mgmt. port) - NETQ uses this network to send data to the REDIS server.
 
 Edit the sources file and uncomment the early access repository lines and save the file. **NOTE: these next steps to get early access may no longer be needed if using the latest Cumulus VX images**:
 

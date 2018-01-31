@@ -22,8 +22,21 @@ common-js:
   <body>
   
     {% include nav.html %}
-
-    {{ content }}
+    
+    <div>
+      <script>
+  (function() {
+    var cx = '009393016532990328423:kkezekqq9wu';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+      <div/>
 
     {% include footer.html %}
   

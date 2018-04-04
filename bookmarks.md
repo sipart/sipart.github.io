@@ -12,8 +12,8 @@ bigimg: /img/bigimg/blur.jpg
 
 ## Juniper
 
-JTAC Recommended [Junos Software Versions](https://kb.juniper.net/InfoCenter/index?page=content&id=KB21476&actp=METADATA)
+[JTAC Recommended Junos Software Versions](https://kb.juniper.net/InfoCenter/index?page=content&id=KB21476&actp=METADATA)
 
 ## Network Tools and Info
 
-Subnet [Calc](http://www.subnet-calculator.com/)
+[Subnet Calc](http://www.subnet-calculator.com/)

@@ -22,3 +22,4 @@ bigimg: /img/bigimg/blur.jpg
 
 * [Subnet Calc](http://www.subnet-calculator.com/)
 * [MAC Address lookup](https://macvendors.com/)
+* [List of TCP and UDP port numbers](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers)

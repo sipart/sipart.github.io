@@ -30,3 +30,8 @@ bigimg: /img/bigimg/blur.jpg
 * [Cumulus Data Centre terminology cheat sheet](https://cumulusnetworks.com/learn/web-scale-networking-resources/guides/networking-terminology-cheat-sheet/)
 * [Netbox IPAM / DCIM tool](https://github.com/digitalocean/netbox)
 * [RegEx online test tool](https://regex101.com/)
+* [Microsoft Visual Studio Code](https://code.visualstudio.com/)
+* [MobaXterm - tabbed SSH and more](https://mobaxterm.mobatek.net/)
+* [TCP Throughput calculator](https://www.switch.ch/network/tools/tcp_throughput/) and [more tools](https://www.switch.ch/network/tools/)
+* [Sample packet captures](https://enterprise.cloudshark.org/blog/how-to-get-sample-captures/)
+* [Lab Internet routing table creator](http://www.stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/)

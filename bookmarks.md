@@ -16,3 +16,4 @@ JTAC Recommended [Junos Software Versions](https://kb.juniper.net/InfoCenter/ind
 
 ## Network Tools and Info
 
+Subnet [Calc](http://www.subnet-calculator.com/)

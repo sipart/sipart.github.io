@@ -16,6 +16,7 @@ bigimg: /img/bigimg/blur.jpg
 ## Juniper
 
 * [JTAC Recommended Junos Software Versions](https://kb.juniper.net/InfoCenter/index?page=content&id=KB21476&actp=METADATA)
+* [Juniper Vagrant boxes](https://app.vagrantup.com/juniper)
 
 ## Network Tools and Info
 

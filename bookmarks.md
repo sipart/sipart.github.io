@@ -25,6 +25,7 @@ bigimg: /img/bigimg/blur.jpg
 
 * [Microsoft Visual Studio Code](https://code.visualstudio.com/) - free
 * [MobaXterm - tabbed SSH and more](https://mobaxterm.mobatek.net/) - free and paid version
+* [Portable Apps](https://portableapps.com/apps) - loads and mostly free
 
 ## Juniper Reference
 

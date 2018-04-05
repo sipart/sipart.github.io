@@ -44,9 +44,13 @@ bigimg: /img/bigimg/blur.jpg
 * [RegEx online test tool](https://regex101.com/)
 * [TCP Throughput calculator](https://www.switch.ch/network/tools/tcp_throughput/) and [more tools](https://www.switch.ch/network/tools/)
 
-## Desktop and System tools
+## Desktop Tools
 
-* [Netbox IPAM / DCIM tool](https://github.com/digitalocean/netbox)
-* [Microsoft Visual Studio Code](https://code.visualstudio.com/)
-* [MobaXterm - tabbed SSH and more](https://mobaxterm.mobatek.net/)
-* [Lab Internet routing table creator](http://www.stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/)
+* [Microsoft Visual Studio Code](https://code.visualstudio.com/) - free
+* [MobaXterm - tabbed SSH and more](https://mobaxterm.mobatek.net/) - free and paid version
+
+## System Tools
+
+* [Netbox IPAM / DCIM tool](https://github.com/digitalocean/netbox) - free
+* [Lab Internet routing table creator](http://www.stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/) - free
+* [Netshot Configuration and Compliance Management Software](http://www.netfishers.onl/netshot) - free

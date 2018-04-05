@@ -27,7 +27,7 @@ bigimg: /img/bigimg/blur.jpg
 * [GNS3](https://www.gns3.com/) - free - source images yourself
 * [Juniper Wistar](https://github.com/Juniper/wistar) - free - source images yourself
 * [Cisco VIRL](https://learningnetworkstore.cisco.com/virtual-internet-routing-lab-virl/) - $$$ - images included?
-* [Vagrant](https://www.vagrantup.com/) - free - various [Vgrant boxes (images)](https://app.vagrantup.com/boxes/search) 
+* [Vagrant](https://www.vagrantup.com/) - free - various [Vagrant boxes (images)](https://app.vagrantup.com/boxes/search) 
 
 ## General Reference
 

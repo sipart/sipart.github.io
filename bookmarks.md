@@ -56,7 +56,7 @@ bigimg: /img/bigimg/blur.jpg
 * [EVE-NG](http://eve-ng.net/) - multi-vendor - free - source images yourself
 * [GNS3](https://www.gns3.com/) - multi-vendor - free - source images yourself
 * [Juniper Wistar](https://github.com/Juniper/wistar) - Juniper - free - source images yourself
-* [Cisco VIRL](https://learningnetworkstore.cisco.com/virtual-internet-routing-lab-virl/) - Cisco - $$$ - images included?
+* [Cisco VIRL](http://virl.cisco.com) - Cisco - $$$ - images included
 * [Vagrant](https://www.vagrantup.com/) - multi-vendor - free - various [Vagrant boxes (images)](https://app.vagrantup.com/boxes/search) 
 * [Cumulus in the Cloud](https://cumulusnetworks.com/products/cumulus-in-the-cloud/) - free - online sandbox
 * [Juniper Contrail and Appformix](https://www.juniper.net/us/en/cloud-software/trial/index.html) - free - online sandbox

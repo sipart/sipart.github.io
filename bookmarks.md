@@ -41,7 +41,7 @@ bigimg: /img/bigimg/blur.jpg
 
 * [V2.0.0 Juniper.junos modules for Ansible](https://github.com/Juniper/ansible-junos-stdlib)
 * [Python library for Junos automation - Junos PyEZ](https://github.com/Juniper/py-junos-eznc)
-* [AWX - open source version](https://github.com/ansible/awx) of [Ansible Tower](https://www.ansible.com/products/tower)- free
+* [AWX](https://github.com/ansible/awx) open source version of [Ansible Tower](https://www.ansible.com/products/tower) - free
 
 ## Virtual Labs / Enviroments
 

@@ -6,13 +6,16 @@ image: /img/link.jpeg
 bigimg: /img/bigimg/blur.jpg
 ---
 
-## Automation
+## Automation Reference
 
 * [Ansible for Junos OS Developer guide](https://www.juniper.net/documentation/en_US/junos-ansible/information-products/pathway-pages/junos-ansible.html) - covers new v2.0.0 Juniper.junos modules
-* [V2.0.0 Juniper.junos modules for Ansible](https://github.com/Juniper/ansible-junos-stdlib)
 * [Ansible 2.5 Junos core modules](http://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#junos)
+
+## Automation Tools / Systems and Modules
+
+* [V2.0.0 Juniper.junos modules for Ansible](https://github.com/Juniper/ansible-junos-stdlib)
 * [Python library for Junos automation - Junos PyEZ](https://github.com/Juniper/py-junos-eznc)
-* [AWX - open source version of Ansible Tower](https://github.com/ansible/awx)
+* [AWX - open source version of Ansible Tower](https://github.com/ansible/awx) - free
 
 ## Juniper Reference
 
@@ -23,11 +26,13 @@ bigimg: /img/bigimg/blur.jpg
 
 ## Virtual Labs / Enviroments
 
-* [EVE-NG](http://eve-ng.net/) - free - source images yourself
-* [GNS3](https://www.gns3.com/) - free - source images yourself
-* [Juniper Wistar](https://github.com/Juniper/wistar) - free - source images yourself
-* [Cisco VIRL](https://learningnetworkstore.cisco.com/virtual-internet-routing-lab-virl/) - $$$ - images included?
-* [Vagrant](https://www.vagrantup.com/) - free - various [Vagrant boxes (images)](https://app.vagrantup.com/boxes/search) 
+* [EVE-NG](http://eve-ng.net/) - multi-vendor - free - source images yourself
+* [GNS3](https://www.gns3.com/) - multi-vendor - free - source images yourself
+* [Juniper Wistar](https://github.com/Juniper/wistar) - Juniper - free - source images yourself
+* [Cisco VIRL](https://learningnetworkstore.cisco.com/virtual-internet-routing-lab-virl/) - Cisco - $$$ - images included?
+* [Vagrant](https://www.vagrantup.com/) - multi-vendor - free - various [Vagrant boxes (images)](https://app.vagrantup.com/boxes/search) 
+* [Cumulus in the Cloud](https://cumulusnetworks.com/products/cumulus-in-the-cloud/) - free - online sandbox
+* [Juniper Contrail and Appformix](https://www.juniper.net/us/en/cloud-software/trial/index.html) - free - online sandbox
 
 ## General Reference
 
@@ -49,7 +54,7 @@ bigimg: /img/bigimg/blur.jpg
 * [Microsoft Visual Studio Code](https://code.visualstudio.com/) - free
 * [MobaXterm - tabbed SSH and more](https://mobaxterm.mobatek.net/) - free and paid version
 
-## System Tools
+## System Software
 
 * [Netbox IPAM / DCIM tool](https://github.com/digitalocean/netbox) - free
 * [Lab Internet routing table creator](http://www.stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/) - free

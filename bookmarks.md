@@ -13,7 +13,7 @@ bigimg: /img/bigimg/blur.jpg
 * [Cumulus Data Centre terminology cheat sheet](https://cumulusnetworks.com/learn/web-scale-networking-resources/guides/networking-terminology-cheat-sheet/)
 * [Sample packet captures](https://enterprise.cloudshark.org/blog/how-to-get-sample-captures/)
 
-## Online Network Tools
+## Online Tools
 
 * [Subnet Calc](http://www.subnet-calculator.com/)
 * [MAC Address lookup](https://macvendors.com/)

@@ -48,7 +48,7 @@ bigimg: /img/bigimg/blur.jpg
 * [Ansible](https://www.ansible.com/) - agentless
 * [Chef](https://www.chef.io/chef/) - agent needed
 * [Puppet](https://puppet.com/) - agent needed
-* [Salt(stack)](https://saltstack.com/) agent and agentless
+* [Salt(stack)](https://saltstack.com/) - agent and agentless
 
 ## Virtual Labs / Enviroments
 

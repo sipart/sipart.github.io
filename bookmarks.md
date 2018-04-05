@@ -61,6 +61,7 @@ bigimg: /img/bigimg/blur.jpg
 
 * [Netbox IPAM / DCIM tool](https://github.com/digitalocean/netbox) - free
 * [Netshot Configuration and Compliance Management Software](http://www.netfishers.onl/netshot) - free
+* [eNMS](https://github.com/afourmy/eNMS/blob/master/README.md)
 
 ## Other sources of useful links
 

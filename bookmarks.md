@@ -45,7 +45,7 @@ bigimg: /img/bigimg/blur.jpg
 * [V2.0.0 Juniper.junos modules for Ansible](https://github.com/Juniper/ansible-junos-stdlib)
 * [Python library for Junos automation - Junos PyEZ](https://github.com/Juniper/py-junos-eznc)
 * [AWX](https://github.com/ansible/awx) open source version of [Ansible Tower](https://www.ansible.com/products/tower) - free
-* [Ansible](https://www.ansible.com/) - agentless
+* [Ansible](https://www.ansible.com/) - agentless - Ansible is generally the recommendation for Network automation
 * [Chef](https://www.chef.io/chef/) - agent needed
 * [Puppet](https://puppet.com/) - agent needed
 * [Salt(stack)](https://saltstack.com/) - agent and agentless (some [caveats](https://docs.saltstack.com/en/getstarted/ssh/index.html) for agentless running)

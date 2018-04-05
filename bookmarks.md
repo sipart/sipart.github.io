@@ -19,6 +19,7 @@ bigimg: /img/bigimg/blur.jpg
 * [MAC Address lookup](https://macvendors.com/)
 * [RegEx online test tool](https://regex101.com/)
 * [TCP Throughput calculator](https://www.switch.ch/network/tools/tcp_throughput/) and [more tools](https://www.switch.ch/network/tools/)
+* [Google Cloud Shell](https://console.cloud.google.com/cloudshell) - Google Cloud Shell is a f1-micro instance running Debian preinstalled with developer tools and has a home directory that persists across sessions
 
 ## Desktop Tools
 
@@ -31,6 +32,7 @@ bigimg: /img/bigimg/blur.jpg
 * [Vagrant boxes](https://app.vagrantup.com/juniper)
 * [Day One books](https://www.juniper.net/us/en/training/jnbooks/)
 * [System log Explorer](https://apps.juniper.net/syslog-explorer/#view=explore)
+* [Configuration Examples](https://www.juniper.net/documentation/en_US/release-independent/nce/information-products/pathway-pages/nce/index.html)
 
 ## Automation Reference
 
@@ -58,3 +60,7 @@ bigimg: /img/bigimg/blur.jpg
 
 * [Netbox IPAM / DCIM tool](https://github.com/digitalocean/netbox) - free
 * [Netshot Configuration and Compliance Management Software](http://www.netfishers.onl/netshot) - free
+
+## Other sources of useful links
+
+* [List of Free or Low-Cost IT Training](https://www.network-node.com/blog/2017/4/22/list-of-free-or-low-cost-it-training)

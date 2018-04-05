@@ -14,24 +14,39 @@ bigimg: /img/bigimg/blur.jpg
 * [Python library for Junos automation - Junos PyEZ](https://github.com/Juniper/py-junos-eznc)
 * [AWX - open source version of Ansible Tower](https://github.com/ansible/awx)
 
-## Juniper
+## Juniper Reference
 
 * [JTAC Recommended Junos Software Versions](https://kb.juniper.net/InfoCenter/index?page=content&id=KB21476&actp=METADATA)
-* [Juniper Vagrant boxes](https://app.vagrantup.com/juniper)
-* [Juniper Day One books](https://www.juniper.net/us/en/training/jnbooks/)
+* [Vagrant boxes](https://app.vagrantup.com/juniper)
+* [Day One books](https://www.juniper.net/us/en/training/jnbooks/)
+* [System log Explorer](https://apps.juniper.net/syslog-explorer/#view=explore)
 
-## Network Tools and Info
+## Virtual Labs / Enviroments
 
-* [Subnet Calc](http://www.subnet-calculator.com/)
-* [MAC Address lookup](https://macvendors.com/)
+* [EVE-NG](http://eve-ng.net/) - free - source images yourself
+* [GNS3](https://www.gns3.com/) - free - source images yourself
+* [Juniper Wistar](https://github.com/Juniper/wistar) - free - source images yourself
+* [Cisco VIRL](https://learningnetworkstore.cisco.com/virtual-internet-routing-lab-virl/) - $$$ - images included?
+* [Vagrant](https://www.vagrantup.com/) - free - various [Vgrant boxes (images)](https://app.vagrantup.com/boxes/search) 
+
+## General Reference
+
 * [List of TCP and UDP port numbers](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers)
 * [Packetlife.net cheat sheets](http://packetlife.net/library/cheat-sheets/)
 * Cumulus Linux cheat sheets - [one version,](https://cumulusnetworks.app.box.com/v/linux-cheatsheet)[ another](https://drive.google.com/file/d/0B7iknf22mGuyY1lyX2FoVkxIMTQ/view) [and another!](https://cumulusnetworks.com/learn/web-scale-networking-resources/product-collateral/linux-networking-cheat-sheet/)
 * [Cumulus Data Centre terminology cheat sheet](https://cumulusnetworks.com/learn/web-scale-networking-resources/guides/networking-terminology-cheat-sheet/)
-* [Netbox IPAM / DCIM tool](https://github.com/digitalocean/netbox)
+* [Sample packet captures](https://enterprise.cloudshark.org/blog/how-to-get-sample-captures/)
+
+## Online Network Tools
+
+* [Subnet Calc](http://www.subnet-calculator.com/)
+* [MAC Address lookup](https://macvendors.com/)
 * [RegEx online test tool](https://regex101.com/)
+* [TCP Throughput calculator](https://www.switch.ch/network/tools/tcp_throughput/) and [more tools](https://www.switch.ch/network/tools/)
+
+## Desktop and System tools
+
+* [Netbox IPAM / DCIM tool](https://github.com/digitalocean/netbox)
 * [Microsoft Visual Studio Code](https://code.visualstudio.com/)
 * [MobaXterm - tabbed SSH and more](https://mobaxterm.mobatek.net/)
-* [TCP Throughput calculator](https://www.switch.ch/network/tools/tcp_throughput/) and [more tools](https://www.switch.ch/network/tools/)
-* [Sample packet captures](https://enterprise.cloudshark.org/blog/how-to-get-sample-captures/)
 * [Lab Internet routing table creator](http://www.stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/)

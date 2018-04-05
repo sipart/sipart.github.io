@@ -31,7 +31,6 @@ bigimg: /img/bigimg/blur.jpg
 ## Juniper Reference
 
 * [JTAC Recommended Junos Software Versions](https://kb.juniper.net/InfoCenter/index?page=content&id=KB21476&actp=METADATA)
-* [Vagrant boxes](https://app.vagrantup.com/juniper)
 * [Day One books](https://www.juniper.net/us/en/training/jnbooks/)
 * [System log Explorer](https://apps.juniper.net/syslog-explorer/#view=explore)
 * [Configuration Examples](https://www.juniper.net/documentation/en_US/release-independent/nce/information-products/pathway-pages/nce/index.html)
@@ -39,17 +38,18 @@ bigimg: /img/bigimg/blur.jpg
 ## Automation Reference
 
 * [Ansible for Junos OS Developer guide](https://www.juniper.net/documentation/en_US/junos-ansible/information-products/pathway-pages/junos-ansible.html) - covers new v2.0.0 Juniper.junos modules
-* [Ansible 2.5 Junos core modules](http://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#junos)
 
 ## Automation Tools / Systems and Modules
 
 * [V2.0.0 Juniper.junos modules for Ansible](https://github.com/Juniper/ansible-junos-stdlib)
+* [Ansible 2.5 Junos core modules](http://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#junos)
 * [Python library for Junos automation - Junos PyEZ](https://github.com/Juniper/py-junos-eznc)
 * [Ansible](https://www.ansible.com/) - agentless - Ansible is generally the recommendation for Network automation
 * [Chef](https://www.chef.io/chef/) - agent needed
 * [Puppet](https://puppet.com/) - agent needed
 * [Salt(stack)](https://saltstack.com/) - agent and agentless (some [caveats](https://docs.saltstack.com/en/getstarted/ssh/index.html) for agentless running)
 * [AWX](https://github.com/ansible/awx) open source version of [Ansible Tower](https://www.ansible.com/products/tower) - free
+* [Juniper Vagrant boxes](https://app.vagrantup.com/juniper)
 
 ## Virtual Labs / Enviroments
 
@@ -58,8 +58,8 @@ bigimg: /img/bigimg/blur.jpg
 * [Juniper Wistar](https://github.com/Juniper/wistar) - Juniper - free - source images yourself
 * [Cisco VIRL](http://virl.cisco.com) - Cisco - $$$ - images included
 * [Vagrant](https://www.vagrantup.com/) - multi-vendor - free - various [Vagrant boxes (images)](https://app.vagrantup.com/boxes/search) 
-* [Cumulus in the Cloud](https://cumulusnetworks.com/products/cumulus-in-the-cloud/) - free - online sandbox
-* [Juniper Contrail and Appformix](https://www.juniper.net/us/en/cloud-software/trial/index.html) - free - online sandbox
+* [Cumulus in the Cloud](https://cumulusnetworks.com/products/cumulus-in-the-cloud/) - Cumulus - free - online sandbox
+* [Juniper Contrail and Appformix](https://www.juniper.net/us/en/cloud-software/trial/index.html) - Juniper - free - online sandbox
 * [Lab Internet routing table creator VM](http://www.stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/) - free
 
 ## System Software

@@ -40,6 +40,7 @@ bigimg: /img/bigimg/blur.jpg
 
 * [Cisco Support](https://www.cisco.com/c/en/us/support/index.html)
 * [Study CCNA for free](https://learningnetwork.cisco.com/thread/15662) - Cisco forum post with a bunch of useful links
+* {Netflow Cheat Sheet](https://www.network-node.com/blog/2016/5/15/netflow-cheatsheet)
 
 ## Automation Reference
 

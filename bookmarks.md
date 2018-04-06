@@ -45,6 +45,7 @@ bigimg: /img/bigimg/blur.jpg
 ## Automation Reference
 
 * [Ansible for Junos OS Developer guide](https://www.juniper.net/documentation/en_US/junos-ansible/information-products/pathway-pages/junos-ansible.html) - covers new v2.0.0 Juniper.junos modules
+* [Ansible Documentation](http://docs.ansible.com/)
 
 ## Automation Tools / Systems and Modules
 
@@ -56,6 +57,7 @@ bigimg: /img/bigimg/blur.jpg
 * [Puppet](https://puppet.com/) - agent needed
 * [Salt(stack)](https://saltstack.com/) - agent and agentless (some [caveats](https://docs.saltstack.com/en/getstarted/ssh/index.html) for agentless running)
 * [AWX](https://github.com/ansible/awx) open source version of [Ansible Tower](https://www.ansible.com/products/tower) - free
+* [AWX Vagrant Profile](https://github.com/geerlingguy/ansible-vagrant-examples/tree/master/awx) - so you can test and run AWX
 
 ## Virtual Labs / Enviroments
 

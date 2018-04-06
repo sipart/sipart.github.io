@@ -27,6 +27,7 @@ bigimg: /img/bigimg/blur.jpg
 * [Microsoft Visual Studio Code](https://code.visualstudio.com/) - free
 * [MobaXterm - tabbed SSH and more](https://mobaxterm.mobatek.net/) - free and paid version
 * [Portable Apps](https://portableapps.com/apps) - loads and mostly free
+* [Cisco CLI Analyzer](https://cway.cisco.com/go/sa/) - free - a TAC-Powered SSH client
 
 ## Juniper Reference
 
@@ -34,6 +35,11 @@ bigimg: /img/bigimg/blur.jpg
 * [Day One books](https://www.juniper.net/us/en/training/jnbooks/)
 * [System log Explorer](https://apps.juniper.net/syslog-explorer/#view=explore)
 * [Configuration Examples](https://www.juniper.net/documentation/en_US/release-independent/nce/information-products/pathway-pages/nce/index.html)
+
+## Cisco Reference
+
+* [Cisco Support](https://www.cisco.com/c/en/us/support/index.html)
+* [Study CCNA for free](https://learningnetwork.cisco.com/thread/15662) - Cisco forum post with a bunch of useful links
 
 ## Automation Reference
 

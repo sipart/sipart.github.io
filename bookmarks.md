@@ -87,7 +87,7 @@ bigimg: /img/bigimg/blur.jpg
 * [Juniper Automation](https://www.youtube.com/channel/UCbkN06oEM6VI8eRMisSKxrg/videos)
 * [David Barroso - NAPALM developer](https://www.youtube.com/channel/UCkjR7tuducm2jxFsWv0dQBQ)
 * [Ivan Pepelnjak - ipspace.net](https://www.youtube.com/user/IvanPx/videos)
-* [Jeremy Stretch - NETBOX developer](https://www.youtube.com/channel/UC-Ime6WgFLxD7J7TvTwhsDw)
+* [Jeremy Stretch - Netbox developer](https://www.youtube.com/channel/UC-Ime6WgFLxD7J7TvTwhsDw)
 * [Joseph Delgadillo - Python and Linux content](https://www.youtube.com/channel/UCqR4a4lUDbDkAFQnhw4pfXQ/videos)
 * [KeepingItClassless - Matt Oswalt](https://www.youtube.com/user/KeepingItClassless/videos)
 * [Network Collective](https://vimeo.com/networkcollective)

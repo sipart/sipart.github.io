@@ -77,6 +77,22 @@ bigimg: /img/bigimg/blur.jpg
 * [Netshot Configuration and Compliance Management Software](http://www.netfishers.onl/netshot) - free
 * [eNMS](https://github.com/afourmy/eNMS/blob/master/README.md) - free
 
+## Video Content
+
+* [Ansible](https://www.youtube.com/channel/UCeImQ-jeVhzgLJd9wsqo8Sg/videos)
+* [EVE-NG](https://www.youtube.com/channel/UCh-RxHfEpYzo2Sgflq4_vAA/videos)
+* [Cumulus Networks](https://www.youtube.com/user/CumulusNetworks/videos)
+* [David Bombal - GNS3 content](https://www.youtube.com/user/ConfigTerm/videos)
+* [Ansible London Meetup](https://www.youtube.com/channel/UCWblujmd7THIFFCJS7PsagA/videos)
+* [Juniper Automation](https://www.youtube.com/channel/UCbkN06oEM6VI8eRMisSKxrg/videos)
+* [David Barroso - NAPALM developer](https://www.youtube.com/channel/UCkjR7tuducm2jxFsWv0dQBQ)
+* [Ivan Pepelnjak - ipspace.net](https://www.youtube.com/user/IvanPx/videos)
+* [Jeremy Stretch - NETBOX developer](https://www.youtube.com/channel/UC-Ime6WgFLxD7J7TvTwhsDw)
+* [Joseph Delgadillo - Python and Linux content](https://www.youtube.com/channel/UCqR4a4lUDbDkAFQnhw4pfXQ/videos)
+* [KeepingItClassless - Matt Oswalt](https://www.youtube.com/user/KeepingItClassless/videos)
+* [Network Collective](https://vimeo.com/networkcollective)
+* [Network Direction](https://www.youtube.com/channel/UCtuXekfqj-paqsxtqVNCC2A/videos)
+
 ## Other sources of useful links
 
 * [List of Free or Low-Cost IT Training](https://www.network-node.com/blog/2017/4/22/list-of-free-or-low-cost-it-training)

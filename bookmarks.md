@@ -92,6 +92,7 @@ bigimg: /img/bigimg/blur.jpg
 * [KeepingItClassless - Matt Oswalt](https://www.youtube.com/user/KeepingItClassless/videos)
 * [Network Collective](https://vimeo.com/networkcollective)
 * [Network Direction](https://www.youtube.com/channel/UCtuXekfqj-paqsxtqVNCC2A/videos)
+* [Tech Field Day](https://www.youtube.com/channel/UCSnTTyp4q7jMhwECxXzMAXQ/videos)
 
 ## Other sources of useful links
 

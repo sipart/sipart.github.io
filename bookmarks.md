@@ -6,6 +6,8 @@ image: /img/link.jpeg
 bigimg: /img/bigimg/blur.jpg
 ---
 
+Remember to **_hit CTRL + Left Click to open links in a new tab_**
+
 ## General Reference
 
 * [List of TCP and UDP port numbers](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers)

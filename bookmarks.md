@@ -9,10 +9,11 @@ bigimg: /img/bigimg/blur.jpg
 ## General Reference
 
 * [List of TCP and UDP port numbers](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers)
-* [Packetlife.net cheat sheets](http://packetlife.net/library/cheat-sheets/)
+* [Packetlife.net Cheat Sheets](http://packetlife.net/library/cheat-sheets/)
 * Cumulus Linux cheat sheets - [one version,](https://cumulusnetworks.app.box.com/v/linux-cheatsheet)[ another](https://drive.google.com/file/d/0B7iknf22mGuyY1lyX2FoVkxIMTQ/view) [and another!](https://cumulusnetworks.com/learn/web-scale-networking-resources/product-collateral/linux-networking-cheat-sheet/)
-* [Cumulus Data Centre terminology cheat sheet](https://cumulusnetworks.com/learn/web-scale-networking-resources/guides/networking-terminology-cheat-sheet/)
+* [Cumulus Data Centre terminology Cheat Sheet](https://cumulusnetworks.com/learn/web-scale-networking-resources/guides/networking-terminology-cheat-sheet/)
 * [Sample packet captures](https://enterprise.cloudshark.org/blog/how-to-get-sample-captures/)
+* [Comprehensive Python Cheat Sheet](https://gto76.github.io/python-cheatsheet/)
 
 ## Online Tools
 

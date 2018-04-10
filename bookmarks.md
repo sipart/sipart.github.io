@@ -6,7 +6,7 @@ image: /img/link.jpeg
 bigimg: /img/bigimg/blur.jpg
 ---
 
-Remember to **_hit CTRL + Left Click to open links in a new tab_**
+Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 
 ## General Reference
 

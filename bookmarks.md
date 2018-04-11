@@ -18,6 +18,11 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [Comprehensive Python Cheat Sheet](https://gto76.github.io/python-cheatsheet/)
 * [Githib Markdown language Cheat Sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
+## Books
+
+* [Network Programmability and Automation: Skills for the Next-Generation Network Engineer](https://www.amazon.co.uk/gp/product/1491931256/)
+* [Computer Networking Problems and Solutions: An innovative approach to building resilient, modern networks](https://www.amazon.co.uk/dp/1587145049/)
+
 ## Online Tools
 
 * [Subnet Calc](http://www.subnet-calculator.com/)

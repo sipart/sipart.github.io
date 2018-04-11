@@ -104,6 +104,12 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [Network Direction](https://www.youtube.com/channel/UCtuXekfqj-paqsxtqVNCC2A/videos)
 * [Tech Field Day](https://www.youtube.com/channel/UCSnTTyp4q7jMhwECxXzMAXQ/videos)
 
+## Audio Content
+
+* [Packet Pushers](http://packetpushers.net/podcast/)
+* [Network Collective](https://thenetworkcollective.com/feed/podcast/)
+* [ipspace.net](https://www.ipspace.net/Podcast/Software_Gone_Wild)
+
 ## Other sources of useful links
 
 * [List of Free or Low-Cost IT Training](https://www.network-node.com/blog/2017/4/22/list-of-free-or-low-cost-it-training)

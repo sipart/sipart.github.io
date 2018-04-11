@@ -70,7 +70,7 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 
 ## Virtual Labs / Enviroments
 
-* [EVE-NG](http://eve-ng.net/) - multi-vendor - free - source images yourself
+* [EVE-NG](http://eve-ng.net/) - multi-vendor - free community version or subscription pro version - source images yourself
 * [GNS3](https://www.gns3.com/) - multi-vendor - free - source images yourself
 * [Juniper Wistar](https://github.com/Juniper/wistar) - Juniper - free - source images yourself
 * [Cisco VIRL](http://virl.cisco.com) - Cisco - $$$ - images included

@@ -66,6 +66,7 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [Salt(stack)](https://saltstack.com/) - agent and agentless (some [caveats](https://docs.saltstack.com/en/getstarted/ssh/index.html) for agentless running)
 * [AWX](https://github.com/ansible/awx) open source version of [Ansible Tower](https://www.ansible.com/products/tower) - free
 * [AWX Vagrant Profile](https://github.com/geerlingguy/ansible-vagrant-examples/tree/master/awx) - so you can test and run AWX
+* [ssh-copy-net](https://github.com/networkop/ssh-copy-net) - install your public key in a remote devices authorised keys
 
 ## Virtual Labs / Enviroments
 

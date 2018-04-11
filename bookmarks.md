@@ -50,6 +50,8 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 
 * [Ansible for Junos OS Developer guide](https://www.juniper.net/documentation/en_US/junos-ansible/information-products/pathway-pages/junos-ansible.html) - covers new v2.0.0 Juniper.junos modules
 * [Ansible Documentation](http://docs.ansible.com/)
+* [Cisco Networking Dev Center](https://developer.cisco.com/site/networking/)
+* [Juniper Automation Resources](https://www.juniper.net/documentation/en_US/release-independent/automation/information-products/pathway-pages/index.html)
 
 ## Automation Tools / Systems and Modules
 

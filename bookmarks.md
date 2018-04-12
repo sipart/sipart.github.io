@@ -46,7 +46,7 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [Day One books](https://www.juniper.net/us/en/training/jnbooks/)
 * [System log Explorer](https://apps.juniper.net/syslog-explorer/#view=explore)
 * [Configuration Examples](https://www.juniper.net/documentation/en_US/release-independent/nce/information-products/pathway-pages/nce/index.html)
-* [Juniper EX Cheat Sheet PDF](www.cciezone.com/wp-content/uploads/2009/11/JUNOS_Juniper_EX_Cheat_Sheet.pdf)
+* [Juniper EX Cheat Sheet - PDF](www.cciezone.com/wp-content/uploads/2009/11/JUNOS_Juniper_EX_Cheat_Sheet.pdf)
 
 ## Cisco Reference
 

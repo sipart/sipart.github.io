@@ -17,6 +17,7 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [Sample packet captures](https://enterprise.cloudshark.org/blog/how-to-get-sample-captures/)
 * [Comprehensive Python Cheat Sheet](https://gto76.github.io/python-cheatsheet/)
 * [Githib Markdown language Cheat Sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+* [Linux and Network Zines](personal blog about virtualization maintained by William Lam. 
 
 ## Books
 
@@ -53,12 +54,17 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [Study CCNA for free](https://learningnetwork.cisco.com/thread/15662) - Cisco forum post with a bunch of useful links
 * [Netflow Cheat Sheet](https://www.network-node.com/blog/2016/5/15/netflow-cheatsheet)
 
+## Vmware Reference
+
+* [Personal blog about virtualization maintained by William Lam](https://www.virtuallyghetto.com/)
+
 ## Automation Reference
 
 * [Ansible for Junos OS Developer guide](https://www.juniper.net/documentation/en_US/junos-ansible/information-products/pathway-pages/junos-ansible.html) - covers new v2.0.0 Juniper.junos modules
 * [Ansible Documentation](http://docs.ansible.com/)
 * [Cisco Networking Dev Center](https://developer.cisco.com/site/networking/)
 * [Juniper Automation Resources](https://www.juniper.net/documentation/en_US/release-independent/automation/information-products/pathway-pages/index.html)
+* [More Juniper Auotmation Resources](http://puluka.com/home/networking/junos-automation-training-resources/) - courtesy of [@spulkar](https://twitter.com/spuluka)
 
 ## Automation Tools / Systems and Modules
 
@@ -73,7 +79,7 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [AWX Vagrant Profile](https://github.com/geerlingguy/ansible-vagrant-examples/tree/master/awx) - so you can test and run AWX
 * [ssh-copy-net](https://github.com/networkop/ssh-copy-net) - install your public key in a remote devices authorised keys
 
-## Virtual Labs / Enviroments
+## Virtual Labs / Environments
 
 * [EVE-NG](http://eve-ng.net/) - multi-vendor - free community version or subscription pro version - source images yourself
 * [GNS3](https://www.gns3.com/) - multi-vendor - free - source images yourself
@@ -84,6 +90,8 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [Cumulus in the Cloud](https://cumulusnetworks.com/products/cumulus-in-the-cloud/) - Cumulus - free - online sandbox
 * [Juniper Contrail and Appformix](https://www.juniper.net/us/en/cloud-software/trial/index.html) - Juniper - free - online sandbox
 * [Lab Internet routing table creator VM](http://www.stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/) - free
+* [VMware Hands on Labs](https://labs.hol.vmware.com/HOL/catalogs/catalog/681) - VMware - free - online sandboxes
+* [SaltStack Workshop](http://salt-workshop.tylerc.me/) - free - Vagrant environment - courtesy of [supertylerc](https://github.com/supertylerc)
 
 ## System Software
 

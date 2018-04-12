@@ -54,7 +54,7 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [Study CCNA for free](https://learningnetwork.cisco.com/thread/15662) - Cisco forum post with a bunch of useful links
 * [Netflow Cheat Sheet](https://www.network-node.com/blog/2016/5/15/netflow-cheatsheet)
 
-## Vmware Reference
+## VMware Reference
 
 * [Personal blog about virtualization maintained by William Lam](https://www.virtuallyghetto.com/)
 

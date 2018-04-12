@@ -99,6 +99,8 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [Netshot Configuration and Compliance Management Software](http://www.netfishers.onl/netshot) - free
 * [eNMS](https://github.com/afourmy/eNMS/blob/master/README.md) - free
 * [AEON-ZTPS Multi-Vendor ZTP Server](https://github.com/Apstra/aeon-ztps) - although supported vendors are limited at the moment, but its open source - [contribute?](https://github.com/Apstra/aeon-ztps/blob/master/CONTRIBUTING.md)
+* [OpenNMS](https://opennms.org/en) - free
+* [Grafana](https://grafana.com/) - free
 
 ## Video Content
 

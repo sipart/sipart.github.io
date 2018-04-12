@@ -37,7 +37,7 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 * [Microsoft Visual Studio Code](https://code.visualstudio.com/) - free
 * [MobaXterm - tabbed SSH and more](https://mobaxterm.mobatek.net/) - free and paid version
 * [Portable Apps](https://portableapps.com/apps) - loads and mostly free
-* [Cisco CLI Analyzer](https://cway.cisco.com/go/sa/) - free - a TAC-Powered SSH client
+* [Cisco CLI Analyzer](https://cway.cisco.com/go/sa/) - free - a TAC-Powered SSH client. [YouTube overview](https://www.youtube.com/watch?v=FQ1d9dzQVaQ)
 * [PsPing for Windows](https://docs.microsoft.com/en-us/sysinternals/downloads/psping)
 
 ## Juniper Reference

@@ -8,7 +8,7 @@ bigimg: /img/bigimg/blur.jpg
 
 Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 
-And just a note - when I say **free** I mean **free to use** - please donate or contribute to the projects if you can
+Note: when I say **free** I mean **free to use** - please donate or contribute to the projects if you can
 
 ## General Reference
 

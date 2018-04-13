@@ -73,7 +73,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [V2.0.0 Juniper.junos modules for Ansible](https://github.com/Juniper/ansible-junos-stdlib)
 * [Ansible 2.5 Junos core modules](http://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#junos)
 * [Python library for Junos automation - Junos PyEZ](https://github.com/Juniper/py-junos-eznc)
-* [Ansible](https://www.ansible.com/) - agentless - generally the recommendation for Network automation
+* [Ansible](https://www.ansible.com/) - agentless - generally the recommendation for network automation
 * [Chef](https://www.chef.io/chef/) - agent needed
 * [Puppet](https://puppet.com/) - agent needed
 * [Salt(stack)](https://saltstack.com/) - agent and agentless (some [caveats](https://docs.saltstack.com/en/getstarted/ssh/index.html) for agentless running)

@@ -1,6 +1,6 @@
-# Creating a lab/test Juniper MPLS core
+# Core On a Page
 
-## Using RSVP as the LDP and ISIS for the IGP. The brief assumes equal trunks with ‘normal’ utilisation expected with no Traffic Engineering
+## Creating a lab/test Juniper MPLS core using RSVP as the LDP and ISIS for the IGP. The brief assumes equal trunks with ‘normal’ utilisation expected with no Traffic Engineering
 
 # Configure MPLS
 * Configure all the core link interfaces with `family mpls`

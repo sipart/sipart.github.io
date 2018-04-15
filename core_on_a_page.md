@@ -27,8 +27,7 @@ The below is the basics for a MPLS core to use in a lab and only scratches the s
 * One flat Level 2 area can be used
 * Set level 2 auth’ (md5) and `wide-metrics-only` (generate metric values greater than 63 on a per ISIS level basis.) at `protocols isis` stanza level
 * Set interfaces `level 1 disable` as appropriate – set `level 2 passive` on management and loopback
-* Set `bfd-liveness-detection` on trunks to core devices to configure bidirectional failure detection timers for ISIS
-* Add `family iso` on core trunk interfaces and loopback
+* Set `bfd-liveness-detection` on trunks to core devices to configure bidirectional failure detection timers for ISIS* Add `family iso` on core trunk interfaces and loopback
 * Add NET (Network Entity Title) under `family iso` on  loopback
 49—AFI
 0001—Area ID
@@ -71,8 +70,8 @@ The below is the basics for a MPLS core to use in a lab and only scratches the s
 ## Routing Options
 * `nonstop-routing` (needed for ISSU)
 
-# VRF notes
-Difference between route distinguisher and route target
+# VRF note
+The difference between route distinguisher and route target
 * The route distinguisher and route target values perform two completely separate functions, and although most press publications/websites show the values as the same (which they can be) it is confusing to someone learning MPLS for the first time as they assume they do the same thing. The route distinguisher makes a unique VPNv4 address across the MPLS network. The route target defines which prefixes get imported and exported on the PE routers
 
 ## Ideal Further Reading and Reference

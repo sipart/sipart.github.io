@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Core On A Page
-subtitle: Creating a Juniper MPLS core using RSVP as the LDP and ISIS as the IGP. The brief assumes equal trunks and no Traffic Engineering
+subtitle: Creating a Juniper MPLS core using RSVP as the LDP and ISIS as the IGP. The brief assumes no need for Traffic Engineering
 image: /img/mpls.jpg
 bigimg: /img/bigimg/blur.jpg
 ---

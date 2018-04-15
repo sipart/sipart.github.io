@@ -5,6 +5,8 @@ subtitle: Creating a lab/test Juniper MPLS core using RSVP as the LDP and ISIS f
 image: /img/mpls.jpg
 bigimg: /img/bigimg/blur.jpg
 ---
+The below is the basics for a MPLS core and only scratches the surface - but a good start if you want a MPLS core network to start swapping out the IGP or the LDP, adding CoS, VRFs, adding peering’s and interconnecting other autonomous systems (option [A]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-a-overview.html), [B]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-b-overview.html) or [C]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-c-overview.html))
+
 # Configure MPLS
 * Configure all the core link interfaces with `family mpls`
 * Configure all the core link interfaces under `protocols mpls`
@@ -34,7 +36,8 @@ bigimg: /img/bigimg/blur.jpg
 00—Selector
 * for example, AFI 49, area ID 1, loopback 192.168.1.1 would be `49.0001.1921.6800.1001.00`
 
-# Configure the internal BGP (iBGP full mesh or route reflection – two route reflectors is ideal)
+# Configure the internal BGP
+* iBGP full mesh or route reflection – two route reflectors is ideal
 * For full mesh set `type` and `local-address` and `family` and all `neighbor`(s) + optionally (recommended) an `authentication-key`
 * For a route reflector set all the above BUT for RR clients with just the one (or more) route reflectors as neighbors and then on the reflectors set the `cluster` (which is the same as the local address) with all the other non-route reflector neighbors.
 

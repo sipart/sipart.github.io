@@ -12,14 +12,13 @@ The below is the basics for a MPLS core to use in a lab and only scratches the s
 * Configure all the core link interfaces under `protocols mpls`
 * Set MTU to a size core circuits can accept
 * Set `no-propogate-ttl` at `protocols mpls` stanza level to disable normal time-to-live (TTL) decrementing (sets a MPLS header with a TTL value of 255)
-* Add `label-switched-path` (s) under `protocols mpls` add primary (strict), secondary (strict) and tertiary (loose). The primary, secondary and tertiary paths are set under `protocols mpls` path with IP of trunk hops and destination. Set `no-cspf` on each `label-switched-path` to disable constrained-path LSP computation (cspf is used if the core network is setup to use Traffic Engineering).
+* Add `label-switched-path` (s) - used for path signalling - under `protocols mpls` add primary (strict), secondary (strict) and tertiary (loose). The primary, secondary and tertiary paths are set under `protocols mpls` path with IP of trunk hops and destination. Set `no-cspf` on each `label-switched-path` to disable constrained-path LSP computation (cspf is used if the core network is setup to use Traffic Engineering).
 * LSPs are unidirectional so need to be defined on all the ingress routers for all primary and secondary paths.
 * Optional: (`fast-reroute` provides a mechanism for automatically rerouting traffic on an LSP if a node or link in an LSP fails, thus reducing the loss of packets traveling over the LSP. Configure under the defined LSPs. Check pre-requisites for `fast-reroute` before configuring.
 
 # Configure the Label Distribution Protocol using RSVP (or LDP)
 * This brief assumes the use of RSVP in its simplest form – not being used with traffic engineering but note that RSVP has this capability for future growth or TE requirements
-* RSVP uses unidirectional and simplex flows through the network to perform its function. The inbound router initiates an RSVP path message and sends it downstream to the outbound router. The path message contains information about the resources needed for the connection. Each router along the path begins to maintain information about a reservation.
-* RSVP is the preferred LDP to maintain the LSPs (used for path signalling)
+* RSVP uses unidirectional and simplex flows through the network to perform its function. The inbound router initiates an RSVP path message and sends it downstream to the outbound router. The path message contains information about the resources needed for the connection. Each router along the path begins to maintain information about a reservation
 * RSVP is not a routing protocol – it needs an IGP (ISIS or OSPF) to determine paths* Add interfaces to `protocols rsvp`
 
 # Configure an IGP to determine best paths for LSPs using ISIS (or OSPF)

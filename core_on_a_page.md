@@ -51,11 +51,10 @@ bigimg: /img/bigimg/blur.jpg
 * Scheduler maps
 * Schedulers
 * This is only relevant on M and T series routers with IQ2 cards. If more than 128 units on an interface ensure that the scheduler mapping is configured to use more than 128 schedulers. To check `request pfe execute pic-slot <#> target fpc<#> command "show tmdrv scheduler-partition"`
-* [Deploying Basic QoS Day One book](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/deploying-basic-qos/)
 
 # Other settings
 * Radius, banner, users, ssh, syslog, ntp, rpm
-* Protect RE firewall filter on the loopback (made of associated prefix lists, policers, addresses, protocols and ports). [Securing the Routing Engine PDF](www.hiphop-resistance.com/juniperdayone/Securing_RouteEngine2.pdf)
+* Protect RE firewall filter on the loopback (made of associated prefix lists, policers, addresses, protocols and ports). [Securing the Routing Engine PDF](http://www.hiphop-resistance.com/juniperdayone/Securing_RouteEngine2.pdf)
 * Backup-router settings (for dual RE)
 * It is recommended to filter out unnecessary log messages that can cause log bloat or unnecessary load on syslog or monitoring systems: [Juniper KB Article](https://kb.juniper.net/InfoCenter/index?page=content&id=KB9382)
 * Example below that was used on devices that performed RPM was used to just filter RPM test completion messages at very short intervals filling up logs very quickly: `set system syslog file messages match "!(.*DAEMON-6-PING_TEST_COMPLETED:.*)"`
@@ -74,5 +73,6 @@ Difference between route distinguisher and route target
 * The route distinguisher and route target values perform two completely separate functions, and although most press publications/websites show the values as the same (which they can be) it is confusing to someone learning MPLS for the first time as they assume they do the same thing. The route distinguisher makes a unique VPNv4 address across the MPLS network. The route target defines which prefixes get imported and exported on the PE routers
 
 ## Ideal Further Reading and Reference
+* [Deploying Basic QoS Day One book](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/deploying-basic-qos/)
 * [Hardening Junos Devices Day One Book and Handy Checklist](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/hardening-junos-devices-checklist/)
 * [Good overview on Route Target and Distinguisher on Networkfuntimes](http://www.networkfuntimes.com/route-distinguishers-vs-route-targets-what-are-they-why-do-we-need-them-both/)

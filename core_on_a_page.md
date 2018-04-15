@@ -1,11 +1,11 @@
 ---
 layout: page
 title: Core On A Page
-subtitle: Creating a lab/test Juniper MPLS core using RSVP as the LDP and ISIS for the IGP. The brief assumes equal trunks with ‘normal’ utilisation expected with no Traffic Engineering
+subtitle: Creating a Juniper MPLS core using RSVP as the LDP and ISIS as the IGP. The brief assumes equal trunks and no Traffic Engineering
 image: /img/mpls.jpg
 bigimg: /img/bigimg/blur.jpg
 ---
-The below is the basics for a MPLS core and only scratches the surface - but a good start if you want a MPLS core network to start swapping out the IGP or the LDP, adding CoS, VRFs, adding peering’s and interconnecting other autonomous systems (option [A]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-a-overview.html), [B]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-b-overview.html) or [C]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-c-overview.html))
+The below is the basics for a MPLS core to use in a lab and only scratches the surface - but a good start if you want a MPLS core network to start swapping out the IGP or the LDP, adding CoS, VRFs, adding peering’s and inter-AS services and VPNs (option [A]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-a-overview.html), [B]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-b-overview.html) or [C]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-c-overview.html))
 
 # Configure MPLS
 * Configure all the core link interfaces with `family mpls`

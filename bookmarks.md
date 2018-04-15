@@ -18,7 +18,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Cumulus Data Centre terminology Cheat Sheet](https://cumulusnetworks.com/learn/web-scale-networking-resources/guides/networking-terminology-cheat-sheet/)
 * [Sample packet captures](https://enterprise.cloudshark.org/blog/how-to-get-sample-captures/)
 * [Comprehensive Python Cheat Sheet](https://gto76.github.io/python-cheatsheet/)
-* [Githib Markdown language Cheat Sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+* [Github Markdown language Cheat Sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 * [Linux and Network Zines](https://jvns.ca/zines/) - courtesy of [Julia Evans](https://twitter.com/b0rk)
 
 ## Books

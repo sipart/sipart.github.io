@@ -1,5 +1,4 @@
-
-£ ---
+---
 layout: page
 title: Core On A Page
 subtitle: Creating a lab/test Juniper MPLS core using RSVP as the LDP and ISIS for the IGP. The brief assumes equal trunks with ‘normal’ utilisation expected with no Traffic Engineering

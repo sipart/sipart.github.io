@@ -74,7 +74,7 @@ bigimg: /img/bigimg/blur.jpg
 Difference between route distinguisher and route target
 * The route distinguisher and route target values perform two completely separate functions, and although most press publications/websites show the values as the same (which they can be) it is confusing to someone learning MPLS for the first time as they assume they do the same thing.
 The route distinguisher makes a unique VPNv4 address across the MPLS network.
-The route target defines which prefixes get imported and exported on the PE routers. [Note from Networkfuntimes.com](www.networkfuntimes.com/route-distinguishers-vs-route-targets-what-are-they-why-do-we-need-them-both/)
+The route target defines which prefixes get imported and exported on the PE routers. [Good overview on Networkfuntimes.com](www.networkfuntimes.com/route-distinguishers-vs-route-targets-what-are-they-why-do-we-need-them-both/)
 
 ## Ideal Further Reading and Reference
 * [Hardening Junos Devices Day One Book and Handy Checklist](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/hardening-junos-devices-checklist/)

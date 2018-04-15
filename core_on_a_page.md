@@ -1,4 +1,5 @@
----
+
+£ ---
 layout: page
 title: Core On A Page
 subtitle: Creating a lab/test Juniper MPLS core using RSVP as the LDP and ISIS for the IGP. The brief assumes equal trunks with ‘normal’ utilisation expected with no Traffic Engineering
@@ -14,7 +15,7 @@ bigimg: /img/bigimg/blur.jpg
 * LSPs are unidirectional so need to be defined on all the ingress routers for all primary and secondary paths.
 * Optional: (`fast-reroute` provides a mechanism for automatically rerouting traffic on an LSP if a node or link in an LSP fails, thus reducing the loss of packets traveling over the LSP. Configure under the defined LSPs. Check pre-requisites for `fast-reroute` before configuring.
 
-# Configure Label Distribution Protocol using RSVP (or LDP)
+# Configure the Label Distribution Protocol using RSVP (or LDP)
 * This brief assumes the use of RSVP in its simplest form – not being used with traffic engineering but note that RSVP has this capability for future growth or TE requirements
 * RSVP uses unidirectional and simplex flows through the network to perform its function. The inbound router initiates an RSVP path message and sends it downstream to the outbound router. The path message contains information about the resources needed for the connection. Each router along the path begins to maintain information about a reservation.
 * RSVP is the preferred LDP to maintain the LSPs (used for path signalling)
@@ -35,10 +36,11 @@ bigimg: /img/bigimg/blur.jpg
 00—Selector
 * for example, AFI 49, area ID 1, loopback 192.168.1.1 would be `49.0001.1921.6800.1001.00`
 
-# Configure internal BGP (iBGP full mesh or route reflection – two route reflectors is ideal)
+# Configure the internal BGP (iBGP full mesh or route reflection – two route reflectors is ideal)
 * For full mesh set `type` and `local-address` and `family` and all `neighbor`(s) + optionally (recommended) an `authentication-key`
 * For a route reflector set all the above BUT for RR clients with just the one (or more) route reflectors as neighbors and then on the reflectors set the `cluster` (which is the same as the local address) with all the other non-route reflector neighbors.
-Configure global Class of Service
+
+# Configure the Class of Service
 * Firewall filters
 * Policers
 * Classifiers
@@ -52,7 +54,6 @@ Configure global Class of Service
 * Schedulers
 * This is only relevant on M and T series routers with IQ2 cards. If more than 128 units on an interface ensure that the scheduler mapping is configured to use more than 128 schedulers. To check `request pfe execute pic-slot <#> target fpc<#> command "show tmdrv scheduler-partition"`
 * [Deploying Basic QoS Day One book](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/deploying-basic-qos/)
-
 
 # Other settings
 * Radius, banner, users, ssh, syslog, ntp, rpm

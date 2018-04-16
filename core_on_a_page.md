@@ -29,12 +29,12 @@ The below is the basics for a MPLS core to use in a lab. It only scratches the s
 * Set interfaces `level 1 disable` as appropriate – set `level 2 passive` on management and loopback
 * Set `bfd-liveness-detection` on trunks to core devices to configure bidirectional failure detection timers for ISIS
 * Add `family iso` on core trunk interfaces and loopback
-* Add NET (Network Entity Title) under `family iso` on  loopback
-49—AFI
-0001—Area ID
-1921.6800.1001—System identifier
-00—Selector
-* for example, AFI 49, area ID 1, loopback 192.168.1.1 would be `49.0001.1921.6800.1001.00`
+* Add NET (Network Entity Title) under `family iso` on the loopback
+* For example, the NET address `49.0001.1921.6800.1001.00` consists of the following parts:
+  49—AFI
+  0001—Area ID
+  1921.6800.1001—System identifier
+  00—Selector
 
 # Configure the internal BGP
 * iBGP full mesh or route reflection – two route reflectors is ideal

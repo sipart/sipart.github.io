@@ -19,7 +19,8 @@ The below is the basics for a MPLS core to use in a lab. It only scratches the s
 # Configure the Label Distribution Protocol using RSVP (or LDP)
 * This brief assumes the use of RSVP in its simplest form – not being used with traffic engineering but note that RSVP has this capability for future growth or TE requirements
 * RSVP uses unidirectional and simplex flows through the network to perform its function. The inbound router initiates an RSVP path message and sends it downstream to the outbound router. The path message contains information about the resources needed for the connection. Each router along the path begins to maintain information about a reservation
-* RSVP is not a routing protocol – it needs an IGP (ISIS or OSPF) to determine paths* Add interfaces to `protocols rsvp`
+* RSVP is not a routing protocol – it needs an IGP (ISIS or OSPF) to determine paths
+* Add interfaces to `protocols rsvp`
 
 # Configure an IGP to determine best paths for LSPs using ISIS (or OSPF)
 * ISIS is an IGP to determine best paths

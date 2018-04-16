@@ -120,6 +120,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Network Collective](https://vimeo.com/networkcollective)
 * [Network Direction](https://www.youtube.com/channel/UCtuXekfqj-paqsxtqVNCC2A/videos)
 * [Tech Field Day](https://www.youtube.com/channel/UCSnTTyp4q7jMhwECxXzMAXQ/videos)
+* [LANtamer](https://www.youtube.com/channel/UCmCXRhXo10pTNjZMbh7OYbw/videos)
 
 ## Audio Content
 

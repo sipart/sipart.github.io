@@ -59,6 +59,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 
 ## VMware Reference
 
+* [VMware docs](https://www.vmware.com/support/pubs/)
 * [Personal blog about virtualization maintained by William Lam](https://www.virtuallyghetto.com/)
 
 ## Automation Reference

@@ -49,6 +49,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [System log Explorer](https://apps.juniper.net/syslog-explorer/#view=explore)
 * [Configuration Examples](https://www.juniper.net/documentation/en_US/release-independent/nce/information-products/pathway-pages/nce/index.html)
 * [Juniper EX Cheat Sheet](http://www.cciezone.com/?p=196)
+* [Some very useful little known JUNOS comands](http://blog.eighthlayer.io/you-dont-know-junos/)
 
 ## Cisco Reference
 

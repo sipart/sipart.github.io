@@ -27,7 +27,8 @@ The below is the basics for a MPLS core to use in a lab. It only scratches the s
 * One flat Level 2 area can be used
 * Set level 2 auth’ (md5) and `wide-metrics-only` (generate metric values greater than 63 on a per ISIS level basis) at `protocols isis` stanza level
 * Set interfaces `level 1 disable` as appropriate – set `level 2 passive` on management and loopback
-* Set `bfd-liveness-detection` on trunks to core devices to configure bidirectional failure detection timers for ISIS* Add `family iso` on core trunk interfaces and loopback
+* Set `bfd-liveness-detection` on trunks to core devices to configure bidirectional failure detection timers for ISIS
+* Add `family iso` on core trunk interfaces and loopback
 * Add NET (Network Entity Title) under `family iso` on  loopback
 49—AFI
 0001—Area ID

@@ -138,3 +138,4 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [network-node](https://www.network-node.com/blog/) - Networking fun
 * [networkfuntimes](http://www.networkfuntimes.com/) - Chris Parkers blog of random networking and CCNP knowledge
 * [ipengineer](http://ipengineer.net/) - Network Technology SDN, NFV, Automation
+* [eighthlayer](http://blog.eighthlayer.io/) - Behind the Socket

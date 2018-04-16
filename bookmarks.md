@@ -133,7 +133,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [PacketPushers Virtual Toolbox](http://packetpushers.net/virtual-toolbox/)
 * [mplsvpn.info Knowledgeable Links](http://www.mplsvpn.info/p/external-links.html) - many blog posts as well
 * [fryguy](https://www.fryguy.net/) - A Network Blog by a Network Engineer
-* ([keepingitclassless](https://keepingitclassless.net/) - Perspectives On Networks, Automation, Systems, and Software Engineering
+* [keepingitclassless](https://keepingitclassless.net/) - Perspectives On Networks, Automation, Systems, and Software Engineering
 * [network-node](https://www.network-node.com/blog/) - Networking fun
 * [networkfuntimes](http://www.networkfuntimes.com/) - Chris Parkers blog of random networking and CCNP knowledge
 * [ipengineer](http://ipengineer.net/) - Network Technology SDN, NFV, Automation

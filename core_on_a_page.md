@@ -7,9 +7,13 @@ bigimg: /img/bigimg/blur.jpg
 ---
 The below is the basics for a MPLS core to use in a lab. It only scratches the surface, but a good start if you want a MPLS core network to start swapping out the IGP or the LDP, adding CoS, VRFs, RSVP-TE, peering’s or inter-AS services and VPNs (option [A]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-a-overview.html), [B]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-b-overview.html) or [C]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-c-overview.html))
 
+# Autonomous System
+* Configure a suitable `autonomous-system` under `routing-options`
+
 # Configure MPLS
-* Configure all the core link interfaces with `family mpls`
-* Configure all the core link interfaces under `protocols mpls`
+* Configure all the core link interfaces with a suitable IP `address` under `family inet`
+* Configure all the core link interfaces with `family mpls` under the `unit`
+* Configure all the core link interfaces under `protocols mpls` under the `unit`
 * Set a suitable MTU size for the core trunks
 * Set `no-propogate-ttl` at `protocols mpls` stanza level to disable normal time-to-live (TTL) decrementing (sets a MPLS header with a TTL value of 255)
 * Add the `label-switched-path` (s) - used for path signalling - under `protocols mpls` add the primary (strict), secondary (strict) and tertiary (loose) paths. The primary, secondary and tertiary paths are set under `protocols mpls` path with IP of trunk hops and destination. Set `no-cspf` on each `label-switched-path` to disable constrained-path LSP computation (cspf is used if the core network is setup to use Traffic Engineering).
@@ -29,7 +33,7 @@ The below is the basics for a MPLS core to use in a lab. It only scratches the s
 * Set interfaces `level 1 disable` as appropriate – set `level 2 passive` on management and loopback
 * Set `bfd-liveness-detection` on trunks to core devices to configure bidirectional failure detection timers for ISIS
 * Add `family iso` on core trunk interfaces and loopback
-* Add NET (Network Entity Title) under `family iso` on the loopback
+* Add a NET (Network Entity Title) `address` under `family iso` on the loopback `unit 0`
 * For example, the NET address `49.0001.1921.6800.1001.00` consists of the following parts:
 
 |AFI|Area ID|System Identifier|Selector|

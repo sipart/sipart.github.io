@@ -45,6 +45,7 @@ EVE-NG lab - sample configs in [this GitHUB repo](https://github.com/sipart/core
 |49|0001|1921.6800.1001|00|
 
 # Configure the internal BGP
+* iBGP is used to exchange label routes
 * iBGP full mesh or route reflection – two route reflectors is ideal
 * For full mesh set `type` and `local-address` and `family` and all `neighbor`(s) + optionally (recommended) an `authentication-key`
 * For a route reflector set all the above BUT for RR clients with just the one (or more) route reflectors as neighbors and then on the reflectors set the `cluster` (which is the same as the local address) with all the other non-route reflector neighbors.

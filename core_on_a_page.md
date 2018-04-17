@@ -31,10 +31,10 @@ The below is the basics for a MPLS core to use in a lab. It only scratches the s
 * Add `family iso` on core trunk interfaces and loopback
 * Add NET (Network Entity Title) under `family iso` on the loopback
 * For example, the NET address `49.0001.1921.6800.1001.00` consists of the following parts:
-  49—AFI
-  0001—Area ID
-  1921.6800.1001—System identifier
-  00—Selector
+
+AFI | Area ID | System Identifier | selector
+--- | --- | --- | ---
+49 | 0001 | 1921.6800.1001 | 00
 
 # Configure the internal BGP
 * iBGP full mesh or route reflection – two route reflectors is ideal

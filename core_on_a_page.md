@@ -9,6 +9,8 @@ The below is the basics for a MPLS core to use in a lab. It only scratches the s
 
 ![core_mpls](/img/core.png)
 
+EVE-HG lab - sample configs in [this GitHUB repo](). The core is using ISIS as the IGP. RSVP as the LDP. The LSPs are free running - NOT pre signalled. vMX images are all QEMU Junos v14.1R10. vMX2 is the route reflector. The NNI switches are comprised of one CumulusVX QEMU image and one Cisco IOL v15.1 image. The vSRX site routers are Junos v12.1x47-d15.4 (running DHCP for the site PCs). Site PCs comprise two vPCs and two Win7 lite QEMU images
+
 # Autonomous System
 * Configure a suitable `autonomous-system` under `routing-options`
 

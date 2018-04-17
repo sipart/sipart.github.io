@@ -32,7 +32,7 @@ The below is the basics for a MPLS core to use in a lab. It only scratches the s
 * Add NET (Network Entity Title) under `family iso` on the loopback
 * For example, the NET address `49.0001.1921.6800.1001.00` consists of the following parts:
 
-|AFI|Area ID|System Identifier|selector|
+|AFI|Area ID|System Identifier|Selector|
 |:---:|:---:|:---:|:---:|
 |49|0001|1921.6800.1001|00|
 

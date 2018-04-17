@@ -7,6 +7,8 @@ bigimg: /img/bigimg/blur.jpg
 ---
 The below is the basics for a MPLS core to use in a lab. It only scratches the surface, but a good start if you want a MPLS core network to start swapping out the IGP or the LDP, adding CoS, VRFs, RSVP-TE, peering’s or inter-AS services and VPNs (option [A]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-a-overview.html), [B]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-b-overview.html) or [C]( https://www.juniper.net/documentation/en_US/junose16.1/topics/concept/mbgp-inter-as-option-c-overview.html))
 
+![core_mpls](/img/core.png)
+
 # Autonomous System
 * Configure a suitable `autonomous-system` under `routing-options`
 

@@ -11,12 +11,12 @@ The below is the basics for a MPLS core to use in a lab. It only scratches the s
 * Configure a suitable `autonomous-system` under `routing-options`
 
 # Configure MPLS
-* Configure all the core link interfaces with a suitable IP `address` under `family inet`
-* Configure all the core link interfaces with `family mpls` under the `unit`
-* Configure all the core link interfaces under `protocols mpls` under the `unit`
-* Set a suitable MTU size for the core trunks
+* Configure all the core link `interfaces` with a suitable IP `address` under `family inet`
+* Configure all the core link `interfaces` with `family mpls` under the `unit`
+* Set a suitable MTU size for the core trunk `interfaces`
+* Configure all the core link interfaces under `protocols mpls`
 * Set `no-propogate-ttl` at `protocols mpls` stanza level to disable normal time-to-live (TTL) decrementing (sets a MPLS header with a TTL value of 255)
-* Add the `label-switched-path` (s) - used for path signalling - under `protocols mpls` add the primary (strict), secondary (strict) and tertiary (loose) paths. The primary, secondary and tertiary paths are set under `protocols mpls` path with IP of trunk hops and destination. Set `no-cspf` on each `label-switched-path` to disable constrained-path LSP computation (cspf is used if the core network is setup to use Traffic Engineering).
+* Add the `label-switched-path` (s) - used for path signalling - under `protocols mpls`. For pre signalling with set paths then add a primary (strict), secondary (strict) and tertiary (loose) path. The primary, secondary and tertiary paths are set under `protocols mpls` path with IP of trunk hops and destination. Set `no-cspf` on each `label-switched-path` to disable constrained-path LSP computation (cspf is used if the core network is setup to use Traffic Engineering).
 * LSPs are unidirectional so need to be defined on all the ingress routers for all primary and secondary paths.
 * Optional: (`fast-reroute` provides a mechanism for automatically rerouting traffic on an LSP if a node or link in an LSP fails, thus reducing the loss of packets traveling over the LSP. Configure under the defined LSPs. Check pre-requisites for `fast-reroute` before configuring.
 

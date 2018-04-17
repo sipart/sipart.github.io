@@ -9,7 +9,7 @@ The below is the basics for a MPLS core to use in a lab. It only scratches the s
 
 ![core_mpls](/img/core.png)
 
-EVE-NG lab - sample configs in [this GitHUB repo]()
+EVE-NG lab - sample configs in [this GitHUB repo](https://github.com/sipart/core_mpls)
 
 # Autonomous System
 * Configure a suitable `autonomous-system` under `routing-options`

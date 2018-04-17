@@ -57,14 +57,16 @@ The below is the basics for a MPLS core to use in a lab. It only scratches the s
 * Interfaces
 * Scheduler maps
 * Schedulers
-* Note: for M and T series routers with IQ2 cards. If more than 128 units on an interface ensure that the scheduler mapping is configured to use more than 128 schedulers. To check `request pfe execute pic-slot <#> target fpc<#> command "show tmdrv scheduler-partition"`
+* Note: for M and T series routers with IQ2 cards. If more than 128 units on an interface ensure that the scheduler mapping is configured to use more than 128 schedulers. To check:
+`request pfe execute pic-slot <#> target fpc<#> command "show tmdrv scheduler-partition"`
 
 # Other settings
 * Radius, banner, users, ssh, syslog, ntp, rpm
 * Protect RE firewall filter on the loopback (made of associated prefix lists, policers, addresses, protocols and ports). [Securing the Routing Engine PDF](http://www.hiphop-resistance.com/juniperdayone/Securing_RouteEngine2.pdf)
 * Backup-router settings (for dual RE)
 * It is recommended to filter out unnecessary log messages that can cause log bloat or unnecessary load on syslog or monitoring systems: [Juniper KB Article](https://kb.juniper.net/InfoCenter/index?page=content&id=KB9382)
-* Example below that was used on devices that performed RPM was used to just filter RPM test completion messages at very short intervals filling up logs very quickly: `set system syslog file messages match "!(.*DAEMON-6-PING_TEST_COMPLETED:.*)"`
+* Example below that was used on devices that performed RPM was used to just filter RPM test completion messages at very short intervals filling up logs very quickly: To set use:
+`set system syslog file messages match "!(.*DAEMON-6-PING_TEST_COMPLETED:.*)"`
 
 # ISSU (In Service Software Upgrade)
 ## Chassis Redundancy settings

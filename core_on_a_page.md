@@ -91,3 +91,4 @@ The difference between route distinguisher and route target
 * [Deploying Basic QoS Day One book](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/deploying-basic-qos/)
 * [Hardening Junos Devices Day One Book and Handy Checklist](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/hardening-junos-devices-checklist/)
 * [Good overview on Route Target and Distinguisher on Networkfuntimes](http://www.networkfuntimes.com/route-distinguishers-vs-route-targets-what-are-they-why-do-we-need-them-both/)
+* [ibgp family route-target](https://www.juniper.net/documentation/en_US/junos/topics/usage-guidelines/vpns-configuring-bgp-route-target-filtering-in-vpns.html) overview

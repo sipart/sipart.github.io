@@ -10,6 +10,12 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 
 Note: when I say **free** I mean **free to use** - please donate or contribute to the projects if possible
 
+## Tech Snippet Guidance Posts
+
+* [Cumulus EVE-NG DC lab](https://sipart.github.io/2017-09-12-cvxnetq/)
+* [Ansible - Notes on Setup](https://sipart.github.io/2017-09-04-notes/)
+* [Core On A Page](https://sipart.github.io/core_on_a_page/)
+
 ## General Reference
 
 * [List of TCP and UDP port numbers](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers)

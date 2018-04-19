@@ -10,7 +10,7 @@ Remember to **_hit CTRL + Left Click_** to open links in a new browser tab
 
 Note: when I say **free** I mean **free to use** - please donate or contribute to the projects if possible
 
-## Tech Snippet Guidance Posts
+## Tech Snippets Guidance Posts
 
 * [Cumulus EVE-NG DC lab](https://sipart.github.io/2017-09-12-cvxnetq/)
 * [Ansible - Notes on Setup](https://sipart.github.io/2017-09-04-notes/)

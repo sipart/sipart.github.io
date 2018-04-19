@@ -74,15 +74,6 @@ EVE-NG lab - sample configs in [this GitHUB repo](https://github.com/sipart/core
 * Example below that was used on devices that performed RPM was used to just filter RPM test completion messages at very short intervals filling up logs very quickly: To set use:
 `set system syslog file messages match "!(.*DAEMON-6-PING_TEST_COMPLETED:.*)"`
 
-# ISSU (In Service Software Upgrade)
-## Chassis Redundancy settings
-* feb redundancy group
-* Redundancy, fpc-feb-connectivity 
-* `graceful-switchover` (needed for ISSU)
-
-## Routing Options
-* `nonstop-routing` (needed for ISSU)
-
 # VRF note
 The difference between route distinguisher and route target
 * The route distinguisher and route target values perform two completely separate functions, and although most press publications/websites show the values as the same (which they can be) it is confusing to someone learning MPLS for the first time as they assume they do the same thing. The route distinguisher makes a unique VPNv4 address across the MPLS network. The route target defines which prefixes get imported and exported on the PE routers

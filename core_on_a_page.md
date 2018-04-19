@@ -37,7 +37,7 @@ EVE-NG lab - sample configs in [this GitHUB repo](https://github.com/sipart/core
 * Set interfaces `level 1 disable` as appropriate – set `level 2 passive` on management and loopback
 * Set `bfd-liveness-detection` on trunks to core devices to configure bidirectional failure detection timers for ISIS
 * Add `family iso` on core trunk interfaces and loopback
-* Add a NET (Network Entity Title) `address` under `family iso` on the loopback `unit 0`
+* Add a NET (Network Entity Title) `address` under `family iso` on the loopback `unit`
 * For example, the NET address `49.0001.1921.6800.1001.00` consists of the following parts:
 
 |AFI|Area ID|System Identifier|Selector|

@@ -20,7 +20,7 @@ EVE-NG lab - sample configs in [this GitHUB repo](https://github.com/sipart/core
 * Set a suitable MTU size for the core trunk `interfaces`
 * Configure all the core link interfaces under `protocols mpls`
 * Set `no-propogate-ttl` at `protocols mpls` stanza level to disable normal time-to-live (TTL) decrementing (sets a MPLS header with a TTL value of 255)
-* Add the `label-switched-path` (s) - used for path signalling - under `protocols mpls`. For pre signalling with set paths then add a primary (strict), secondary (strict) and tertiary (loose) path. The primary, secondary and tertiary paths are set under `protocols mpls` path with IP of trunk hops and destination. Set `no-cspf` on each `label-switched-path` to disable constrained-path LSP computation (cspf is used if the core network is setup to use Traffic Engineering).
+* Add the `label-switched-path` (s) - used for path signalling - under `protocols mpls`. For pre signalling with set paths then add a primary (strict), secondary (strict) and tertiary (loose) path. The primary, secondary and tertiary paths are set under `protocols mpls` path with IP of trunk hops and destination. Set `no-cspf` on each `label-switched-path` to disable constrained-path LSP computation ([CSPF](https://netflask.net/jnpr-constrained-shortest-path-first/) is used if the core network is setup to use Traffic Engineering).
 * LSPs are unidirectional so need to be defined on all the ingress routers for all primary and secondary paths.
 * Optional: (`fast-reroute` provides a mechanism for automatically rerouting traffic on an LSP if a node or link in an LSP fails, thus reducing the loss of packets traveling over the LSP. Configure under the defined LSPs. Check pre-requisites for `fast-reroute` before configuring.
 
@@ -51,6 +51,7 @@ EVE-NG lab - sample configs in [this GitHUB repo](https://github.com/sipart/core
 * For a route reflector set all the above BUT for RR clients with just the one (or more) route reflectors as neighbors and then on the reflectors set the `cluster` (which is the same as the local address) with all the other non-route reflector neighbors.
 
 # Configure the Class of Service
+* Just a summary - too much to cover here check out the [Deploying Basic QoS Day One book](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/deploying-basic-qos/)
 * Firewall filters
 * Policers
 * Classifiers
@@ -92,3 +93,4 @@ The difference between route distinguisher and route target
 * [Hardening Junos Devices Day One Book and Handy Checklist](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/hardening-junos-devices-checklist/)
 * [Good overview on Route Target and Distinguisher on Networkfuntimes](http://www.networkfuntimes.com/route-distinguishers-vs-route-targets-what-are-they-why-do-we-need-them-both/)
 * [ibgp family route-target](https://www.juniper.net/documentation/en_US/junos/topics/usage-guidelines/vpns-configuring-bgp-route-target-filtering-in-vpns.html) overview
+* [Juniper CSPF netflask Post](https://netflask.net/jnpr-constrained-shortest-path-first/)

@@ -82,7 +82,7 @@ The difference between route distinguisher and route target
 * Firstly if you want a guide on doing something similar but with Cisco, LDP, OSPF and a bit of Susan Sarandon (yes really!) then check this post over at [networkfuntimes](http://www.networkfuntimes.com/configure-a-basic-service-provider-mpls-vpn-free-gns3-topology-to-download/)
 * [Deploying Basic QoS Day One book](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/deploying-basic-qos/)
 * [Hardening Junos Devices Day One Book and Handy Checklist](https://www.juniper.net/uk/en/training/jnbooks/day-one/fundamentals-series/hardening-junos-devices-checklist/)
-* [Good overview on Route Target and Distinguisher on Networkfuntimes](http://www.networkfuntimes.com/route-distinguishers-vs-route-targets-what-are-they-why-do-we-need-them-both/)
+* [Good overview on Route Target and Distinguisher on networkfuntimes](http://www.networkfuntimes.com/route-distinguishers-vs-route-targets-what-are-they-why-do-we-need-them-both/)
 * [ibgp family route-target](https://www.juniper.net/documentation/en_US/junos/topics/usage-guidelines/vpns-configuring-bgp-route-target-filtering-in-vpns.html) overview
 * [Juniper CSPF netflask Post](https://netflask.net/jnpr-constrained-shortest-path-first/)
 * [ISSU Overview](https://www.juniper.net/documentation/en_US/junos/topics/concept/issu-oveview.html)

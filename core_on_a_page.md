@@ -76,7 +76,7 @@ EVE-NG lab - sample configs in [this GitHUB repo](https://github.com/sipart/core
 
 # VRF note
 The difference between `route-distinguisher` and route target (`vrf-target`)
-* The `route-distinguisher` and `vrf-target` values perform two completely separate functions, and although most press publications/websites show the values as the same (which they can be) it is confusing to someone learning MPLS for the first time as they assume they do the same thing. The `route-distinguisher` makes a unique VPNv4 address across the MPLS network. The `vrf-target` defines which prefixes get imported and exported on the PE routers VRFs. Having different route distinguishers for each VRF on each PE means that you can quickly id which PE the prefix originated from
+* The `route-distinguisher` and `vrf-target` values perform two completely separate functions, and although most press publications/websites show the values as the same (which they can be) it is confusing to someone learning MPLS for the first time as they assume they do the same thing. The `route-distinguisher` makes a route unique across the MPLS network. The `vrf-target` defines which prefixes get imported and exported on the PE routers VRFs. Having different route distinguishers for each VRF on each PE means that you can quickly id which PE the prefix originated from
 
 ## Ideal Further Reading and Reference
 * Firstly if you want a guide on doing something similar but with Cisco, LDP, OSPF and a bit of Susan Sarandon (yes really!) then check this post over at [networkfuntimes](http://www.networkfuntimes.com/configure-a-basic-service-provider-mpls-vpn-free-gns3-topology-to-download/)

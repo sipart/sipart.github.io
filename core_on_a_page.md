@@ -67,7 +67,7 @@ EVE-NG lab - sample configs in [this GitHUB repo](https://github.com/sipart/core
 `request pfe execute pic-slot <#> target fpc<#> command "show tmdrv scheduler-partition"`
 
 # Other settings
-* Radius, [banner](https://www.juniper.net/documentation/en_US/junos/topics/task/configuration/authentication-router-login-message-qfx-series.html), users, ssh, [syslog](https://www.juniper.net/documentation/en_US/junos/topics/example/syslog-single-chassis-system-configuring.html), ntp, [RPM](https://www.juniper.net/documentation/en_US/junos/topics/concept/security-rpm-overview.html)
+* Radius, [banner](https://www.juniper.net/documentation/en_US/junos/topics/task/configuration/authentication-router-login-message-qfx-series.html), [users](https://www.juniper.net/documentation/en_US/junos/topics/concept/authentication-user-accounts-overview.html), ssh, [syslog](https://www.juniper.net/documentation/en_US/junos/topics/example/syslog-single-chassis-system-configuring.html), ntp, [RPM](https://www.juniper.net/documentation/en_US/junos/topics/concept/security-rpm-overview.html)
 * Protect RE firewall filter on the loopback (made of associated prefix lists, policers, addresses, protocols and ports). [Securing the Routing Engine PDF](http://www.hiphop-resistance.com/juniperdayone/Securing_RouteEngine2.pdf)
 * Backup-router settings (for dual RE)
 * It is recommended to filter out unnecessary log messages that can cause log bloat or unnecessary load on syslog or monitoring systems: [Juniper KB Article](https://kb.juniper.net/InfoCenter/index?page=content&id=KB9382)

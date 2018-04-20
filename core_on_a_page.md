@@ -33,7 +33,7 @@ EVE-NG lab - sample configs in [this GitHUB repo](https://github.com/sipart/core
 # Configure an IGP to determine best paths for LSPs using ISIS (or OSPF)
 * ISIS is an IGP to determine best paths
 * One flat Level 2 area can be used
-* Set level 2 auth’ (md5) and `wide-metrics-only` (generate metric values greater than 63 on a per ISIS level basis) at `protocols isis` stanza level
+* Set level 2 auth’ (md5) and `wide-metrics-only` ([generate metric values greater than 63 on a per ISIS level basis](https://www.juniper.net/documentation/en_US/junos/topics/reference/configuration-statement/wide-metrics-only-edit-protocols-isis.html)) at `protocols isis` stanza level
 * Set interfaces `level 1 disable` as appropriate – set `level 2 passive` on management and loopback
 * Set `bfd-liveness-detection` on trunks to core devices to configure bidirectional failure detection timers for ISIS
 * Add `family iso` on core trunk interfaces and loopback

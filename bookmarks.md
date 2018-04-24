@@ -135,6 +135,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Network Direction](https://www.youtube.com/channel/UCtuXekfqj-paqsxtqVNCC2A/videos)
 * [Tech Field Day](https://www.youtube.com/channel/UCSnTTyp4q7jMhwECxXzMAXQ/videos)
 * [theLANtamer](https://www.youtube.com/channel/UCmCXRhXo10pTNjZMbh7OYbw/videos)
+* [CCIEmonkey](https://www.youtube.com/user/CCIEmonkey/videos)
 
 ## Audio Content
 

@@ -40,6 +40,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [RegEx online test tool](https://regex101.com/)
 * [TCP Throughput calculator](https://www.switch.ch/network/tools/tcp_throughput/) and [more tools](https://www.switch.ch/network/tools/)
 * [Google Cloud Shell](https://console.cloud.google.com/cloudshell) - Google Cloud Shell is a f1-micro instance running Debian preinstalled with developer tools and has a home directory that persists across sessions
+* [Juniper Config Converter](http://www.stewartb.com/cgi-bin/juniper.pl) - converts standard config to set commands
 
 ## Desktop Tools
 

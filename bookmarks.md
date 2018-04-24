@@ -14,7 +14,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 
 * [Cumulus EVE-NG DC lab](https://sipart.github.io/2017-09-12-cvxnetq/)
 * [Ansible - Notes on Setup](https://sipart.github.io/2017-09-04-notes/)
-* [Core On A Page](https://sipart.github.io/core_on_a_page/)
+* [Juniper MPLS Core On A Page](https://sipart.github.io/core_on_a_page/)
 
 ## General Reference
 

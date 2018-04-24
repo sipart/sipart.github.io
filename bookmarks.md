@@ -44,6 +44,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [SRX & J Series Site-to-Site VPN Configuration Generator](https://www.juniper.net/support/tools/vpnconfig/)
 * [SRX HA Configuration Generator](https://www.juniper.net/support/tools/srxha/)
 * [IOS to JUNOS Translator](https://migrationtools.juniper.net/i2j/index.jsp) - you need to be logged in to juniper.net to access
+* [Cisco Firewall Configuration Migration Tool](https://fwmig.cisco.com) - you need to be logged in to cisco.com to access
 
 ## Desktop Tools
 

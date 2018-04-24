@@ -41,6 +41,9 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [TCP Throughput calculator](https://www.switch.ch/network/tools/tcp_throughput/) and [more tools](https://www.switch.ch/network/tools/)
 * [Google Cloud Shell](https://console.cloud.google.com/cloudshell) - Google Cloud Shell is a f1-micro instance running Debian preinstalled with developer tools and has a home directory that persists across sessions
 * [Juniper Config Converter](http://www.stewartb.com/cgi-bin/juniper.pl) - converts standard config to set commands
+* [SRX & J Series Site-to-Site VPN Configuration Generator](https://www.juniper.net/support/tools/vpnconfig/)
+* [SRX HA Configuration Generator](https://www.juniper.net/support/tools/srxha/)
+* [IOS to JUNOS Translator](https://migrationtools.juniper.net/i2j/index.jsp) - you need to be logged in to juniper.net to access
 
 ## Desktop Tools
 

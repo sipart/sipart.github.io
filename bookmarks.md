@@ -53,6 +53,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Portable Apps](https://portableapps.com/apps) - loads and mostly free
 * [Cisco CLI Analyzer](https://cway.cisco.com/go/sa/) - free - a TAC-Powered SSH client. [YouTube overview](https://www.youtube.com/watch?v=FQ1d9dzQVaQ)
 * [PsPing for Windows](https://docs.microsoft.com/en-us/sysinternals/downloads/psping)
+* [Fabric](http://www.fabfile.org/) - A Python (2.5-2.7) library and command-line tool for streamlining the use of SSH for application deployment or systems administration tasks. 
 
 ## Juniper Reference
 

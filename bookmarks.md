@@ -79,6 +79,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Ansible for Junos OS Developer guide](https://www.juniper.net/documentation/en_US/junos-ansible/information-products/pathway-pages/junos-ansible.html) - covers new v2.0.0 Juniper.junos modules
 * [Ansible Documentation](http://docs.ansible.com/)
 * [Cisco Networking Dev Center](https://developer.cisco.com/site/networking/)
+* [Jinja Template Designer Documentation](http://jinja.pocoo.org/docs/2.10/templates/)
 * [Juniper Automation Resources](https://www.juniper.net/documentation/en_US/release-independent/automation/information-products/pathway-pages/index.html)
 * [More Juniper Auotmation Resources](http://puluka.com/home/networking/junos-automation-training-resources/) - courtesy of [@spulkar](https://twitter.com/spuluka)
 

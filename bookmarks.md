@@ -145,6 +145,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Packet Pushers](http://packetpushers.net/podcast/)
 * [Network Collective](https://thenetworkcollective.com/feed/podcast/)
 * [ipspace.net](https://www.ipspace.net/Podcast/Software_Gone_Wild)
+* [zigbits](https://zigbits.tech/)
 
 ## Other sources of useful links and blogs
 

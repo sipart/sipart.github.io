@@ -113,6 +113,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 
 ## System Software
 
+
 * [Netbox IPAM / DCIM tool](https://github.com/digitalocean/netbox) - free
 * [Netshot Configuration and Compliance Management Software](http://www.netfishers.onl/netshot) - free
 * [eNMS](https://github.com/afourmy/eNMS/blob/master/README.md) - free
@@ -161,3 +162,5 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [NetFlask](https://www.netflask.net/) - The Networking & Virtualization Blog
 * [Personal blog about virtualization maintained by William Lam](https://www.virtuallyghetto.com/)
 * [Jason Edelman](http://jedelman.com/)
+* [Scott's Weblog](https://blog.scottlowe.org/) - The weblog of an IT pro specializing in cloud computing, open source, networking, and virtualization
+

@@ -30,8 +30,9 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 
 ## Books
 
-* [Network Programmability and Automation: Skills for the Next-Generation Network Engineer](https://www.amazon.co.uk/gp/product/1491931256/)
-* [Computer Networking Problems and Solutions: An innovative approach to building resilient, modern networks](https://www.amazon.co.uk/dp/1587145049/)
+* [Network Programmability and Automation: Skills for the Next-Generation Network Engineer](https://www.amazon.co.uk/gp/product/1491931256/) - Amazon UK link to paper copy
+* [Computer Networking Problems and Solutions: An innovative approach to building resilient, modern networks](https://www.amazon.co.uk/dp/1587145049/) - Amazon UK link to paper copy
+* [Hardware-Defined Networking: Modern Networking from a Hardware Perspective](https://www.juniper.net/uk/en/training/jnbooks/distinguished-engineering/hardware-defined-networking/) - free Juniper Day One book
 
 ## Online Tools
 

@@ -69,7 +69,7 @@ EVE-NG lab - sample configs in [this GitHUB repo](https://github.com/sipart/core
 # Other settings
 * Radius, [banner](https://www.juniper.net/documentation/en_US/junos/topics/task/configuration/authentication-router-login-message-qfx-series.html), [users](https://www.juniper.net/documentation/en_US/junos/topics/concept/authentication-user-accounts-overview.html), ssh, [syslog](https://www.juniper.net/documentation/en_US/junos/topics/example/syslog-single-chassis-system-configuring.html), ntp, [RPM](https://www.juniper.net/documentation/en_US/junos/topics/concept/security-rpm-overview.html)
 * Protect RE firewall filter on the loopback (made of associated prefix lists, policers, addresses, protocols and ports). [Securing the Routing Engine PDF](http://www.hiphop-resistance.com/juniperdayone/Securing_RouteEngine2.pdf)
-* Backup-router settings (for dual RE)
+* Backup-router settings (for dual RE) - great [post here](https://jncie.eu/how-to-deploy-vmx-with-multiple-res-and-multiple-fpcs-in-eve-ng-kvm/) on getting dual routing engines in EVE-NG
 * It is recommended to filter out unnecessary log messages that can cause log bloat or unnecessary load on syslog or monitoring systems: [Juniper KB Article](https://kb.juniper.net/InfoCenter/index?page=content&id=KB9382)
 * Example below that was used on devices that performed RPM was used to just filter RPM test completion messages at very short intervals filling up logs very quickly: To set use:
 `set system syslog file messages match "!(.*DAEMON-6-PING_TEST_COMPLETED:.*)"`
@@ -86,3 +86,4 @@ The difference between `route-distinguisher` and route target (`vrf-target`)
 * [ibgp family route-target](https://www.juniper.net/documentation/en_US/junos/topics/usage-guidelines/vpns-configuring-bgp-route-target-filtering-in-vpns.html) overview
 * [Juniper CSPF netflask Post](https://netflask.net/jnpr-constrained-shortest-path-first/)
 * [ISSU Overview](https://www.juniper.net/documentation/en_US/junos/topics/concept/issu-oveview.html)
+* How to deploy vMX with [multiple RE’s and multiple FPC’s](How to deploy vMX with multiple RE’s and multiple FPC’s in EVE-NG (KVM)) in EVE-NG (KVM)

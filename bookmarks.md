@@ -33,7 +33,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Network Programmability and Automation: Skills for the Next-Generation Network Engineer](https://www.amazon.co.uk/gp/product/1491931256/) - Amazon UK link to paper copy
 * [Computer Networking Problems and Solutions: An innovative approach to building resilient, modern networks](https://www.amazon.co.uk/dp/1587145049/) - Amazon UK link to paper copy
 * [Hardware-Defined Networking: Modern Networking from a Hardware Perspective](https://www.juniper.net/uk/en/training/jnbooks/distinguished-engineering/hardware-defined-networking/) - free Juniper Day One book
-* [Network Automation At Scale](https://www.cloudflare.com/network-automation-at-scale-ebook/) - free Cloudflare PDF - automation at scale using SALT and NAPALM
+* [Network Automation At Scale](https://www.cloudflare.com/network-automation-at-scale-ebook/) - free Cloudflare PDF - automation at scale using Salt and NAPALM
 
 ## Online Tools
 
@@ -167,4 +167,4 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Personal blog about virtualization maintained by William Lam](https://www.virtuallyghetto.com/)
 * [Jason Edelman](http://jedelman.com/)
 * [Scott's Weblog](https://blog.scottlowe.org/) - The weblog of an IT pro specializing in cloud computing, open source, networking, and virtualization
-
+* [Mircea Ulinic](https://mirceaulinic.net/) - Random packets

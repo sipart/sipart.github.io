@@ -33,6 +33,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Network Programmability and Automation: Skills for the Next-Generation Network Engineer](https://www.amazon.co.uk/gp/product/1491931256/) - Amazon UK link to paper copy
 * [Computer Networking Problems and Solutions: An innovative approach to building resilient, modern networks](https://www.amazon.co.uk/dp/1587145049/) - Amazon UK link to paper copy
 * [Hardware-Defined Networking: Modern Networking from a Hardware Perspective](https://www.juniper.net/uk/en/training/jnbooks/distinguished-engineering/hardware-defined-networking/) - free Juniper Day One book
+* [Network Automation At Scale](https://www.cloudflare.com/network-automation-at-scale-ebook/) - free Cloudflare PDF - automation at scale using SALT and NAPALM
 
 ## Online Tools
 
@@ -97,7 +98,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [AWX Vagrant Profile](https://github.com/geerlingguy/ansible-vagrant-examples/tree/master/awx) - so you can test and run AWX
 * [ssh-copy-net](https://github.com/networkop/ssh-copy-net) - install your public key in a remote devices authorised keys
 * [Netmiko](https://github.com/ktbyers/netmiko) - Python library that simplifies SSH management to network devices - free and multi-vendor
-* [NAPALM](https://github.com/napalm-automation/napalm) - Python library - ##N##etwork Automation and Programmability Abstraction Layer with Multivendor support
+* [NAPALM](https://github.com/napalm-automation/napalm) - Python library - **N**etwork **A**utomation and **P**rogrammability **A**bstraction **L**ayer with **M**ultivendor support
 
 ## Virtual Labs / Environments
 

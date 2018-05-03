@@ -165,7 +165,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Matt's Blog](http://matt.dinham.net/) - My thoughts about networks, security and technology
 * [Cloud Architect Musings](https://cloudarchitectmusings.com/) - Musings On Cloud Computing and Cloud Native Applications
 * [NetFlask](https://www.netflask.net/) - The Networking & Virtualization Blog
-* [Personal blog about virtualization maintained by William Lam](https://www.virtuallyghetto.com/)
+* [virtuallyghetto](https://www.virtuallyghetto.com/) - Personal blog about virtualization maintained by William Lam
 * [Jason Edelman](http://jedelman.com/)
 * [Scott's Weblog](https://blog.scottlowe.org/) - The weblog of an IT pro specializing in cloud computing, open source, networking, and virtualization
 * [Mircea Ulinic](https://mirceaulinic.net/) - Random packets

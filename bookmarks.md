@@ -149,6 +149,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Network Collective](https://thenetworkcollective.com/feed/podcast/)
 * [ipspace.net](https://www.ipspace.net/Podcast/Software_Gone_Wild)
 * [zigbits](https://zigbits.tech/)
+* [The Admin Admin Podcast](https://www.adminadminpodcast.co.uk/)
 
 ## Other sources of useful links and blogs
 

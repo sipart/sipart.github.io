@@ -169,4 +169,4 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Jason Edelman](http://jedelman.com/)
 * [Scott's Weblog](https://blog.scottlowe.org/) - The weblog of an IT pro specializing in cloud computing, open source, networking, and virtualization
 * [Mircea Ulinic](https://mirceaulinic.net/) - Random packets
-* [techbloc](https://techbloc.net/) - my technical experience
+* [techbloc.net](https://techbloc.net/) - my technical experience

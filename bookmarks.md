@@ -92,11 +92,12 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Ansible](https://www.ansible.com/) - agentless - generally the recommendation for network automation
 * [Chef](https://www.chef.io/chef/) - agent needed
 * [Puppet](https://puppet.com/) - agent needed
-* [Salt(stack)](https://saltstack.com/) - agent and agentless (some [caveats](https://docs.saltstack.com/en/getstarted/ssh/index.html) for agentless running)
+* [Salt](https://saltstack.com/) - agent and agentless (some [caveats](https://docs.saltstack.com/en/getstarted/ssh/index.html) for agentless running)
 * [AWX](https://github.com/ansible/awx) open source version of [Ansible Tower](https://www.ansible.com/products/tower) - free
 * [AWX Vagrant Profile](https://github.com/geerlingguy/ansible-vagrant-examples/tree/master/awx) - so you can test and run AWX
 * [ssh-copy-net](https://github.com/networkop/ssh-copy-net) - install your public key in a remote devices authorised keys
 * [Netmiko](https://github.com/ktbyers/netmiko) - Python library that simplifies SSH management to network devices - free and multi-vendor
+* [NAPALM](https://github.com/napalm-automation/napalm) - Python library - ##N##etwork Automation and Programmability Abstraction Layer with Multivendor support
 
 ## Virtual Labs / Environments
 

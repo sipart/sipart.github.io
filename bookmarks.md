@@ -108,7 +108,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Cisco VIRL](http://virl.cisco.com) - Cisco - $$$ - images included
 * [Vagrant](https://www.vagrantup.com/) - multi-vendor - free - various [Vagrant boxes (images)](https://app.vagrantup.com/boxes/search)
 * [Juniper Vagrant boxes](https://app.vagrantup.com/juniper)
-* [Cumulus in the Cloud](https://cumulusnetworks.com/products/cumulus-in-the-cloud/) - Cumulus - free - online sandbox
+* [Cumulus in the Cloud](https://cumulusnetworks.com/products/cumulus-in-the-cloud/) - Cumulus - free - online sandbox - overview [video](https://cumulusnetworks.com/learn/web-scale-networking-resources/videos/introduction-cumulus-cloud/)
 * [Juniper Contrail and Appformix](https://www.juniper.net/us/en/cloud-software/trial/index.html) - Juniper - free - online sandbox
 * [Lab Internet routing table creator VM](http://www.stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/) - free
 * [VMware Hands on Labs](https://labs.hol.vmware.com/HOL/catalogs/catalog/681) - VMware - free - online sandboxes

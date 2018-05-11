@@ -171,3 +171,5 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Mircea Ulinic](https://mirceaulinic.net/) - Random packets
 * [techbloc.net](https://techbloc.net/) - my technical experience
 * [karneliuk.com](http://karneliuk.com/) - IT, Networks, Project Management
+* [networkop.co.uk](https://networkop.co.uk/) - Network-oriented programming - a blog about network automation and SDN
+

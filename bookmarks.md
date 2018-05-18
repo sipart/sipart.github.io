@@ -69,6 +69,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 
 ## Cisco Reference
 
+* [Cisco Tools Catalog](https://www.cisco.com/c/en/us/support/web/ToolsCatalogNew.html#/) - CLI Analyzer, Bug Search Tool etc.
 * [Cisco Support](https://www.cisco.com/c/en/us/support/index.html)
 * [Study CCNA for free](https://learningnetwork.cisco.com/thread/15662) - Cisco forum post with a bunch of useful links
 * [Netflow Cheat Sheet](https://www.network-node.com/blog/2016/5/15/netflow-cheatsheet)

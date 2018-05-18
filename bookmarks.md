@@ -59,6 +59,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 
 ## Juniper Reference
 
+* [Juniper online apps](https://apps.juniper.net/home/) - CLI Explorer, Hardware Compatibility Tool etc.
 * [JTAC Recommended Junos Software Versions](https://kb.juniper.net/InfoCenter/index?page=content&id=KB21476&actp=METADATA)
 * [Day One books](https://www.juniper.net/us/en/training/jnbooks/)
 * [System log Explorer](https://apps.juniper.net/syslog-explorer/#view=explore)

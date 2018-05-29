@@ -66,6 +66,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Configuration Examples](https://www.juniper.net/documentation/en_US/release-independent/nce/information-products/pathway-pages/nce/index.html)
 * [Juniper EX Cheat Sheet](http://www.cciezone.com/?p=196)
 * [Some very useful little known JUNOS comands](http://blog.eighthlayer.io/you-dont-know-junos/)
+* [Junos Workbook](https://www.fryguy.net/2014/01/13/junos-workbook-volume-1-full/) - excellent introduction to Junos
 
 ## Cisco Reference
 
@@ -174,4 +175,4 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [techbloc.net](https://techbloc.net/) - my technical experience
 * [karneliuk.com](http://karneliuk.com/) - IT, Networks, Project Management
 * [networkop.co.uk](https://networkop.co.uk/) - Network-oriented programming - a blog about network automation and SDN
-
+* [MPLSVPN](http://www.mplsvpn.info/) - Moving Towards SDN and NFV Based Networks

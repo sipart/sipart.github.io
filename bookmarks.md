@@ -47,6 +47,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [SRX HA Configuration Generator](https://www.juniper.net/support/tools/srxha/)
 * [IOS to JUNOS Translator](https://migrationtools.juniper.net/i2j/index.jsp) - you need to be logged in to juniper.net to access
 * [Cisco Firewall Configuration Migration Tool](https://fwmig.cisco.com) - you need to be logged in to cisco.com to access
+* [Ultra High Security Password Generator](https://www.grc.com/passwords.htm)
 
 ## Desktop Tools
 

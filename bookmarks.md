@@ -159,7 +159,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 
 * [List of Free or Low-Cost IT Training](https://www.network-node.com/blog/2017/4/22/list-of-free-or-low-cost-it-training)
 * [PacketPushers Virtual Toolbox](http://packetpushers.net/virtual-toolbox/)
-* [mplsvpn.info Knowledgeable Links](http://www.mplsvpn.info/p/external-links.html) - many blog posts as well
+* [mplsvpn.info Knowledgeable Links](http://www.mplsvpn.info/p/external-links.html) - many [blog posts](http://www.mplsvpn.info/) as well
 * [fryguy](https://www.fryguy.net/) - A Network Blog by a Network Engineer
 * [keepingitclassless](https://keepingitclassless.net/) - Perspectives On Networks, Automation, Systems, and Software Engineering
 * [network-node](https://www.network-node.com/blog/) - Networking fun
@@ -176,4 +176,3 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [techbloc.net](https://techbloc.net/) - my technical experience
 * [karneliuk.com](http://karneliuk.com/) - IT, Networks, Project Management
 * [networkop.co.uk](https://networkop.co.uk/) - Network-oriented programming - a blog about network automation and SDN
-* [MPLSVPN](http://www.mplsvpn.info/) - Moving Towards SDN and NFV Based Networks

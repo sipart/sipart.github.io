@@ -1,11 +1,11 @@
 ---
 layout: post
-title: If only..
-image: /img/Linux1.jpg
-subtitle: ..I had learnt Linux all those years ago!
+title: Long Hot..
+image: /img/
+subtitle: ..Summer
 tags: [juniper, junos, automation, intent, linux, docker, containers, labs, eve-ng, vmware, whitebox, cumulus, cisco, careers, certification, data centre]
 ---
-Now where is that idiots guide I bought in 1999?
+Up to now!
 
 ## Linux
 

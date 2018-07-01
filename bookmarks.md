@@ -57,7 +57,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Cisco CLI Analyzer](https://cway.cisco.com/go/sa/) - free - a TAC-Powered SSH client. [YouTube overview](https://www.youtube.com/watch?v=FQ1d9dzQVaQ)
 * [PsPing for Windows](https://docs.microsoft.com/en-us/sysinternals/downloads/psping)
 * [Fabric](http://www.fabfile.org/) - A Python (2.5-2.7) library and command-line tool for streamlining the use of SSH for application deployment or systems administration tasks. 
-* [Termius](https://www.termius.com/) - multi platform terminal app 
+* [Termius](https://www.termius.com/) - multi platform (iOS, Android, MAC, WINDOWS, LINUX) terminal app 
 
 ## Juniper Reference
 

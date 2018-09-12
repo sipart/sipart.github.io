@@ -54,8 +54,8 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Portable Apps](https://portableapps.com/apps){:target="_blank"} - loads and mostly free
 * [Cisco CLI Analyzer](https://cway.cisco.com/go/sa/){:target="_blank"} - free - a TAC-Powered SSH client. [YouTube overview](https://www.youtube.com/watch?v=FQ1d9dzQVaQ){:target="_blank"}
 * [PsPing for Windows](https://docs.microsoft.com/en-us/sysinternals/downloads/psping){:target="_blank"}
-* [Fabric](http://www.fabfile.org/){:target="_blank"} - A Python (2.5-2.7){:target="_blank"} library and command-line tool for streamlining the use of SSH for application deployment or systems administration tasks. 
-* [Termius](https://www.termius.com/){:target="_blank"} - multi platform (iOS, Android, MAC, WINDOWS, LINUX){:target="_blank"} terminal app 
+* [Fabric](http://www.fabfile.org/){:target="_blank"} - A Python (2.5-2.7) library and command-line tool for streamlining the use of SSH for application deployment or systems administration tasks. 
+* [Termius](https://www.termius.com/){:target="_blank"} - multi platform (iOS, Android, MAC, WINDOWS, LINUX) terminal app 
 
 ## Juniper Reference
 
@@ -96,7 +96,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Ansible](https://www.ansible.com/){:target="_blank"} - agentless - generally the recommendation for network automation
 * [Chef](https://www.chef.io/chef/){:target="_blank"} - agent needed
 * [Puppet](https://puppet.com/){:target="_blank"} - agent needed
-* [Salt](https://saltstack.com/){:target="_blank"} - agent and agentless (some [caveats](https://docs.saltstack.com/en/getstarted/ssh/index.html){:target="_blank"} for agentless running){:target="_blank"}
+* [Salt](https://saltstack.com/){:target="_blank"} - agent and agentless (some [caveats](https://docs.saltstack.com/en/getstarted/ssh/index.html){:target="_blank"} for agentless running)
 * [AWX](https://github.com/ansible/awx){:target="_blank"} open source version of [Ansible Tower](https://www.ansible.com/products/tower){:target="_blank"} - free
 * [AWX Vagrant Profile](https://github.com/geerlingguy/ansible-vagrant-examples/tree/master/awx){:target="_blank"} - so you can test and run AWX
 * [ssh-copy-net](https://github.com/networkop/ssh-copy-net){:target="_blank"} - install your public key in a remote devices authorised keys
@@ -109,7 +109,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [GNS3](https://www.gns3.com/){:target="_blank"} - multi-vendor - free - source images yourself
 * [Juniper Wistar](https://github.com/Juniper/wistar){:target="_blank"} - Juniper - free - source images yourself
 * [Cisco VIRL](http://virl.cisco.com){:target="_blank"} - Cisco - $$$ - images included
-* [Vagrant](https://www.vagrantup.com/){:target="_blank"} - multi-vendor - free - various [Vagrant boxes (images){:target="_blank"}](https://app.vagrantup.com/boxes/search){:target="_blank"}
+* [Vagrant](https://www.vagrantup.com/){:target="_blank"} - multi-vendor - free - various [Vagrant boxes (images)](https://app.vagrantup.com/boxes/search){:target="_blank"}
 * [Juniper Vagrant boxes](https://app.vagrantup.com/juniper){:target="_blank"}
 * [Cumulus in the Cloud](https://cumulusnetworks.com/products/cumulus-in-the-cloud/){:target="_blank"} - Cumulus - free - online sandbox - [overview video](https://cumulusnetworks.com/learn/web-scale-networking-resources/videos/introduction-cumulus-cloud/){:target="_blank"}
 * [Juniper Contrail and Appformix](https://www.juniper.net/us/en/cloud-software/trial/index.html){:target="_blank"} - Juniper - free - online sandbox

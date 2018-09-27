@@ -38,7 +38,8 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Subnet Calc](http://www.subnet-calculator.com/){:target="_blank"}
 * [MAC Address lookup](https://macvendors.com/){:target="_blank"}
 * [RegEx online test tool](https://regex101.com/){:target="_blank"}
-* [TCP Throughput calculator](https://www.switch.ch/network/tools/tcp_throughput/){:target="_blank"} and [more tools](https://www.switch.ch/network/tools/){:target="_blank"}
+* [TCP Throughput Calculator](https://www.switch.ch/network/tools/tcp_throughput/){:target="_blank"} and [more tools](https://www.switch.ch/network/tools/){:target="_blank"}
+* [File Transfer Time Calculator](https://www.expedient.com/file-transfer-time-calculator/){:target="_blank"}
 * [Google Cloud Shell](https://console.cloud.google.com/cloudshell){:target="_blank"} - Google Cloud Shell is a f1-micro instance running Debian preinstalled with developer tools and has a home directory that persists across sessions
 * [Juniper Config Converter](http://www.stewartb.com/cgi-bin/juniper.pl){:target="_blank"} - converts standard config to set commands
 * [SRX & J Series Site-to-Site VPN Configuration Generator](https://www.juniper.net/support/tools/vpnconfig/){:target="_blank"}

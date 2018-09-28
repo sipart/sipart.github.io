@@ -117,6 +117,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Lab Internet routing table creator VM](http://www.stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/){:target="_blank"} - free
 * [VMware Hands on Labs](https://labs.hol.vmware.com/HOL/catalogs/catalog/681){:target="_blank"} - VMware - free - online sandboxes
 * [SaltStack Workshop](http://salt-workshop.tylerc.me/){:target="_blank"} - free - Vagrant environment - courtesy of [supertylerc](https://github.com/supertylerc){:target="_blank"}
+* [Juniper vLabs](https://jlabs.juniper.net/vlabs/portal/index.page){:target="_blank"} - free - images and sample topologies included
 
 ## System Software
 

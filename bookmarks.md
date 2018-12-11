@@ -48,6 +48,8 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [IOS to JUNOS Translator](https://migrationtools.juniper.net/i2j/index.jsp){:target="_blank"} - you need to be logged in to juniper.net to access
 * [Cisco Firewall Configuration Migration Tool](https://fwmig.cisco.com){:target="_blank"} - you need to be logged in to cisco.com to access
 * [Ultra High Security Password Generator](https://www.grc.com/passwords.htm){:target="_blank"}
+* iPerf - [Public iPerf3 servers](https://iperf.fr/iperf-servers.php){:target="_blank"}
+* Global Traceroute, cool [troubleshooting tool](https://www.globaltraceroute.com/){:target="_blank"} and #NANOG74 [PDF](https://pc.nanog.org/static/published/meetings/NANOG74/1849/20181002_Gibbard_Lightning_Talk_Global_v1.pdf)
 
 ## Desktop Tools
 

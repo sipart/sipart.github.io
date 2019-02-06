@@ -3,7 +3,7 @@ layout: post
 title: Linux Cheat Sheet
 image: /img/linux_baby.jpg
 subtitle: Lots of cmd line switches!
-tags: [linux, cheat, sheet]
+tags: [linux, cheat, sheet, commands]
 ---
 
 

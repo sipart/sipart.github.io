@@ -6,7 +6,7 @@ subtitle: Lots of cmd line switches!
 tags: [linux, cheat, sheet, commands]
 ---
 
-Courtesy of [Network World]( https://www.networkworld.com/article/3337516/linux/the-linux-command-line-cheat-sheet.html)
+Courtesy of [Network World]( https://www.networkworld.com/article/3337516/linux/the-linux-command-line-cheat-sheet.html){:target="_blank"} by [Sandra Henry-Stocker](https://www.networkworld.com/author/Sandra-Henry_Stocker/){:target="_blank"}
 
 | **Getting familiar with your account**                                                                                                                                                                                                                                                                                                                |                                                                                                                                                                                                                                            |                                     |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|

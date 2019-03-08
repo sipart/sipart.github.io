@@ -71,6 +71,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Juniper EX Cheat Sheet](http://www.cciezone.com/?p=196){:target="_blank"}
 * [Some very useful little known JUNOS comands](http://blog.eighthlayer.io/you-dont-know-junos/){:target="_blank"}
 * [Junos Workbook](https://www.fryguy.net/2014/01/13/junos-workbook-volume-1-full/){:target="_blank"} - excellent introduction to Junos
+* [Juniper Configuration](https://www.juniper.net/documentation/en_US/junos/topics/concept/junos-configuration-files.html) File Selection Sequence. Also infomration on where rollbacks are stored.
 
 ## Cisco Reference
 

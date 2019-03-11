@@ -181,3 +181,4 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [techbloc.net](https://techbloc.net/){:target="_blank"} - my technical experience
 * [karneliuk.com](http://karneliuk.com/){:target="_blank"} - IT, Networks, Project Management
 * [networkop.co.uk](https://networkop.co.uk/){:target="_blank"} - Network-oriented programming - a blog about network automation and SDN
+* [53bits.co.uk](https://null.53bits.co.uk/index.php?page=vmx-notes) - some great notes on vMX and loads of other areas on network interest

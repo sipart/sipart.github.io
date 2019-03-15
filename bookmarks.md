@@ -37,6 +37,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 ## Online Tools
 
 * [Subnet Calc](http://www.subnet-calculator.com/){:target="_blank"}
+* [Subnet Calc](https://www.calculator.net/ip-subnet-calculator.html){:target="_blank"} and other tools
 * [MAC Address lookup](https://macvendors.com/){:target="_blank"}
 * [RegEx online test tool](https://regex101.com/){:target="_blank"}
 * [TCP Throughput Calculator](https://www.switch.ch/network/tools/tcp_throughput/){:target="_blank"} and [more tools](https://www.switch.ch/network/tools/){:target="_blank"}

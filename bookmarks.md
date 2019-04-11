@@ -42,7 +42,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Binary Calc](https://www.calculator.net/binary-calculator.html){:target="_blank"}
 * [MAC Address lookup](https://macvendors.com/){:target="_blank"}
 * [RegEx online test tool](https://regex101.com/){:target="_blank"}
-* [Online XPATH Tester](https://online-toolz.com/tools/xpath-editor.php)
+* [Online XPATH Tester](https://online-toolz.com/tools/xpath-editor.php){:target="_blank"}
 * [TCP Throughput Calculator](https://www.switch.ch/network/tools/tcp_throughput/){:target="_blank"} and [more tools](https://www.switch.ch/network/tools/){:target="_blank"}
 * [File Transfer Time Calculator](https://www.expedient.com/file-transfer-time-calculator/){:target="_blank"}
 * [Google Cloud Shell](https://console.cloud.google.com/cloudshell){:target="_blank"} - Google Cloud Shell is a f1-micro instance running Debian preinstalled with developer tools and has a home directory that persists across sessions

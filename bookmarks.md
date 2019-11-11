@@ -26,6 +26,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Linux and Network Zines](https://jvns.ca/zines/){:target="_blank"} - courtesy of [Julia Evans](https://twitter.com/b0rk){:target="_blank"}
 * [EVPN MPLS Service Types Illustrated](http://www.bgphelp.com/2017/04/10/evpn-mpls-service-types-illustrated/){:target="_blank"}
 * [MMF and SMF comparison](http://www.fiber-optic-cable-sale.com/comparison-between-mmf-and-smf-optical-cables.html){:target="_blank"}
+* DSCP TOS CoS Presidence [Conversion Chart](https://www.bytesolutions.com/dscp-tos-cos-presidence-conversion-chart/){:target="_blank"}
 
 ## Books
 

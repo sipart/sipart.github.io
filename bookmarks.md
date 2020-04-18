@@ -13,7 +13,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Cumulus EVE-NG DC lab](https://sipart.github.io/2017-09-12-cvxnetq/){:target="_blank"}
 * [Ansible - Notes on Setup](https://sipart.github.io/2017-09-04-notes/){:target="_blank"}
 * [Juniper MPLS Core On A Page](https://sipart.github.io/core_on_a_page/){:target="_blank"}
-* A [Segment Routing Lab](https://github.com/sipart/spring_lab){:target="_blank"} in the [Cloud](https://github.com/sipart/spring_lab/blob/master/GCP%20setup%20and%20more.md){:target="_blank"} - unfortunately progress has seriously stalled - but one day it will become a Tech Snippets post
+* A [Segment Routing Lab](https://github.com/sipart/spring_lab){:target="_blank"} in the [Cloud](https://github.com/sipart/spring_lab/blob/master/GCP-setup-and-more.md){:target="_blank"} - unfortunately progress has seriously stalled - but one day it will become a Tech Snippets post
 
 ## General Reference
 

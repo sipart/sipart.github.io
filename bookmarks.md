@@ -31,7 +31,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 
 ## Cloud
 
-* AWS Cloud Practitioner [Bootcamp](https://sipart.github.io/2020-17-06-post-AWS){:target="_blank"} - slides, reading and resources
+* AWS Cloud Practitioner [Bootcamp](https://sipart.github.io/2020-06-17-post-AWS){:target="_blank"} - slides, reading and resources
 
 ## Books
 

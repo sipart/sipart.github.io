@@ -29,6 +29,10 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [MMF and SMF comparison](http://www.fiber-optic-cable-sale.com/comparison-between-mmf-and-smf-optical-cables.html){:target="_blank"}
 * DSCP TOS CoS Presidence [Conversion Chart](https://www.bytesolutions.com/dscp-tos-cos-presidence-conversion-chart/){:target="_blank"}
 
+## Cloud
+
+* AWS Cloud Practitioner [Bootcamp](https://sipart.github.io/2020-17-06-post-AWS){:target="_blank"} - slides, reading and resources
+
 ## Books
 
 * [Network Programmability and Automation: Skills for the Next-Generation Network Engineer](https://www.amazon.co.uk/gp/product/1491931256/){:target="_blank"} - Amazon UK link to paper copy

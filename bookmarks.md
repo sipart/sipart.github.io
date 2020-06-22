@@ -42,8 +42,9 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 
 ## Online Tools
 
-* [Subnet Calc](http://www.subnet-calculator.com/){:target="_blank"}
-* [Subnet Calc](https://www.calculator.net/ip-subnet-calculator.html){:target="_blank"} 
+* [Subnet Calc - IPv4](http://www.subnet-calculator.com/){:target="_blank"}
+* [Subnet Calc - IPv4 and IPv6](https://www.calculator.net/ip-subnet-calculator.html){:target="_blank"} 
+* [Subnet Calc - IPv4 and IPv6](http://www.gestioip.net/cgi-bin/subnet_calculator.cgi){:target="_blank"} 
 * [Bandwidth Calc](https://www.calculator.net/bandwidth-calculator.html){:target="_blank"}
 * [Binary Calc](https://www.calculator.net/binary-calculator.html){:target="_blank"}
 * [MAC Address lookup](https://macvendors.com/){:target="_blank"}

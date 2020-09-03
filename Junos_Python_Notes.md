@@ -161,12 +161,15 @@ To check for CE IPs
     * Report any with no ARP into output file
 * Ping 5 times
 * Print results to output file
-```
-   lab@R1> show arp interface xe-1/2/0.0
-    MAC Address       Address         Name                      Interface               Flags
-    e4:c7:22:7f:b6:85 149.6.3.193     149.6.3.193               xe-1/2/0.0              none
-```
-```
+
+Show ARP info
+
+    lab@R1> show arp interface xe-1/2/0.0
+     MAC Address       Address         Name                      Interface               Flags
+     e4:c7:22:7f:b6:85 149.6.3.193     149.6.3.193               xe-1/2/0.0              none
+
+Display xml rpc for arp show command
+
     lab@R1> show arp interface xe-1/2/0.0 | display xml rpc
     <rpc-reply xmlns:junos="http://xml.juniper.net/junos/16.1R3/junos">
         <rpc>
@@ -178,9 +181,9 @@ To check for CE IPs
             <banner></banner>
         </cli>
     </rpc-reply>
-```
 
-```
+Display xml for arp show command
+
     lab@R1> show arp interface xe-1/2/0.0 | display xml
     <rpc-reply xmlns:junos="http://xml.juniper.net/junos/16.1R3/junos">
         <arp-table-information xmlns="http://xml.juniper.net/junos/16.1R3/junos-arp" junos:style="normal">
@@ -198,4 +201,3 @@ To check for CE IPs
             <banner></banner>
         </cli>
     </rpc-reply>
-```

@@ -157,7 +157,7 @@ to set the above to error and not commit
 
     jcs.emit_error().
 
-## Create Python script to ping all CEs
+## Project to Complete: Create Python script to ping all CEs
 
 To check for CE IPs
 

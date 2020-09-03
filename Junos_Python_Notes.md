@@ -1,9 +1,11 @@
 ---
 layout: page
 title: Juniper Python
-subtitle: Notes and Links
+subtitle: Notes and Links for on-box scripting
 image: /img/python.png
 ---
+
+Why on-box? When circumstances dictate that you have no automation station or server you have control or access to!
 
 * Download [SLAX scripts from here](https://github.com/Juniper/junoscriptorium) or for more usefully [Python scripts here](https://github.com/Juniper/junosautomation/tree/master/on-box-python)
 * Understanding Python Automation Scripts for Devices [Running Junos OS](https://www.juniper.net/documentation/en_US/junos/topics/concept/junos-script-automation-python-scripts-overview.html)

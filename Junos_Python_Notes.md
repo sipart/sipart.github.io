@@ -47,14 +47,14 @@ Extra config in addition to adding script names to config:
 
 ## Example OP script (disables the port specified and commits config)
 
-    lab@FCN2PESOL20R1-re0> show configuration system scripts
+    lab@R1> show configuration system scripts
     op {
         file port_disable.py;
     }
     language python;
 
 
-lab@FCN2PESOL20R1-re0> file show /var/db/scripts/op/port_disable.py
+lab@R1> file show /var/db/scripts/op/port_disable.py
 
     from jnpr.junos import Device
     from jnpr.junos.utils.config import Config
@@ -107,7 +107,7 @@ lab@FCN2PESOL20R1-re0> file show /var/db/scripts/op/port_disable.py
 
 * Running the example
 
-lab@FCN2PESOL20R1-re0> op port_disable.py
+lab@R1> op port_disable.py
 
 This script disables the specified interface.
 The script modifies the candidate configuration to disable
@@ -116,7 +116,7 @@ the interface and commits the configuration to activate it.
 Enter interface to disable: xe-0/0/9
 Loading and committing configuration changes
 
-    lab@FCN2PESOL20R1-re0> show configuration interfaces xe-0/0/9
+    lab@R1> show configuration interfaces xe-0/0/9
     disable;
     mtu 9192;
     unit 0 {
@@ -165,12 +165,12 @@ To check for CE IPs
 * Ping 5 times
 * Print results to output file
 ```
-   partridges@edge1.tcy02> show arp interface xe-1/2/0.0
+   lab@R1> show arp interface xe-1/2/0.0
     MAC Address       Address         Name                      Interface               Flags
     e4:c7:22:7f:b6:85 149.6.3.193     149.6.3.193               xe-1/2/0.0              none
 ```
 ```
-    partridges@edge1.tcy02> show arp interface xe-1/2/0.0 | display xml rpc
+    lab@R1> show arp interface xe-1/2/0.0 | display xml rpc
     <rpc-reply xmlns:junos="http://xml.juniper.net/junos/16.1R3/junos">
         <rpc>
             <get-arp-table-information>
@@ -184,7 +184,7 @@ To check for CE IPs
 ```
 
 ```
-    partridges@edge1.tcy02> show arp interface xe-1/2/0.0 | display xml
+    lab@R1> show arp interface xe-1/2/0.0 | display xml
     <rpc-reply xmlns:junos="http://xml.juniper.net/junos/16.1R3/junos">
         <arp-table-information xmlns="http://xml.juniper.net/junos/16.1R3/junos-arp" junos:style="normal">
             <arp-table-entry>

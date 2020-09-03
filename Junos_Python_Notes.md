@@ -105,7 +105,7 @@ lab@R1> file show /var/db/scripts/op/port_disable.py
     if __name__ == "__main__":
         main()
 
-* Running the example
+Running the example:
 
     lab@R1> op port_disable.py
 
@@ -115,7 +115,9 @@ lab@R1> file show /var/db/scripts/op/port_disable.py
 
     Enter interface to disable: xe-0/0/9
     Loading and committing configuration changes
-    
+
+Result:
+
     lab@R1> show configuration interfaces xe-0/0/9
     disable;
     mtu 9192;

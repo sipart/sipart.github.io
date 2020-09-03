@@ -1,3 +1,10 @@
+---
+layout: page
+title: Juniper Python
+subtitle: Notes and Links
+image: /img/mpls.jpg
+---
+
 ## Download [SLAX scripts from here](https://github.com/Juniper/junoscriptorium) or for more usefully [python scripts here](https://github.com/Juniper/junosautomation/tree/master/on-box-python)
 
 Understanding Python Automation Scripts for Devices [Running Junos OS](https://www.juniper.net/documentation/en_US/junos/topics/concept/junos-script-automation-python-scripts-overview.html)

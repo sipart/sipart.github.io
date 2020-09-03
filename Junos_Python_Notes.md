@@ -6,15 +6,10 @@ image: /img/python.png
 ---
 
 * Download [SLAX scripts from here](https://github.com/Juniper/junoscriptorium) or for more usefully [Python scripts here](https://github.com/Juniper/junosautomation/tree/master/on-box-python)
-
 * Understanding Python Automation Scripts for Devices [Running Junos OS](https://www.juniper.net/documentation/en_US/junos/topics/concept/junos-script-automation-python-scripts-overview.html)
-
 * Junos Python [Modules](https://www.juniper.net/documentation/en_US/junos/topics/reference/general/junos-python-modules-on-device.html)
-
 * PyEz [Modules](https://junos-pyez.readthedocs.io/en/latest/jnpr.junos.html)
-
 * PyEz [CookBook](https://www.juniper.net/documentation/en_US/day-one-books/DO_PyEZ_Cookbook.pdf) and GitHub repo with [examples](https://github.com/Juniper/junosautomation/tree/master/pyez/PyEZ_Cookbook_2017)
-
 * Example: Changing the Configuration Using [Python Op Scripts](https://www.juniper.net/documentation/en_US/junos/topics/example/junos-script-automation-op-script-changing-configuration-python.html)
 
 You enable op scripts by listing the filenames of one or more op script files within the ```[edit system scripts op]``` hierarchy level

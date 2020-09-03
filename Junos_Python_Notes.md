@@ -107,15 +107,15 @@ lab@R1> file show /var/db/scripts/op/port_disable.py
 
 * Running the example
 
-lab@R1> op port_disable.py
+    lab@R1> op port_disable.py
 
-This script disables the specified interface.
-The script modifies the candidate configuration to disable
-the interface and commits the configuration to activate it.
+    This script disables the specified interface.
+    The script modifies the candidate configuration to disable
+    the interface and commits the configuration to activate it.
 
-Enter interface to disable: xe-0/0/9
-Loading and committing configuration changes
-
+    Enter interface to disable: xe-0/0/9
+    Loading and committing configuration changes
+    
     lab@R1> show configuration interfaces xe-0/0/9
     disable;
     mtu 9192;

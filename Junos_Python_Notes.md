@@ -13,6 +13,7 @@ Why on-box? When circumstances dictate that you have no automation station or se
 * PyEz [Modules](https://junos-pyez.readthedocs.io/en/latest/jnpr.junos.html){:target="_blank"}
 * PyEz [CookBook](https://www.juniper.net/documentation/en_US/day-one-books/DO_PyEZ_Cookbook.pdf){:target="_blank"} and GitHub repo with [examples](https://github.com/Juniper/junosautomation/tree/master/pyez/PyEZ_Cookbook_2017){:target="_blank"}
 * Example: Changing the Configuration Using [Python Op Scripts](https://www.juniper.net/documentation/en_US/junos/topics/example/junos-script-automation-op-script-changing-configuration-python.html){:target="_blank"}
+* Using Junos PyEZ for [information gathering](https://saidvandeklundert.net/2019-07-04-using-junos-pyez-for-information-gathering/){:target="_blank"}
 
 You enable op scripts by listing the filenames of one or more op script files within the ```[edit system scripts op]``` hierarchy level
 

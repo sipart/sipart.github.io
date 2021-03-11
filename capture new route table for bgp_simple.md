@@ -1,3 +1,11 @@
+## Using bgp-simple perl script to inject a IPv4 Internet routing table inside a EVE-NG lab (or in a real/ESXi virtual lab)
+
+Multiple credits for this - first to the creator [Andrey Korolyov - xdel](https://github.com/xdel) of an old but still very usable perl script called [bgp_simple.pl](https://github.com/xdel/bgpsimple) which injects a copy of a IPv4 Internet routing table into a lab. 
+And then this post by [sigey](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/). He compiled and configured BGP simple as per documentation, and created a downloadable .ova file of the BGP router (based on Ubuntu 14.1). Link in his post, but Google drive link also [here.](https://drive.google.com/file/d/0BzLrgmKsB3NSbFV5SXctWWd5alU/view)
+
+
+* Here is a sample topology. eBGP between the Linux nodes and the transit vSRX nodes and then eBGP between the vSRX nodes and the PE routers. You can inject direct from the Linux nodes running the script into the core PEs but then you have to wait while the script runs so doesn't simulate a typical ISP peering. Using the vSRX in the middle creates a level of realisim.
+
     +----------------------+
     |                      |
     |                      |      +---------+
@@ -24,8 +32,8 @@
     |                      |          |               |   |           |            |           |     |
     |                      |     +----+----+          |   |           |            |       RR  |     |
     |   +---------------+  |     |         |          |   +-----------+            +-----------+     |
-    |   | Linux-BGP-02  +--+-----+         |          |                                              |
-    |   +---------------+  |     | vSRX-02 |          +----------------------------------------------+
+    |   | Linux-BGP-02  +--+-----+ vSRX-02 |          |                                              |
+    |   +---------------+  |     |         |          +----------------------------------------------+
     |                      |     |         |
     |                      |     +---------+
     |                      |

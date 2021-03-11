@@ -11,7 +11,7 @@ tags: [bgp,routing table,internet,bgp_simple]
 
 * Multiple credits for this:
    * First to the creator [Andrey Korolyov - xdel](https://github.com/xdel) of an old but still very usable perl script called [bgp_simple.pl](https://github.com/xdel/bgpsimple) which injects a copy of a IPv4 Internet routing table into a lab.
-   * And then this post by [sigey](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/). He compiled and configured BGP simple as per documentation, and created a downloadable .ova file of the 'BGP' Linux node (based on Ubuntu 14.1). Link in his post, but Google drive link also [here.](https://drive.google.com/file/d/0BzLrgmKsB3NSbFV5SXctWWd5alU/view) The .ova can be imported directly into VMware WS or ESXi - for EVE-NG the .ova needs to be converted. [Sigeys post](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/) has details on this conversion process. His image has an older copy of the Internet routing table so is approc 570,000 prefixes in size. See the bottom of this post for some instructions on getting a newer larger copy.
+   * And then this post by [sigey](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/). He compiled and configured BGP simple as per documentation, and created a downloadable .ova file of the 'BGP' Linux node (based on Ubuntu 14.1). Link in his post, but Google drive link also [here.](https://drive.google.com/file/d/0BzLrgmKsB3NSbFV5SXctWWd5alU/view) The .ova can be imported directly into VMware WS or ESXi - for EVE-NG the .ova needs to be converted. [Sigeys post](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/) has details on this conversion process. His image has an older copy of the Internet routing table so is approx. 570,000 prefixes in size. See the bottom of this post for some instructions on getting a newer larger copy.
 
 * Other options to do similar exist. Here are the other options and blog posts for reference:
     * Kevin Myers post on [stubarea51.net](https://stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/) - again using bgp_simple
@@ -21,7 +21,7 @@ tags: [bgp,routing table,internet,bgp_simple]
 
 * Here is a sample topology. eBGP between the Linux nodes and the transit vSRX nodes and then eBGP between the vSRX nodes and the PE routers. You can inject direct from the Linux nodes running the script into the core PEs but then you have to wait while the script runs so doesn't simulate a typical ISP peering. Using the vSRX in the middle creates a level of realisim.
 
-
+```
     +----------------------+
     |                      |
     |                      |      +---------+
@@ -55,6 +55,7 @@ tags: [bgp,routing table,internet,bgp_simple]
     |                      |
     |                      |
     +----------------------+
+```
 
 ## Linux BGP node setup
 

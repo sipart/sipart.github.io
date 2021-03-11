@@ -64,11 +64,12 @@ The username and password for the sigey created image is root/bgp:
 * Edit ``/etc/ssh/sshd_config`` to allow root ssh
 * Once you have restated networking and ssh (or rebooted) then you are ready to start. I'm assuming you have created a peering on the relevent routers
     * Setting the hold time to 1800 (keep alive 600 as hold time is always 3x of keep alive) to stop peering going down unexpectedly is advised
-    * Here are a couple of sample outputs. I would advise running the command while ssh connected to the Linux host and running the command in a screen or tmux session. This way when you close the ssh session your script will stay running.
+    * Here are a couple of sample outputs. I would advise running the command while ssh connected to the Linux host and running the command in a [screen](https://linuxize.com/post/how-to-use-linux-screen/) or [tmux](https://linuxize.com/post/getting-started-with-tmux/) session. This way when you close the ssh session your script will stay running.
 
 ``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &``
 
-The -m <1-600000> switch limits amounts of routes - remove and whole table will be advertised (as above). Here is the same command with a 1000 prefix limit:
+The -m <1-600000> switch limits amounts of routes. Without it the whole table will be advertised (as above). 
+Here is the same command with a 1000 prefix limit:
 
 ``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n -m 1000 &``
 
@@ -101,3 +102,5 @@ or
     TABLE_DUMP2|1612022400|B|45.183.45.1|64116|62.60.0.0/17|64116 7195 3356 6779 49572|IGP|45.183.45.1|0|0|3356:2 3356:22 3356:84 3356:123 3356:500 3356:2073 7195:111 7195:51000 7195:51001 7195:51200 7195:51202|NAG||
     TABLE_DUMP2|1612022400|B|45.65.244.1|265721|62.60.0.0/17|265721 23520 6939 6779 49572|IGP|45.65.244.1|0|0||NAG||
     TABLE_DUMP2|1612022400|B|5.188.4.211|46997|62.60.0.0/17|46997 6939 6779 49572|IGP|5.188.4.211|0|0||NAG||
+
+* Upload your new table (``jan2021routes`` in my case) to the Linux BGP nodes into ``/home/user/bgp-view/`` and adjust the bgp_simple.pl command statement you run to use ``jan2021routes`` instead of the ``bgp-routes`` file

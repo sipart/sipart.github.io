@@ -1,3 +1,19 @@
+edit /etc/network/interfaces and configure eth0 (and eth1 if used for mgmt). 
+
+Edit /etc/ssh/sshd_config to allow root ssh
+
+cd /home/user/
+
+bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 49572 -p /home/user/bgp-view/bgp-routes -m 1000 -n
+
+bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 49572 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &
+
+-m <1-600000> limits amounts of routes - remove and whole table will be advertised
+
+Set hold time to 1800 (keep alive 600 as hold time is always 3x of keep alive) to stop peering going down unexpectedly
+
+
+
 ## Getting a Fresh BGP Internet Routing Table for [bgp_simple.pl](https://github.com/xdel/bgpsimple): A Simple BGP Peering and Route Injection Script.
 
 * Download the full binary data from a RIPE member Remote Route Collector dump. For example [rrc24 data site](http://data.ris.ripe.net/rrc24/). Further details on all the Remote Route Collectors available [here](https://www.ripe.net/analyse/internet-measurements/routing-information-service-ris/ris-raw-data).

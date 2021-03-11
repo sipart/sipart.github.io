@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The Internet...
-image: /img/internet.jpg
+image: /img/internet2.jpg
 subtitle: ...in your lab!
 tags: [bgp,routing table,internet,bgp_simple]
 ---

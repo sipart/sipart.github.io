@@ -21,6 +21,7 @@ tags: [bgp,routing table,internet,bgp_simple]
 
 * Here is a sample topology. eBGP between the Linux nodes and the transit vSRX nodes and then eBGP between the vSRX nodes and the PE routers. You can inject direct from the Linux nodes running the script into the core PEs but then you have to wait while the script runs so doesn't simulate a typical ISP peering. Using the vSRX in the middle creates a level of realisim.
 
+
     +----------------------+
     |                      |
     |                      |      +---------+

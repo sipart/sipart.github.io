@@ -9,8 +9,9 @@ tags: [bgp,routing table,internet,bgp_simple]
 
 ## Using bgp_simple perl script to inject a IPv4 Internet routing table inside a EVE-NG lab (or in a real/ESXi virtual lab)
 
-* Multiple credits for this - first to the creator [Andrey Korolyov - xdel](https://github.com/xdel) of an old but still very usable perl script called [bgp_simple.pl](https://github.com/xdel/bgpsimple) which injects a copy of a IPv4 Internet routing table into a lab.
-And then this post by [sigey](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/). He compiled and configured BGP simple as per documentation, and created a downloadable .ova file of the 'BGP' Linux node (based on Ubuntu 14.1). Link in his post, but Google drive link also [here.](https://drive.google.com/file/d/0BzLrgmKsB3NSbFV5SXctWWd5alU/view) The .ova can be imported directly into VMware WS or ESXi - for EVE-NG the .ova needs to be converted. [Sigeys post](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/) has details on this conversion process. His image has an older copy of the Internet routing table so is approc 570,000 prefixes in size. See the bottom of this post for some instructions on getting a newer larger copy.
+* Multiple credits for this:
+   * First to the creator [Andrey Korolyov - xdel](https://github.com/xdel) of an old but still very usable perl script called [bgp_simple.pl](https://github.com/xdel/bgpsimple) which injects a copy of a IPv4 Internet routing table into a lab.
+   * And then this post by [sigey](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/). He compiled and configured BGP simple as per documentation, and created a downloadable .ova file of the 'BGP' Linux node (based on Ubuntu 14.1). Link in his post, but Google drive link also [here.](https://drive.google.com/file/d/0BzLrgmKsB3NSbFV5SXctWWd5alU/view) The .ova can be imported directly into VMware WS or ESXi - for EVE-NG the .ova needs to be converted. [Sigeys post](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/) has details on this conversion process. His image has an older copy of the Internet routing table so is approc 570,000 prefixes in size. See the bottom of this post for some instructions on getting a newer larger copy.
 
 * Other options to do similar exist. Here are the other options and blog posts for reference:
     * Kevin Myers post on [stubarea51.net](https://stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/) - again using bgp_simple
@@ -54,19 +55,20 @@ And then this post by [sigey](https://iprouteblog.wordpress.com/2017/04/15/injec
     |                      |
     +----------------------+
 
-## Liux BGP node setup
+## Linux BGP node setup
 
-Once the Linux BGP node is up then some simple steps to get up and running. 
+Once the Linux BGP node or nodes are up in your lab then some simple steps to get up and running. 
 The username and password for the sigey created image is root/bgp:
 
 * Edit ``/etc/network/interfaces`` via console and configure eth0 (and eth1 if used for mgmt) for peering and SSH access
 * Edit ``/etc/ssh/sshd_config`` to allow root ssh
 * Once you have restated networking and ssh (or rebooted) then you are ready to start. I'm assuming you have created a peering on the relevent routers
-    * Setting the hold time to 1800 (keep alive 600 as hold time is always 3x of keep alive) to stop peering going down unexpectedly
+    * Setting the hold time to 1800 (keep alive 600 as hold time is always 3x of keep alive) to stop peering going down unexpectedly is advised
+    * Here are a couple of sample outputs. I would advise running the command while ssh connected to the Linux host and running the command in a screen or tmux session. This way when you close the ssh session your script will stay running.
 
 ``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &``
 
--m <1-600000> limits amounts of routes - remove and whole table will be advertised
+The -m <1-600000> switch limits amounts of routes - remove and whole table will be advertised (as above). Here is the same command with a 1000 prefix limit:
 
 ``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n -m 1000 &``
 

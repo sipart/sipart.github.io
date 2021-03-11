@@ -1,3 +1,12 @@
+---
+layout: post
+title: The Internet...
+image: /img/superspread.png
+subtitle: ...in your lab!
+tags: [bgp,routing table,internet,bgp_simple]
+---
+
+
 ## Using bgp_simple perl script to inject a IPv4 Internet routing table inside a EVE-NG lab (or in a real/ESXi virtual lab)
 
 * Multiple credits for this - first to the creator [Andrey Korolyov - xdel](https://github.com/xdel) of an old but still very usable perl script called [bgp_simple.pl](https://github.com/xdel/bgpsimple) which injects a copy of a IPv4 Internet routing table into a lab.

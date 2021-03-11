@@ -18,7 +18,7 @@ tags: [bgp,routing table,internet,bgp_simple]
     * Lukasz Bromirski post on [bgp in the lab](https://lukasz.bromirski.net/post/bgp-w-labie-3/) - this takes a different approcch as you will need Internet access in your lab to peer with his IPv4 and IPv6 hosts
     * Leonir Hoxha post on creating [dummy statics using python](https://ccie49534.com/2014/11/15/generating-dummy-static-ip-prefixes-with-python/) - not the Internet routing table but you can create a lot of prefixes to create a similar load
 
-Here is my sample topology. eBGP between the Linux nodes and the transit vSRX nodes and then eBGP between the vSRX nodes and the PE routers. You can inject direct from the Linux nodes running the script into the core PEs but then you have to wait while the script runs so doesn't simulate a typical ISP peering. Teh script typicals takes 10-15 mins to generate and advertise the table. Using the vSRX in the middle creates a level of realisim and greater control of failure scenarios.
+Here is my sample topology. eBGP between the Linux nodes and the transit vSRX nodes and then eBGP between the vSRX nodes and the PE routers. You can inject direct from the Linux nodes running the script into the core PEs but then you have to wait while the script runs so doesn't simulate a typical ISP peering. The script typically takes 10-15 mins to generate and advertise the table. Using the vSRX in the middle creates a level of realisim and greater control of failure scenarios.
 ```
 +---------------------+
 |                     |

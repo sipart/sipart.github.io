@@ -1,7 +1,12 @@
 ## Using bgp_simple perl script to inject a IPv4 Internet routing table inside a EVE-NG lab (or in a real/ESXi virtual lab)
 
-Multiple credits for this - first to the creator [Andrey Korolyov - xdel](https://github.com/xdel) of an old but still very usable perl script called [bgp_simple.pl](https://github.com/xdel/bgpsimple) which injects a copy of a IPv4 Internet routing table into a lab.
-And then this post by [sigey](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/). He compiled and configured BGP simple as per documentation, and created a downloadable .ova file of the 'BGP' Linux node (based on Ubuntu 14.1). Link in his post, but Google drive link also [here.](https://drive.google.com/file/d/0BzLrgmKsB3NSbFV5SXctWWd5alU/view) The .ova can be imported directly into VMware WS or ESXi - for EVE-NG the .ova needs to be converted. [Sigeys post](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/) has details on this conversion process.
+* Multiple credits for this - first to the creator [Andrey Korolyov - xdel](https://github.com/xdel) of an old but still very usable perl script called [bgp_simple.pl](https://github.com/xdel/bgpsimple) which injects a copy of a IPv4 Internet routing table into a lab.
+And then this post by [sigey](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/). He compiled and configured BGP simple as per documentation, and created a downloadable .ova file of the 'BGP' Linux node (based on Ubuntu 14.1). Link in his post, but Google drive link also [here.](https://drive.google.com/file/d/0BzLrgmKsB3NSbFV5SXctWWd5alU/view) The .ova can be imported directly into VMware WS or ESXi - for EVE-NG the .ova needs to be converted. [Sigeys post](https://iprouteblog.wordpress.com/2017/04/15/inject-full-internet-route-table-into-your-eve-lab-environment/) has details on this conversion process. His image has an older copy of the Internet routing table so is approc 570,000 prefixes in size. See the bottom of this post for some instructions on getting a newer larger copy.
+
+* Other options to do similar exist. Here are the other options and blog posts for reference:
+    * Kevin Myers post on [stubarea51.net](https://stubarea51.net/2016/01/21/put-500000-bgp-routes-in-your-lab-network-download-this-vm-and-become-your-own-upstream-bgp-isp-for-testing/) - again using bgp_simple
+    * Lukasz Bromirski post on [bgp in the lab](https://lukasz.bromirski.net/post/bgp-w-labie-3/) - this takes a different approcch as you will need Internet access in your lab to peer with his IPv4 and IPv6 hosts
+    * Leonir Hoxha post on creating [dummy statics using python](https://ccie49534.com/2014/11/15/generating-dummy-static-ip-prefixes-with-python/) - not the Internet routing table but you can create a lot of prefixes to create a similar load
 
 
 * Here is a sample topology. eBGP between the Linux nodes and the transit vSRX nodes and then eBGP between the vSRX nodes and the PE routers. You can inject direct from the Linux nodes running the script into the core PEs but then you have to wait while the script runs so doesn't simulate a typical ISP peering. Using the vSRX in the middle creates a level of realisim.
@@ -26,7 +31,7 @@ And then this post by [sigey](https://iprouteblog.wordpress.com/2017/04/15/injec
     |                      |                          |         |                        |           |
     |       Linux VMs      |                          |         |                        |           |
     |        running       |                          |   +-----+-----+            +-----+-----+     |
-    |      bgp-simple      |                          |   |           |            |           |     |
+    |      bgp_simple      |                          |   |           |            |           |     |
     |                      |                          |   |           |            |           |     |
     |                      |          +---------------+---+   vMX-02  +------------+   vMX-04  |     |
     |                      |          |               |   |           |            |           |     |
@@ -40,25 +45,24 @@ And then this post by [sigey](https://iprouteblog.wordpress.com/2017/04/15/injec
     |                      |
     +----------------------+
 
+## Liux BGP node setup
 
+Once the Linux BGP node is up then some simple steps to get up and running. 
+The username and password for the sigey created image is root/bgp:
 
-edit /etc/network/interfaces and configure eth0 (and eth1 if used for mgmt). 
+* Edit ``/etc/network/interfaces`` via console and configure eth0 (and eth1 if used for mgmt) for peering and SSH access
+* Edit ``/etc/ssh/sshd_config`` to allow root ssh
+* Once you have restated networking and ssh (or rebooted) then you are ready to start. I'm assuming you have created a peering on the relevent routers
+    * Setting the hold time to 1800 (keep alive 600 as hold time is always 3x of keep alive) to stop peering going down unexpectedly
 
-Edit /etc/ssh/sshd_config to allow root ssh
-
-cd /home/user/
-
-bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 49572 -p /home/user/bgp-view/bgp-routes -m 1000 -n
-
-bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 49572 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &
+``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &``
 
 -m <1-600000> limits amounts of routes - remove and whole table will be advertised
 
-Set hold time to 1800 (keep alive 600 as hold time is always 3x of keep alive) to stop peering going down unexpectedly
+``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n -m 1000 &``
 
 
-
-## Getting a Fresh BGP Internet Routing Table for [bgp_simple.pl](https://github.com/xdel/bgpsimple): A Simple BGP Peering and Route Injection Script.
+## Getting a Fresh BGP Internet Routing Table for bgp_simple.pl
 
 * Download the full binary data from a RIPE member Remote Route Collector dump. For example [rrc24 data site](http://data.ris.ripe.net/rrc24/). Further details on all the Remote Route Collectors available [here](https://www.ripe.net/analyse/internet-measurements/routing-information-service-ris/ris-raw-data).
 * bgpdump is needed to convert the binary data into a format the script can use. The bpg_simple perl script uses the data to inject the routes across the peering (the -m switch ensures the codensed format is used).

@@ -7,7 +7,7 @@ tags: [bgp,routing table,internet,bgp_simple]
 ---
 
 
-## Using bgp_simple perl script to inject a IPv4 Internet routing table inside a EVE-NG lab (or in a real/ESXi virtual lab)
+## Using a bgp_simple Perl Script to Inject a IPv4 Internet Routing Table Inside a EVE-NG (or real/ESXi) Lab 
 
 * Multiple credits for this:
   * First to the creator [Andrey Korolyov - xdel](https://github.com/xdel) of an old but still very usable perl script called [bgp_simple.pl](https://github.com/xdel/bgpsimple) which injects a copy of a IPv4 Internet routing table into a lab.
@@ -56,7 +56,7 @@ Here is my sample topology. eBGP between the Linux nodes and the transit vSRX no
 +---------------------+
 ```
 
-This setup has been used successfully in a couple of ways. In EVE-NG using the Linux hosts with vSRXs in packet mode and vMXs (old single integrated Junos 14.1 images). And in VMware ESXi using Linux VM .ova and latest vSRX 3.0 images in packet mode peering with real MX480s. For EVE-NG and ESXi I used 1 vCPU and 1GB RAM for the Linux BGP hosts, 1 vCPU and 2GB RAM for vSRXs and 2 vCPU and 4GB RAM for vMXs. The MX480s have 64GB RAM.
+This setup has been used successfully in a couple of ways. In EVE-NG using the Linux hosts with vSRXs in packet mode and vMXs (old single integrated Junos 14.1 images). And in VMware ESXi using Linux VM .ova and latest vSRX 3.0 images in packet mode peering with real MX480s. For EVE-NG and ESXi I used 1 vCPU and 1GB RAM for the Linux BGP hosts, 1 vCPU and 4GB RAM for vSRXs and 2 vCPU and 4GB RAM for vMXs. The MX480s have 64GB RAM.
 
 ## Linux BGP node setup
 

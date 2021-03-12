@@ -2,10 +2,9 @@
 layout: post
 title: The Internet...
 image: /img/Internet.jpg
-subtitle: ...in your lab!
+subtitle: ...in your lab
 tags: [bgp,routing table,internet,bgp_simple]
 ---
-
 
 ## Using a bgp_simple Perl Script to Inject a IPv4 Internet Routing Table Inside a EVE-NG (or real/ESXi) Lab 
 

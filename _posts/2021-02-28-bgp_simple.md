@@ -57,7 +57,7 @@ Here is my sample topology. eBGP between the Linux nodes and the transit vSRX no
 
 This setup has been used successfully in a couple of ways. In EVE-NG using the Linux hosts with vSRXs in packet mode and vMXs (old single integrated Junos 14.1 images). And in VMware ESXi using Linux VM .ova and latest vSRX 3.0 images in packet mode peering with real MX480s. For EVE-NG and ESXi I used 1 vCPU and 1GB RAM for the Linux BGP hosts, 1 vCPU and 4GB RAM for vSRXs and 2 vCPU and 4GB RAM for vMXs. The MX480s have 64GB RAM.
 
-## Linux BGP node setup
+## Linux BGP Node Setup
 
 Once the Linux BGP node or nodes are up in your lab then some simple steps to get up and running. 
 The username and password for the sigey created image is root/bgp:

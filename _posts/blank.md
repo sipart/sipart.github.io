@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: ## post
 title: blank...
 image: /img/superspread.png
 subtitle: ...post!

@@ -5,6 +5,8 @@ subtitle: Not Alan! Near the Derbyshire Dales and Peaks :-)
 bigimg: /img/path2.jpg
 ---
 
+###### Banner image: [Froggatt Edge](https://goo.gl/maps/C3V2necsmF2CNCNb6){:target="_blank"}
+
 Hi. My name is Simon Partridge. An ex wood machinist, was an aspiring product designer but now an IT professional; former Win2K MCSE, my path in IT started in 1997:
 
 - Currently a [Juniper](http://www.juniper.net/uk/en/){:target="_blank"} Certified Service Provider Network Engineer

@@ -66,7 +66,7 @@ The username and password for the sigey created image is root/bgp:
 * Edit ``/etc/ssh/sshd_config`` to allow root ssh
 * Once you have restated networking and ssh (or rebooted) then you are ready to start. I'm assuming you have created a peering on the relevant routers
   * Setting the hold time to 1800 (keep alive 600 as hold time is always 3x of keep alive) to stop peering going down unexpectedly is advised
-  * Here are a couple of sample outputs. I would advise running the command while ssh connected to the Linux host and running the command in a [screen](https://linuxize.com/post/how-to-use-linux-screen/) or [tmux](https://linuxize.com/post/getting-started-with-tmux/) session. This way when you close the ssh session your script will stay running. Or use ``nohup`` command
+  * Here are a couple of sample outputs. I would advise running the command while ssh connected to the Linux host and running the command in a [screen](https://linuxize.com/post/how-to-use-linux-screen/) or [tmux](https://linuxize.com/post/getting-started-with-tmux/) session. This way when you close the ssh session your script will stay running. Or use ``nohup`` command (nohANGup).
 
 ``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &``
 

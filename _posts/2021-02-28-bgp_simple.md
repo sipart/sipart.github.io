@@ -75,6 +75,26 @@ Here is the same command with a 1000 prefix limit:
 
 ``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n -m 1000 &``
 
+Other ways to leave script running in background. Script takes about 15 mins to inject whole table. Hold time of 1800 between vSRX and bgp Linux server is advised.
+
+
+1.)
+* ssh into the remote machine
+* Start tmux by typing tmux into the shell
+* Start the process you want inside the started tmux session
+``bgp_simple.pl -myas 100 -myip 10.10.10.2 -peerip 10.10.10.3 -peeras 65533 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &``
+* Leave/detach the tmux session by typing Ctrl+b and then d
+
+2.) 
+
+Use nohup command (which allows script to continue running even if ssh session closed) with & at end (to create seperate process):
+
+``nohup bgp_simple.pl -myas 100 -myip 10.10.10.2 -peerip 10.10.10.3 -peeras 65533 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &``
+
+You can then close ssh session and to check status of script:
+
+tail -f nohup.out
+
 ## Getting a Fresh BGP Internet Routing Table for bgp_simple.pl
 
 * Download the full binary data from a RIPE member Remote Route Collector dump. For example [rrc24 data site](http://data.ris.ripe.net/rrc24/). Further details on all the Remote Route Collectors available [here](https://www.ripe.net/analyse/internet-measurements/routing-information-service-ris/ris-raw-data).

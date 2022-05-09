@@ -15,6 +15,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * [Juniper MPLS Core On A Page](https://sipart.github.io/core_on_a_page/){:target="_blank"}
 * A [Segment Routing Lab](https://github.com/sipart/spring_lab){:target="_blank"} in the [Cloud](https://github.com/sipart/spring_lab/blob/master/GCP-setup-and-more.md){:target="_blank"} - unfortunately progress has seriously stalled - but one day it will become a Tech Snippets post
 * [Juniper Python Notes](https://sipart.github.io/Junos_Python_Notes/){:target="_blank"}
+* Get the Interent routing table in your [LAB](https://sipart.github.io/2021-02-28-bgp_simple/){:target="_blank"}
 
 ## General Reference
 

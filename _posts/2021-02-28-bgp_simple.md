@@ -70,23 +70,28 @@ The username and password for the sigey created image is root/bgp:
 
 ``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &``
 
-The -m <1-600000> switch limits amounts of routes. Without it the whole table will be advertised (as above). 
+The ``-m <1-600000>`` switch limits the amount of routes. Without it the whole table will be advertised (as above). 
 Here is the same command with a 1000 prefix limit:
 
 ``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n -m 1000 &``
 
-More detail on ways to leave script running in background. Script takes about 15 mins to inject whole table. Hold time of 1800 between vSRX and bgp Linux server is advised.
+## More detail on ways to leave script running in background. 
 
-* ssh into the remote machine
-* Start tmux by typing tmux into the shell
-* Start the process you want inside the started tmux session
-``bgp_simple.pl -myas 100 -myip 10.10.10.2 -peerip 10.10.10.3 -peeras 65533 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &``
-* Leave/detach the tmux session by typing Ctrl+b and then d
+Script takes about 15 mins to inject the whole table. Hold time of 1800 between vSRX and bgp Linux server is advised.
 
-Use the ``nohup`` command (which allows the script to continue running even if ssh session is closed) with ``&`` at end (to create a seperate process):
+  * Use the ``nohup`` command (which allows the script to continue running even if ssh session is closed) with ``&`` at end (to create a seperate process):
 ``nohup bgp_simple.pl -myas 100 -myip 10.10.10.2 -peerip 10.10.10.3 -peeras 65533 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &``
-You can then close the ssh session and to check status of script when logging back in:
+  * You can then close the ssh session 
+  * By default a file (``nohup.out``) is created of the process. So to check status of script when ssh'd back in:
 ``tail -f nohup.out``
+
+or
+
+  * ssh into the remote machine
+  * Start tmux by typing tmux into the shell
+  * Start the process you want inside the started tmux session
+``bgp_simple.pl -myas 100 -myip 10.10.10.2 -peerip 10.10.10.3 -peeras 65533 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n &``
+  * Leave/detach the tmux session by typing Ctrl+b and then d
 
 ## Getting a Fresh BGP Internet Routing Table for bgp_simple.pl
 

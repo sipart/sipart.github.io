@@ -75,7 +75,9 @@ Here is the same command with a 1000 prefix limit:
 
 ``bgp_simple.pl -myas 65534 -myip 10.0.0.1 -peerip 10.0.0.0 -peeras 100 -holdtime 1800 -keepalive 600 -p /home/user/bgp-view/bgp-routes -n -m 1000 &``
 
-## More detail on ways to leave script running in background. 
+## More detail on ways to leave script running in background
+
+NOTE: it is worth inserting ``>/dev/null 2>&1`` inbetween ``-n`` and ``&`` in the command - this ensures that the ``nohup.out`` file does not get written as it does tend to get very large! Do this once the script has proven to work and you do not need to verify outputs.
 
 The script takes about 15 mins to inject the whole table. A bgp hold time of 1800 between the vSRX and bgp Linux server is advised.
 

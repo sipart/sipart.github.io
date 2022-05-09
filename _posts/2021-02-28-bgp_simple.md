@@ -85,6 +85,8 @@ The script takes about 15 mins to inject the whole table. A bgp hold time of 180
   * By default a file (``nohup.out``) is created of the process. So to check status of script when ssh'd back in:
 ``tail -f nohup.out``
 
+To kill the script then run ``ps fxa`` find the process running under the shell and kill it ``kill <processid>``
+
 or
 
   * ssh into the remote machine

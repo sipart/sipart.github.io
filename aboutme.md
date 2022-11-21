@@ -17,3 +17,7 @@ What else do you need in your life?
 
 ### My professional history
 Check out my [Linkedin](https://www.linkedin.com/in/simon-partridge-24a66b40/){:target="_blank"} profile, my [Acclaim page](https://www.youracclaim.com/user/simon-partridge){:target="_blank"}, and my very occasional tweets (mainly re-tweets!): [@sipart](https://twitter.com/Sipart?lang=en-gb){:target="_blank"}
+
+
+### Mastodon Page
+[sipart Profile](<a rel="me" href="https://home.social/@Sipart">Mastodon</a>){:target="_blank"}

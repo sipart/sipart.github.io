@@ -20,4 +20,4 @@ Check out my [Linkedin](https://www.linkedin.com/in/simon-partridge-24a66b40/){:
 
 
 ### Mastodon Page
-[sipart Profile](<a rel="me" href="https://home.social/@Sipart">Mastodon</a>){:target="_blank"}
+sipart <a rel="me" href="https://home.social/@Sipart">Mastodon</a> Profile 

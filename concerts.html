@@ -3,522 +3,503 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concert History & Tracker</title>
+    <title>Professional Concert History</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Inter font -->
+    <!-- Configure Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#4f46e5', // Indigo-600
+                        'secondary': '#10b981', // Emerald-500
+                        'background': '#f9fafb', // Gray-50
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f4f6f9; /* Light gray background */
-        }
-        /* Custom card styling for better visual separation */
-        .concert-card {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .concert-card:hover {
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-            transform: translateY(-2px);
-        }
-        .toggle-switch-bg {
-            transition: background-color 0.4s;
-        }
+        /* Custom scrollbar for aesthetics */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
     </style>
 </head>
-<body class="p-4 sm:p-8">
+<body class="bg-background min-h-screen font-sans">
 
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <header class="mb-8 p-4 bg-white rounded-xl shadow-lg">
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">Concert History Database</h1>
-            <p class="text-gray-600">Explore past gigs.</p>
-        </header>
+    <!-- Header and Controls Container -->
+    <div class="sticky top-0 z-10 bg-white shadow-lg p-4 md:p-6 border-b border-gray-200">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-4">Concert Attendance Log</h1>
 
-        <!-- Control Panel (Search and Filters) -->
-        <div class="bg-white p-4 sm:p-6 mb-8 rounded-xl shadow-lg sticky top-0 z-10 border-b-4 border-indigo-500">
-            <!-- Search Field -->
-            <input
-                type="text"
-                id="search-input"
-                placeholder="Search by band, venue, or location..."
-                class="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-lg transition duration-150 ease-in-out"
-                aria-label="Search concerts"
-            >
-
-            <!-- Attendance Toggles -->
-            <div class="flex flex-col sm:flex-row sm:space-x-8 space-y-4 sm:space-y-0 items-start sm:items-center">
-                <p class="font-semibold text-gray-700">Filter by Attendance:</p>
-
-                <!-- Simon Toggle -->
-                <div class="flex items-center space-x-2">
-                    <label for="toggle-simon" class="text-gray-900 font-medium">Simon Attended</label>
-                    <input type="checkbox" id="toggle-simon" class="hidden">
-                    <div id="toggle-simon-visual" class="relative w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer toggle-switch-bg" role="switch" aria-checked="false" tabindex="0">
-                        <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition duration-300"></div>
-                    </div>
+            <!-- Search and Filter/Sort Controls -->
+            <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-center">
+                <!-- Search Box -->
+                <div class="w-full md:w-1/3 relative">
+                    <input type="text" id="searchInput" oninput="app.handleSearch(this.value)"
+                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-primary focus:border-primary transition duration-150"
+                           placeholder="Search band, venue, or location...">
+                    <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.385l3.329 3.329a.75.75 0 11-1.06 1.06l-3.329-3.329A7 7 0 012 9z" clip-rule="evenodd" />
+                    </svg>
                 </div>
 
-                <!-- Jon Toggle -->
-                <div class="flex items-center space-x-2">
-                    <label for="toggle-jon" class="text-gray-900 font-medium">Jon Attended</label>
-                    <input type="checkbox" id="toggle-jon" class="hidden">
-                    <div id="toggle-jon-visual" class="relative w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer toggle-switch-bg" role="switch" aria-checked="false" tabindex="0">
-                        <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition duration-300"></div>
-                    </div>
+                <!-- Attendance Toggles -->
+                <div class="flex gap-4 p-2 bg-gray-100 rounded-xl w-full md:w-auto justify-center">
+                    <label class="flex items-center space-x-2 text-sm font-medium text-gray-700 cursor-pointer">
+                        <input type="checkbox" id="toggleSimon" onchange="app.handleAttendanceToggle('Simon')"
+                               class="h-4 w-4 text-primary bg-gray-50 border-gray-300 rounded focus:ring-primary">
+                        <span>Simon Attended</span>
+                    </label>
+                    <label class="flex items-center space-x-2 text-sm font-medium text-gray-700 cursor-pointer">
+                        <input type="checkbox" id="toggleJon" onchange="app.handleAttendanceToggle('Jon')"
+                               class="h-4 w-4 text-primary bg-gray-50 border-gray-300 rounded focus:ring-primary">
+                        <span>Jon Attended</span>
+                    </label>
                 </div>
+
+                <!-- Sort Button -->
+                <button id="sortButton" onclick="app.handleSort()"
+                        class="w-full md:w-48 flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-xl shadow-sm text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-150">
+                    <svg id="sortIcon" class="w-4 h-4 mr-2 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 10v-4m0 0l-4 4m4-4l4 4"></path></svg>
+                    Sort by Date (Newest)
+                </button>
             </div>
-        </div>
-
-        <!-- Concert Cards Container -->
-        <div id="concert-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Concert cards will be injected here by JavaScript -->
-        </div>
-
-        <!-- No Results Message -->
-        <div id="no-results" class="hidden text-center p-12 bg-white rounded-xl shadow-lg text-gray-500 text-xl font-medium">
-            No concerts found matching your search and filter criteria.
         </div>
     </div>
 
+    <!-- Concert List Container -->
+    <div class="max-w-6xl mx-auto p-4 md:p-6">
+        <p id="resultsCount" class="text-sm text-gray-500 mb-4"></p>
+        <div id="concertList" class="grid grid-cols-1 gap-6">
+            <!-- Concert cards will be inserted here by JavaScript -->
+        </div>
+        <p id="noResults" class="text-xl text-gray-500 text-center mt-12 hidden">
+            No results found matching your criteria. Try a different search!
+        </p>
+    </div>
+
     <script>
-        // --- START CSV DATA ---
-        const csvData = `Date,Location,Venue,Headline,Support 1,Support 2,Support 3,Simon attended ,Jon attended
-07/06/1984,Derby,Blue Note,New Model Army,,,,,Yes,No
-16/12/1984,Hull,Spring Street Theatre,Red Guitars,,,,,Yes,No
-30/09/1985,Nottingham,Rock City,Screaming Blue Messiahs,,,,,Yes,No
-29/11/1985,Nottingham,Trent Poly,Redskins,Boothill Foot Tappers,,,,Yes,No
-19/11/1985,Nottingham,Rock City,Robery Cray Band,,,,,Yes,No
-27/11/1985,Nottingham,Rock City,Big Audio Dynamite,,,,,Yes,No
-17/12/1985,Leeds,Adam + Eves,King Kurt,All Over The Carpet,,,,No,Yes
-04/03/1986,Leeds,Adam + Eves,King Kurt,The Restrictors,,,,No,Yes
-09/03/1986,Nottingham,Rock City,Jeff Healey Band,,,,,Yes,No
-08/06/1986,Nottingham,Rock City,Housemartins,,,,,Yes,No
-21/06/1986,Milton Keynes,Bowl,Simple Minds,The Waterboys,The Bangles,The Cult,In Tua Nua,No,Yes
-26/07/1986,London,Finsbury Park,The Damned,Doctor & The Medics,Restless,Electric Blue Birds,,No,Yes
-02/08/1986,Birmingham,NEC - Yiva,The Pogues,New Model Army,Half Man Half Biscuit,The Icicle Works,,Yes,Yes
-07/08/1986,Nottingham,Rock City,Big Country,,,,,Yes,Yes
-09/08/1986,Nottingham,Rock City,Love and Money,,,,,Yes,No
-13/10/1986,Nottingham,Rock City,New Model Army,L'Armourder,,,,Yes,Yes
-04/11/1986,Nottingham,Rock City,The Damned,Blue In Heaven,,,,Yes,Yes
-07/11/1986,Burton on Trent,Central Park,King Kurt,The Tool,,,,No,Yes
-10/11/1986,Nottingham,Rock City,Big Audio Dynamite,Pocket Rockets,Schooly D,Pure Sex,,Yes,Yes
-22/12/1986,Stoke On Trent,Shelleys,King Kurt,,,,,No,Yes
-16/02/1987,Nottingham,Rock City,The Icicle Works,The Wild Flowers,,,,Yes,Yes
-23/02/1987,Nottingham,Rock City,New Model Army,Rough Charm,,,,Yes,Yes
-09/03/1987,Nottingham,Royal Concert Hall,The Cult,Gaye Bykers On Acid,,,,No,Yes
-18/03/1987,Stoke On Trent,Shelleys,King Kurt,,,,,Yes,Yes
-15/04/1987,Nottingham,Rock City,Spear Of Destiny,The Bolshoi,The Red,,,Yes,Yes
-27/04/1987,Nottingham,Rock City,Julian Cope,Crazyhead,Faith Brothers,,,Yes,Yes
-04/05/1987,Nottingham,Rock City,The Alarm,Wiretrain,,,,Yes,Yes
-19/05/1987,Nottingham,Rock City,The Fall,The Walking Seeds,,,,Yes,Yes
-13/06/1987,London,Wembley Stadium,U2,The Pogues,Lone Justice,Lou Reed,,No,Yes
-03/08/1987,Birmingham,NEC  ,U2,Hoodu Gurus,,,,No,Yes
-28/08/1987,Reading,Festival,The Godfathers,The Icicle Works,The Fall,The Mission,All About Eve,Yes,Yes
-08/09/1987,Nottingham,Rock City,Jesus & Mary Chain,Motorcycle Boy,,,,Yes,Yes
-07/10/1987,Nottingham,Rock City,Love & Rockets,Red Lorry Yellow Lorry,,,,Yes,Yes
-26/11/1987,Derby,20th Century,The Macc Lads,,,,,No,Yes
-10/12/1987,London,Wembley Stadium,New Order,Primal Scream,,,,Yes,Yes
-13/01/1988,Derby,20th Century,Pop Will Eat Itself,The Telescopes,,,,Yes,Yes
-16/02/1988,Nottingham,Rock City,The Woodentops,Badlands,,,,Yes,Yes
-19/03/1988,Bradford,University,New Model Army,The Way,7 Dead Americans,,,Yes,Yes
-30/03/1988,London,The Astoria,The Men They Couldn’t Hang,,,,,No,Yes
-10/05/1988,Nottingham,Rock City,The Icicle Works,Fire Next Time,,,,Yes,Yes
-14/05/1988,London,Mean Fiddler,Brendan Crocker,Nutmeg,,,,No,Yes
-18/06/1988,Milton Keynes,Bowl - Amnesty,The Stranglers,The Damned,New Model Army,Aztec Camera,Howard Jones,Yes,Yes
-26/06/1988,Birmingham ,NEC,INXS,Big Pig,,,,Yes,Yes
-06/08/1988,Birmingham ,NEC,Prince,,,,,Yes,Yes
-21/10/1988,Derby,Confettis,The Wedding Present,Heart Throbs,,,,Yes,Yes
-14/11/1988,Nottingham,Rock City,The Godfathers,Diesel Park West,,,,Yes,Yes
-17/12/1988,Manchester,Gmex Centre,New Order,A Certain Ratio,Happy Mondays,,,Yes,Yes
-08/02/1989,Derby,The Dial,Mega City Four,The Libertines,,,,Yes,Yes
-16/03/1989,Nottingham,Trent Poly,Gaye Bykers On Acid,Thee Hypnotics,,,,Yes,Yes
-03/05/1989,Nottingham,Trent Poly,The Men They Couldn’t Hang,Playing At Trains,,,,Yes,Yes
-18/05/1989,Nottingham,Rock City,Hurrah,Fatima Mansions,,,,Yes,Yes
-31/05/1989,Birmingham ,NEC,REM,The Blue Aeroplanes,,,,Yes,Yes
-05/07/1989,Derby,The Dial,Kitchens Of Distinctions,The Happy Ever After,,,,Yes,Yes
-19/07/1989,Leicester,Princess Charlotte,Del Amitri,Huge Big Massive,,,,Yes,Yes
-21/12/1989,Birmingham ,NEC,Erasure,Ocean,,,,No,Yes
-27/12/1989,Nottingham,Trent Poly,Mega City Four,Venus Beads,,,,Yes,Yes
-09/02/1990,Nottingham,Trent Poly,Del Amitri,The Amazing Colossal,,,,Yes,Yes
-11/02/1990,Nottingham,Trent Poly,Birdland,See See Rider,,,,Yes,Yes
-24/02/1990,Birmingham ,Humming Bird,The Cramps,Mega City Four,,,,No,Yes
-11/03/1990,Nottingham,Trent Poly,The Icicle Works,Innocence Lost,,,,Yes,Yes
-14/03/1990,Nottingham,Rock City,House Of Love,Parachute Men,,,,Yes,Yes
-29/04/1990,Nottingham,Trent Poly,The Soup Dragons,,,,,Yes,Yes
-15/05/1990,Nottingham,Trent Poly,Fatima Mansions,The Mothers,,,,Yes,Yes
-01/06/1990,Derby,Assembly Rooms,The Icicle Works,Innocence Lost,,,,Yes,Yes
-13/06/1990,Derby,The Dial,The Soup Dragons,Teenage Fan Club,,,,Yes,Yes
-01/08/1990,Nottingham,Rock City,The Soup Dragons,Teenage Fan Club,,,,Yes,Yes
-12/09/1990,Derby,Assembly Rooms,The Blue Nile,,,,,Yes,Yes
-18/09/1990,Derby,Rockhouse,Mega City Four,The Boosolvers,,,,Yes,Yes
-28/11/1990,Derby,Assembly Rooms,The Wedding Present,Metropolis,,,,Yes,Yes
-08/05/1991,Derby,Assembly Rooms,Julian Cope,Railway Children,Beyond,,,Yes,Yes
-24/10/1991,Derby,Assembly Rooms,Neds Atomic Dustbin ,Power Of Dreams,Scum Pups,,,Yes,Yes
-21/04/1992,Derby,Rockhouse,Doctor & The Medics,,,,,Yes,Yes
-19/05/1992,Derby,Assembly Rooms,Carter USM,Holy Joy,,,,Yes,Yes
-20/06/1992,Sheffield,Lead Mill,Fatima Mansions,Cast,Bone Yard,,,Yes,Yes
-07/10/1992,Nottingham,Rock City,Manic Street Preachers,Kinky Machine,,,,Yes,Yes
-18/01/1993,Nottingham,Rock City,Julian Cope,,,,,Yes,Yes
-01/05/1993,Derby,Wherehouse,Blaggers ITA,Blade,Fun-Da-Mental,,,Yes,Yes
-25/10/1993,Derby,Wherehouse,Power of Dreams,,,,,Yes,Yes
-10/11/1993,Derby,University,Grant Lee Buffalo,,,,,Yes,Yes
-29/04/1994,Leicester,Princess Charlotte,King Kurt,Frantic Flintstones,,,,Yes,Yes
-14/07/1994,Stratford,Long Martson,Phoenix Festival 1994,,,,,Yes,Yes
-12/09/1994,Derby,Wherehouse,Fatima Mansions,Jale,,,,Yes,Yes
-03/10/1994,Derby,Assembly Rooms,Pop Will Eat Itself,Compulsion,Blaggers ITA,Dub War,,Yes,Yes
-02/11/1994,Derby,Wherehouse,The Damned,The Gin Goblins,,,,Yes,Yes
-15/12/1994,Stoke,Trentham Gardens,The Beautiful South,,,,,Yes,Yes
-31/01/1995,Nottingham,Rock City,Killing Joke,Shootz Groove,Skunk Anansie,,,Yes,Yes
-13/07/1995,Stratford,Long Martson,Phoenix Festival 1995,,,,,Yes,Yes
-01/10/1995,Nottingham,Rock City,Black Grape,,,,,Yes,Yes
-25/10/1995,Derby,Assembly Rooms,The Beautiful South,,,,,Yes,Yes
-18/07/1996,Stratford,Long Martson,Phoenix Festival 1996,,,,,Yes,Yes
-17/07/1997,Stratford,Long Martson,Phoenix Festival 1997,,,,,Yes,Yes
-08/10/1997,Nottingham,Rock City,Stereophonics,Mover,,,,Yes,Yes
-04/12/1997,Nottingham,Rock City,Faith No More,Radish,,,,Yes,Yes
-01/04/1998,Derby,The Victoria,Earl Brutus,The Cherry Stains,,,,Yes,Yes
-09/07/1998,Derby,The Victoria,Subhumans,The Varukers,Roadrage,,,Yes,Yes
-08/09/1998,Nottingham,Rock City,Embrace,Delakota,,,,Yes,Yes
-07/10/1998,Nottingham,Rock City,Rocket From The Crypt,BIS,,,,Yes,Yes
-03/11/1998,Derby,Assembly Rooms,Stereophonics,Our Lady Peace,,,,Yes,Yes
-18/12/1998,Birmingham ,NEC,Manic Street Preachers,Catatonia,,,,Yes,Yes
-27/08/1999,Derby,The Victoria,Spear Of Destiny,Dive,,,,Yes,Yes
-26/08/2001,Nottingham,Wollaton Park,The Wonderstuff,New Model Army,Terrovision,,,Yes,Yes
-30/09/2001,Sheffield,City Memorial Hall,Jello Biafra,-,,,,Yes,Yes
-12/10/2005,Derby,Assembly Rooms,Dead Men Walking,-,,,,Yes,Yes
-14/12/2005,Nottingham,Rock City,New Model Army,-,,,,Yes,Yes
-02/02/2006,Birmingham ,Carling Academy,Bauhaus,-,,,,No,Yes
-11/11/2007,Nottingham,Rock City,Jello Biafra,-,,,,Yes,Yes
-05/05/2010,Nottingham,Rescue Rooms,The Godfathers,,,,,Yes,Yes
-07/10/2010,Derby,Flower Pot,Mike Peters,-,,,,No,Yes
-30/03/2011,Nottingham,Rock City,Killing Joke,,,,,Yes,No
-14/05/2011,Nottingham,Rescue Rooms,The Alarm,The Last Republic,,,,Yes,Yes
-21/03/2012,Nottingham,Rescue Rooms,Pop Will Eat Itself,Method Cell,,,,Yes,Yes
-17/05/2013,Derby,Kedleston Hall,Bearded Theory Festival 2013,,,,,Yes,Yes
-14/09/2013,Nottingham,Royal Concert Hall,Deacon Blue,Hazey Janes,,,,No,Yes
-15/05/2014,London,The Garage,The Chameleons,,,,,Yes,No
-22/05/2014,Melbourne,Catton Hall,Bearded Theory Festival 2014,,,,,Yes,Yes
-07/06/2014,Moscow,Muzeon Park,Ahmad Tea Music Festival,,,,,No,Yes
-20/11/2016,Nottingham,Rescue Rooms,Men That Will Not Be Blamed,Andrew O'Neil,,,,Yes,Yes
-06/12/2016,Nottingham,Motorpoint,Placebo,Minor Victories,,,,No,Yes
-18/12/2016,Derby,The Hairy Dog,King Kurt,The Atoms,,,,No,Yes
-01/10/2017,Derby,The Hairy Dog,Subhumans,Addicted Philosophy,Bones Park Rider,,,No,Yes
-10/12/2017,Manchester,Palace Theatre,Tom Chaplin,Fyfe Dangerfield,,,,No,Yes
-27/11/2017,London,Sebright Arms,Men That Will Not Be Blamed,Polypickpocketz,,,,No,Yes
-12/03/2018,Nottingham,Rescue Rooms,Men That Will Not Be Blamed,Idestroy,,,,Yes,Yes
-24/03/2018,London,Shepherds Bush,Jim Bob,Mark Morriss,,,,No,Yes
-03/02/2018,Derby,The Hairy Dog,The Godfathers,The Lengthmen,Damn Cargo,,,Yes,Yes
-15/04/2018,Derby,The Hairy Dog,The Meteors,Kings of Hong Kong,Hotrod Hooliganz,,,No,Yes
-20/04/2018,Eastwood,MFN,FILF,Special Brew,,,,No,Yes
-21/04/2018,Eastwood,MFN,The Complete Clash,The Joe Publix,,,,No,Yes
-08/06/2018,Derby,The Hairy Dog,King Kurt,Hyper Jax,,,,No,Yes
-03/08/2018,Blackpool,Winter Gardens,Rebellion Punk Festival 2018,,,,,Yes,Yes
-20/10/2018,Derby,The Hairy Dog,Pussycat & Dirty Johnsons,You Want Fox,THINKING PINK 2018,,,No,Yes
-23/11/2018,Stoke,Underground,King Kurt,The Runawayz,Two Step Goodbyes,,,No,Yes
-29/12/2018,Nottingham,Rescue Rooms,Dirtbox Disco,Headsticks,,,,No,Yes
-29/01/2019,Sheffield,02 Academy,The Streets,The Manor,,,,No,Yes
-13/02/2019,Nottingham,Motorpoint,Tears for Fears,Alison Moyet,,,,No,Yes
-23/03/2019,London,Shepherds Bush,Jim Bob,The Frank & Walters,,,,No,Yes
-11/04/2019,Sheffield,The Plug,Men That Will Not Be Blamed,Louise Distras,Syteria,,,Yes,Yes
-22/06/2019,Derby,The Hairy Dog,Spunk Volcano & The Eruption,Berlin Blackouts,Billy Club,,,No,Yes
-27/07/2019,Eastwood,MFN,Dirtbox Disco,Verbal Warning,The Glory,,,No,Yes
-01/08/2019,Blackpool,Winter Gardens,Rebellion Punk Festival 2019,,,,,Yes,Yes
-22/11/2019,Stoke,Underground,King Kurt,The Runawayz,Two Step Goodbyes,,,No,Yes
-02/02/2020,Berlin,Huxleys Neue Hall,Stereophonics,Nadia Sheikh,,,,No,Yes
-03/02/2020,Berlin,Verti Music Hall,Keane,Eliza Shaddad,,,,No,Yes
-21/08/2021,Derby,The Hairy Dog,Teenage Werewolves,She's in Bauhaus,Kitten de Ville,Ramonas,,No,Yes
-16/10/2021,Nottingham,Rock City,The Macc Lads,Resistance 77,,,,No,Yes
-26/11/2021,Nottingham,Rock City,New Model Army,,,,,No,Yes
-27/11/2021,Nottingham,Motorpoint,Sleaford Mods,Dry Cleaning,Billy Nomates,Warmduscher,,No,Yes
-04/12/2021,Stoke,Underground,King Kurt,The Hell Katz,The Strays,,,No,Yes
-19/02/2022,Derby,The Hairy Dog,The Lengthmen,Unholy Alliance,Billy Club,,,No,Yes
-16/04/2022,Nottingham ,Rescue Rooms,Dirtbox Disco,Guitar Gangsters,,,,No,Yes
-23/07/2022,Eastwood,MFN,King Kurt,The Highliners,Blue Carpet Band,,,No,Yes
-04/08/2022,Blackpool,Winter Gardens,Rebellion Punk Festival 2022,,,,,Yes,Yes
-17/10/2022,Amsterdam,Melkweg,Steve Ignorant - Crass,Headsticks,,,,No,Yes
-04/11/2022,Nottingham ,The Old Cold Store,Headsticks,Steve Ignorant SofL,Carol Hodge,,,No,Yes
-04/12/2022,Nottingham ,The Old Cold Store,Glory Days,,,,,No,Yes
-11/01/2023,London,100 Club,Subhumans,Headsticks,Backstreet Abortions,,,No,Yes
-29/01/2023,Nottingham ,Various,Beat the Streets 2023,,,,,Yes,Yes
-06/02/2023,Nottingham,Rescue Rooms,Kid Kapichi,Snayx,Monakis,,,Yes,Yes
-14/03/2023,Nottingham,Rock City,Sleaford Mods,,,,,No,Yes
-18/03/2023,Leicester,Firebug,Before Victoria,Andrew O'Neil,Something Orange,,,No,Yes
-27/03/2023,Nottingham,The Bodega,Berries,Airport Dad,Electric Pets,Headcut,,No,Yes
-21/05/2023,Birmingham,02 Institute,The Wedding Present,Dogviolet,,,,No,Yes
-17/06/2023,Nottingham,The Old Cold Store,Dirtbox Disco,Knock Off,MC16,,,No,Yes
-20/06/2023,Huddersfield,John Smiths Stadium,Muse,Royal Blood,The Warning ,,,Yes,Yes
-14/07/2023,Leicester,Firebug,Frenchy and the Punk,Flesh Tetris,Before Victoria,,,No,Yes
-21/07/2023,Derby,The Hairy Dog,Spunk Volcano & The Eruption,Noose,,,,No,Yes
-03/08/2023,Blackpool,Winter Gardens,Rebellion Punk Festival 2023,,,,,Yes,Yes
-13/08/2023,Saffron Waldron,Audley End House,Razorlight,Embrace,The Feeling,Toploader,,No,Yes
-18/08/2023,Derby,The Hairy Dog,Teenage Werewolves,She's in Bauhaus,,,,No,Yes
-06/10/2023,Wolverhampton,Wulfrun - The Halls,Half Man Half Biscuit,The Hitchers,,,,Yes,Yes
-02/11/2023,Nottingham,The Chameleon,Express Office Portico,The Cost of Living,Playbow,,,No,Yes
-13/11/2023,Nottingham,Rock City,Death Cult,Lili Refrain,,,,No,Yes
-17/11/2023,Derby,The Hairy Dog,Dirtbox Disco,Angry Itch,,,,No,Yes
-19/11/2023,Nottingham,The Bodega,The Meffs,Noah and the Loners,,,,Yes,Yes
-20/11/2023,Nottingham,Rock City,Bob Vylan,Kid Bookie,Panic Shack,,,Yes,Yes
-05/12/2023,Nottingham,The Chameleon,Subhumans,Scene Killers,Sex Germs,,,No,Yes
-06/12/2023,Derby,Victoria Inn,Subhumans,Addictive Phiosophy,Eryx London,,,Yes,Yes
-08/12/2023,Nottingham,Rock City,New Model Army,,,,,Yes,Yes
-28/01/2024,Nottingham ,Various,Beat the Streets 2024,,,,,No,Yes
-16/03/2024,Nottingham ,The Bodega,Pete Wylie - Mighty Wah,,,,,Yes,Yes
-03/05/2024,Nottingham ,The Old Cold Store,Conflict,Sick On The Bus,Yur Mum,Eryx London,,No,Yes
-19/05/2024,Melbourne,Assembly Rooms,Boo Hewerdine,Jemma Johnson ,,,,No,Yes
-14/06/2024,Leicester,Firebug,Before Victoria,Frenchy and the Punk,,,,No,Yes
-29/06/2024,Coalville,Victoria Biker Pub,The Meffs,Sick On The Bus,Vomit,Eryx London,,No,Yes
-12/07/2024,Nottingham ,JT Soars,Slime City,The Noise ,Revenge of Calculon,,,No,Yes
-01/08/2024,Blackpool,Winter Gardens,Rebellion Punk Festival 2024,,,,,Yes,Yes
-06/08/2024,Leicester,Duffys,GogoPonies,Spitting Feathers,,,,No,Yes
-27/08/2024,Nottingham ,The Bodega,Gustaf,Cousines Like Shit,,,,No,Yes
-13/09/2024,Nottingham ,JT Soars,Fatbigfat,Latchkey Kids,Push Rope,,,No,Yes
-26/10/2024,Nottingham ,The Chapel,The Kytes,Killing Aura,Set The Fire,,,No,Yes
-29/10/2024,Nottingham ,Rock City,Soft Play,Panic Shack,,,,Yes,Yes
-02/11/2024,Pontefract,Malt Shovel,Dirtbox Disco,The Papashangos,MC16,,,No,Yes
-05/11/2024,Nottingham ,Rock City,Bob Vylan,Hyphen,Clt Drp,,,Yes,Yes
-14/11/2024,Nottingham ,The Old Cold Store,Steve Ignorant - Crass,Interrorbang,Sunk,,,No,Yes
-28/11/2024,Nottingham ,Billy Bootleggers,Fountain,Push Rope,Luna and the Lime Slices,Possum Kid,,No,Yes
-07/12/2024,Stoke,Underground,King Kurt,The Gruffs,,,,No,Yes
-12/12/2024,Nottingham ,Rock City,Jesus & Mary Chain,Ciel,,,,Yes,Yes
-20/12/2024,Nottingham ,JT Soars,Dead Raze,Eryx London,Minatore,,,No,Yes
-21/12/2024,Nottingham ,Rescue Rooms,The Public,M60,Shadows Of A Silhouette,,,No,Yes
-16/01/2025,Nottingham,The Bodega,Desperate Journalist,Bloodworm,,,,No,Yes
-26/01/2025,Nottingham ,Various,Beat the Streets 2025,,,,,No,Yes
-23/02/2025,Las Vegas,The Usual Place,Koffin Kats,The Drowns,Crimson Riot,,,No,Yes
-20/03/2025,Nottingham,Salt Box,Rob Green,Tash Bird,,,,No,Yes
-24/04/2025,Nottingham,The Bodega,Benefits,Hang Linton ,,,,No,Yes
-01/05/2025,Nottingham,The Bodega,Panic Shack,The Pill,,,,No,Yes
-04/05/2025,Shrewsbury,Loopfest,Yur Mum,Flesh Tetris,Little Juke,Baudelaire,Mere Amore,No,Yes
-11/05/2025,Nottingham,Rough Trade,Slime City,Irked,Xtroghost,,,No,Yes
-16/05/2025,Nottingham,Billy Bootleggers,Sunk,Skunk,Rhythm Eaters,Bleach Works,,No,Yes
-25/05/2025,Sheffield,Bramall Lane,Paul Heaton,Shed Seven,Lightening Seeds,,,No,Yes
-26/05/2025,Nottingham ,Rough Trade,Sports Team,,,,,No,Yes
-12/06/2025,Nottingham ,The Chapel,Our Souls,Sunk,Hex Poseur,Character Actors,,No,Yes
-20/06/2025,Nottingham,The Bodega,The Molotovs,Soaked,,,,No,Yes
-27/06/2025,Nottingham,Rock City,Public Image Limited,Stuart Pearce,Sunk,,,No,Yes
-20/07/2025,Nottingham,Rough Trade,Panic Shack,,,,,No,Yes
-03/08/2025,Nottingham,Billy Bootleggers,Headsticks,Sally Pepper,,,,No,Yes
-06/08/2025,Blackpool,Winter Gardens,Rebellion Punk Festival 2025,,,,,Yes,Yes
-12/08/2025,Derby,The Hairy Dog,The Courettes,Velocettes,,,,No,Yes
-14/09/2025,Derby,The Hairy Dog,The Meffs,Face Up,,,,No,Yes
-17/09/2025,Nottingham,Metronome,Sunk,Laketown Band,Joel Foster,Vona Vella,,No,Yes
-27/09/2025,Alfreton,Brackenfield,Boo Hewerdine,,,,,No,Yes
-06/10/2025,Nottingham ,The Grove,Sunk,Apewards,,,,No,Yes
-27/10/2025,Nottingham,Rough Trade,Bruise Control,Sunk,,,,No,Yes`;
-        // --- END CSV DATA ---
+        // Use the provided CSV data snippet
+        const csvDataString = `Date,Location,Venue,Headline,Support 1,Support 2,Support 3,Support 4,Simon attended,Jon attended
+07/06/1984,Derby,Blue Note,New Model Army,,,,,Yes,No,,222 entries
+16/12/1984,Hull,Spring Street Theatre,Red Guitars,,,,,Yes,No,,7 NMA
+30/09/1985,Nottingham,Rock City,Screaming Blue Messiahs,,,,,Yes,No,,12 KK
+29/11/1985,Nottingham,Trent Poly,Redskins,Boothill Foot Tappers,,,,Yes,No,,
+19/11/1985,Nottingham,Rock City,Robery Cray Band,,,,,Yes,No,,
+27/11/1985,Nottingham,Rock City,Big Audio Dynamite,,,,,Yes,No,,
+17/12/1985,Leeds,Adam + Eves,King Kurt,All Over The Carpet,,,,No,Yes,,
+04/03/1986,Leeds,Adam + Eves,King Kurt,The Restrictors,,,,No,Yes,,
+09/03/1986,Nottingham,Rock City,Jeff Healey Band,,,,,Yes,No,,
+08/06/1986,Nottingham,Rock City,Housemartins,,,,,Yes,No,,
+21/06/1986,Milton Keynes,Bowl,Simple Minds,The Waterboys,The Bangles,The Cult,In Tua Nua,No,Yes,,
+26/07/1986,London,Finsbury Park,The Damned,Doctor & The Medics,Restless,Electric Blue Birds,,No,Yes,,
+02/08/1986,Birmingham,NEC - Yiva,The Pogues,New Model Army,Half Man Half Biscuit,The Icicle Works,,Yes,Yes,,
+07/08/1986,Nottingham,Rock City,Big Country,,,,,Yes,Yes,,
+09/08/1986,Nottingham,Rock City,Love and Money,,,,,Yes,No,,
+13/10/1986,Nottingham,Rock City,New Model Army,L'Armourder,,,,Yes,Yes,,
+04/11/1986,Nottingham,Rock City,The Damned,Blue In Heaven,,,,Yes,Yes,,
+07/11/1986,Burton on Trent,Central Park,King Kurt,The Tool,,,,No,Yes,,
+10/11/1986,Nottingham,Rock City,Big Audio Dynamite,Pocket Rockets,Schooly D,Pure Sex,,Yes,Yes,,
+22/12/1986,Stoke On Trent,Shelleys,King Kurt,,,,,No,Yes,,
+16/02/1987,Nottingham,Rock City,The Icicle Works,The Wild Flowers,,,,Yes,Yes,,
+23/02/1987,Nottingham,Rock City,New Model Army,Rough Charm,,,,Yes,Yes,,
+09/03/1987,Nottingham,Royal Concert Hall,The Cult,Gaye Bykers On Acid,,,,No,Yes,,
+18/03/1987,Stoke On Trent,Shelleys,King Kurt,,,,,Yes,Yes,,
+15/04/1987,Nottingham,Rock City,Spear Of Destiny,The Bolshoi,The Red,,,Yes,Yes,,
+27/04/1987,Nottingham,Rock City,Julian Cope,Crazyhead,Faith Brothers,,,Yes,Yes,,
+04/05/1987,Nottingham,Rock City,The Alarm,Wiretrain,,,,Yes,Yes,,
+19/05/1987,Nottingham,Rock City,The Fall,The Walking Seeds,,,,Yes,Yes,,
+13/06/1987,London,Wembley Stadium,U2,The Pogues,Lone Justice,Lou Reed,,No,Yes,,
+03/08/1987,Birmingham,NEC  ,U2,Hoodu Gurus,,,,No,Yes,,
+28/08/1987,Reading,Festival,The Godfathers,The Icicle Works,The Fall,The Mission,All About Eve,Yes,Yes,,
+08/09/1987,Nottingham,Rock City,Jesus & Mary Chain,Motorcycle Boy,,,,Yes,Yes,,
+07/10/1987,Nottingham,Rock City,Love & Rockets,Red Lorry Yellow Lorry,,,,Yes,Yes,,
+26/11/1987,Derby,20th Century,The Macc Lads,,,,,No,Yes,,
+10/12/1987,London,Wembley Stadium,New Order,Primal Scream,,,,Yes,Yes,,
+13/01/1988,Derby,20th Century,Pop Will Eat Itself,The Telescopes,,,,Yes,Yes,,
+16/02/1988,Nottingham,Rock City,The Woodentops,Badlands,,,,Yes,Yes,,
+19/03/1988,Bradford,University,New Model Army,The Way,7 Dead Americans,,,Yes,Yes,,
+30/03/1988,London,The Astoria,The Men They Couldn’t Hang,,,,,No,Yes,,
+10/05/1988,Nottingham,Rock City,The Icicle Works,Fire Next Time,,,,Yes,Yes,,
+14/05/1988,London,Mean Fiddler,Brendan Crocker,Nutmeg,,,,No,Yes,,
+18/06/1988,Milton Keynes,Bowl - Amnesty,The Stranglers,The Damned,New Model Army,Aztec Camera,Howard Jones,Yes,Yes,,
+26/06/1988,Birmingham ,NEC,INXS,Big Pig,,,,Yes,Yes,,
+06/08/1988,Birmingham ,NEC,Prince,,,,,Yes,Yes,,
+21/10/1988,Derby,Confettis,The Wedding Present,Heart Throbs,,,,Yes,Yes,,
+14/11/1988,Nottingham,Rock City,The Godfathers,Diesel Park West,,,,Yes,Yes,,
+17/12/1988,Manchester,Gmex Centre,New Order,A Certain Ratio,Happy Mondays,,,Yes,Yes,,
+08/02/1989,Derby,The Dial,Mega City Four,The Libertines,,,,Yes,Yes,,
+16/03/1989,Nottingham,Trent Poly,Gaye Bykers On Acid,Thee Hypnotics,,,,Yes,Yes,,
+03/05/1989,Nottingham,Trent Poly,The Men They Couldn’t Hang,Playing At Trains,,,,Yes,Yes,,
+18/05/1989,Nottingham,Rock City,Hurrah,Fatima Mansions,,,,Yes,Yes,,
+31/05/1989,Birmingham ,NEC,REM,The Blue Aeroplanes,,,,Yes,Yes,,
+05/07/1989,Derby,The Dial,Kitchens Of Distinctions,The Happy Ever After,,,,Yes,Yes,,
+19/07/1989,Leicester,Princess Charlotte,Del Amitri,Huge Big Massive,,,,Yes,Yes,,
+21/12/1989,Birmingham ,NEC,Erasure,Ocean,,,,No,Yes,,
+27/12/1989,Nottingham,Trent Poly,Mega City Four,Venus Beads,,,,Yes,Yes,,
+09/02/1990,Nottingham,Trent Poly,Del Amitri,The Amazing Colossal,,,,Yes,Yes,,
+11/02/1990,Nottingham,Trent Poly,Birdland,See See Rider,,,,Yes,Yes,,
+24/02/1990,Birmingham ,Humming Bird,The Cramps,Mega City Four,,,,No,Yes,,
+11/03/1990,Nottingham,Trent Poly,The Icicle Works,Innocence Lost,,,,Yes,Yes,,
+14/03/1990,Nottingham,Rock City,House Of Love,Parachute Men,,,,Yes,Yes,,
+29/04/1990,Nottingham,Trent Poly,The Soup Dragons,,,,,Yes,Yes,,
+15/05/1990,Nottingham,Trent Poly,Fatima Mansions,The Mothers,,,,Yes,Yes,,
+01/06/1990,Derby,Assembly Rooms,The Icicle Works,Innocence Lost,,,,Yes,Yes,,
+13/06/1990,Derby,The Dial,The Soup Dragons,Teenage Fan Club,,,,Yes,Yes,,
+01/08/1990,Nottingham,Rock City,The Soup Dragons,Teenage Fan Club,,,,Yes,Yes,,
+12/09/1990,Derby,Assembly Rooms,The Blue Nile,,,,,Yes,Yes,,
+18/09/1990,Derby,Rockhouse,Mega City Four,The Boosolvers,,,,Yes,Yes,,
+28/11/1990,Derby,Assembly Rooms,The Wedding Present,Metropolis,,,,Yes,Yes,,
+08/05/1991,Derby,Assembly Rooms,Julian Cope,Railway Children,Beyond,,,Yes,Yes,,
+24/10/1991,Derby,Assembly Rooms,Neds Atomic Dustbin ,Power Of Dreams,Scum Pups,,,Yes,Yes,,
+21/04/1992,Derby,Rockhouse,Doctor & The Medics,,,,,Yes,Yes,,
+19/05/1992,Derby,Assembly Rooms,Carter USM,Holy Joy,,,,Yes,Yes,,
+20/06/1992,Sheffield,Lead Mill,Fatima Mansions,Cast,Bone Yard,,,Yes,Yes,,
+07/10/1992,Nottingham,Rock City,Manic Street Preachers,Kinky Machine,,,,Yes,Yes,,
+18/01/1993,Nottingham,Rock City,Julian Cope,,,,,Yes,Yes,,
+01/05/1993,Derby,Wherehouse,Blaggers ITA,Blade,Fun-Da-Mental,,,Yes,Yes,,
+25/10/1993,Derby,Wherehouse,Power of Dreams,,,,,Yes,Yes,,
+10/11/1993,Derby,University,Grant Lee Buffalo,,,,,Yes,Yes,,
+29/04/1994,Leicester,Princess Charlotte,King Kurt,Frantic Flintstones,,,,Yes,Yes,,
+14/07/1994,Stratford,Long Martson,Phoenix Festival 1994,,,,,Yes,Yes,,
+12/09/1994,Derby,Wherehouse,Fatima Mansions,Jale,,,,Yes,Yes,,
+03/10/1994,Derby,Assembly Rooms,Pop Will Eat Itself,Compulsion,Blaggers ITA,Dub War,,Yes,Yes,,
+02/11/1994,Derby,Wherehouse,The Damned,The Gin Goblins,,,,Yes,Yes,,
+15/12/1994,Stoke,Trentham Gardens,The Beautiful South,,,,,Yes,Yes,,
+31/01/1995,Nottingham,Rock City,Killing Joke,Shootz Groove,Skunk Anansie,,,Yes,Yes,,
+13/07/1995,Stratford,Long Martson,Phoenix Festival 1995,,,,,Yes,Yes,,
+01/10/1995,Nottingham,Rock City,Black Grape,,,,,Yes,Yes,,
+25/10/1995,Derby,Assembly Rooms,The Beautiful South,,,,,Yes,Yes,,
+18/07/1996,Stratford,Long Martson,Phoenix Festival 1996,,,,,Yes,Yes,,
+17/07/1997,Stratford,Long Martson,Phoenix Festival 1997,,,,,Yes,Yes,,
+08/10/1997,Nottingham,Rock City,Stereophonics,Mover,,,,Yes,Yes,,
+04/12/1997,Nottingham,Rock City,Faith No More,Radish,,,,Yes,Yes,,
+01/04/1998,Derby,The Victoria,Earl Brutus,The Cherry Stains,,,,Yes,Yes,,
+09/07/1998,Derby,The Victoria,Subhumans,The Varukers,Roadrage,,,Yes,Yes,,
+08/09/1998,Nottingham,Rock City,Embrace,Delakota,,,,Yes,Yes,,
+07/10/1998,Nottingham,Rock City,Rocket From The Crypt,BIS,,,,Yes,Yes,,
+03/11/1998,Derby,Assembly Rooms,Stereophonics,Our Lady Peace,,,,Yes,Yes,,
+18/12/1998,Birmingham ,NEC,Manic Street Preachers,Catatonia,,,,Yes,Yes,,
+27/08/1999,Derby,The Victoria,Spear Of Destiny,Dive,,,,Yes,Yes,,
+26/08/2001,Nottingham,Wollaton Park,The Wonderstuff,New Model Army,Terrovision,,,Yes,Yes,,
+30/09/2001,Sheffield,City Memorial Hall,Jello Biafra,-,,,,Yes,Yes,,
+12/10/2005,Derby,Assembly Rooms,Dead Men Walking,-,,,,Yes,Yes,,
+14/12/2005,Nottingham,Rock City,New Model Army,-,,,,Yes,Yes,,
+02/02/2006,Birmingham ,Carling Academy,Bauhaus,-,,,,No,Yes,,
+11/11/2007,Nottingham,Rock City,Jello Biafra,-,,,,Yes,Yes,,
+05/05/2010,Nottingham,Rescue Rooms,The Godfathers,,,,,Yes,Yes,,
+07/10/2010,Derby,Flower Pot,Mike Peters,-,,,,No,Yes,,
+30/03/2011,Nottingham,Rock City,Killing Joke,,,,,Yes,No,,
+14/05/2011,Nottingham,Rescue Rooms,The Alarm,The Last Republic,,,,Yes,Yes,,
+21/03/2012,Nottingham,Rescue Rooms,Pop Will Eat Itself,Method Cell,,,,Yes,Yes,,
+17/05/2013,Derby,Kedleston Hall,Bearded Theory Festival 2013,,,,,Yes,Yes,,
+14/09/2013,Nottingham,Royal Concert Hall,Deacon Blue,Hazey Janes,,,,No,Yes,,
+15/05/2014,London,The Garage,The Chameleons,,,,,Yes,No,,
+22/05/2014,Melbourne,Catton Hall,Bearded Theory Festival 2014,,,,,Yes,Yes,,
+07/06/2014,Moscow,Muzeon Park,Ahmad Tea Music Festival,,,,,No,Yes,,
+20/11/2016,Nottingham,Rescue Rooms,Men That Will Not Be Blamed,Andrew O'Neil,,,,Yes,Yes,,
+06/12/2016,Nottingham,Motorpoint,Placebo,Minor Victories,,,,No,Yes,,
+18/12/2016,Derby,The Hairy Dog,King Kurt,The Atoms,,,,No,Yes,,
+01/10/2017,Derby,The Hairy Dog,Subhumans,Addicted Philosophy,Bones Park Rider,,,No,Yes,,
+10/12/2017,Manchester,Palace Theatre,Tom Chaplin,Fyfe Dangerfield,,,,No,Yes,,
+27/11/2017,London,Sebright Arms,Men That Will Not Be Blamed,Polypickpocketz,,,,No,Yes,,
+12/03/2018,Nottingham,Rescue Rooms,Men That Will Not Be Blamed,Idestroy,,,,Yes,Yes,,
+24/03/2018,London,Shepherds Bush,Jim Bob,Mark Morriss,,,,No,Yes,,
+03/02/2018,Derby,The Hairy Dog,The Godfathers,The Lengthmen,Damn Cargo,,,Yes,Yes,,
+15/04/2018,Derby,The Hairy Dog,The Meteors,Kings of Hong Kong,Hotrod Hooliganz,,,No,Yes,,
+20/04/2018,Eastwood,MFN,FILF,Special Brew,,,,No,Yes,,
+21/04/2018,Eastwood,MFN,The Complete Clash,The Joe Publix,,,,No,Yes,,
+08/06/2018,Derby,The Hairy Dog,King Kurt,Hyper Jax,,,,No,Yes,,
+03/08/2018,Blackpool,Winter Gardens,Rebellion Punk Festival 2018,,,,,Yes,Yes,,
+20/10/2018,Derby,The Hairy Dog,Pussycat & Dirty Johnsons,You Want Fox,THINKING PINK 2018,,,No,Yes,,
+23/11/2018,Stoke,Underground,King Kurt,The Runawayz,Two Step Goodbyes,,,No,Yes,,
+29/12/2018,Nottingham,Rescue Rooms,Dirtbox Disco,Headsticks,,,,No,Yes,,
+29/01/2019,Sheffield,02 Academy,The Streets,The Manor,,,,No,Yes,,
+13/02/2019,Nottingham,Motorpoint,Tears for Fears,Alison Moyet,,,,No,Yes,,
+23/03/2019,London,Shepherds Bush,Jim Bob,The Frank & Walters,,,,No,Yes,,
+11/04/2019,Sheffield,The Plug,Men That Will Not Be Blamed,Louise Distras,Syteria,,,Yes,Yes,,
+22/06/2019,Derby,The Hairy Dog,Spunk Volcano & The Eruption,Berlin Blackouts,Billy Club,,,No,Yes,,
+27/07/2019,Eastwood,MFN,Dirtbox Disco,Verbal Warning,The Glory,,,No,Yes,,
+01/08/2019,Blackpool,Winter Gardens,Rebellion Punk Festival 2019,,,,,Yes,Yes,,
+02/02/2020,Berlin,Huxleys Neue Hall,Stereophonics,Nadia Sheikh,,,,No,Yes,,
+03/02/2020,Berlin,Verti Music Hall,Keane,Eliza Shaddad,,,,No,Yes,,
+21/08/2021,Derby,The Hairy Dog,Teenage Werewolves,She's in Bauhaus,Kitten de Ville,Ramonas,,No,Yes,,
+16/10/2021,Nottingham,Rock City,The Macc Lads,Resistance 77,,,,No,Yes,,
+26/11/2021,Nottingham,Rock City,New Model Army,,,,,No,Yes,,
+27/11/2021,Nottingham,Motorpoint,Sleaford Mods,Dry Cleaning,Billy Nomates,Warmduscher,,No,Yes,,
+04/12/2021,Stoke,Underground,King Kurt,The Hell Katz,The Strays,,,No,Yes,,
+19/02/2022,Derby,The Hairy Dog,The Lengthmen,Unholy Alliance,Billy Club,,,No,Yes,,
+16/04/2022,Nottingham ,Rescue Rooms,Dirtbox Disco,Guitar Gangsters,,,,No,Yes,,
+23/07/2022,Eastwood,MFN,King Kurt,The Highliners,Blue Carpet Band,,,No,Yes,,
+04/08/2022,Blackpool,Winter Gardens,Rebellion Punk Festival 2022,,,,,Yes,Yes,,
+17/10/2022,Amsterdam,Melkweg,Steve Ignorant - Crass,Headsticks,,,,No,Yes,,
+04/11/2022,Nottingham ,The Old Cold Store,Headsticks,Steve Ignorant SofL,Carol Hodge,,,No,Yes,,
+04/12/2022,Nottingham ,The Old Cold Store,Glory Days,,,,,No,Yes,,
+11/01/2023,London,100 Club,Subhumans,Headsticks,Backstreet Abortions,,,No,Yes,,
+29/01/2023,Nottingham ,Various,Beat the Streets 2023,,,,,Yes,Yes,,
+06/02/2023,Nottingham,Rescue Rooms,Kid Kapichi,Snayx,Monakis,,,Yes,Yes,,
+14/03/2023,Nottingham,Rock City,Sleaford Mods,,,,,No,Yes,,
+18/03/2023,Leicester,Firebug,Before Victoria,Andrew O'Neil,Something Orange,,,No,Yes,,
+27/03/2023,Nottingham,The Bodega,Berries,Airport Dad,Electric Pets,Headcut,,No,Yes,,
+21/05/2023,Birmingham,02 Institute,The Wedding Present,Dogviolet,,,,No,Yes,,
+17/06/2023,Nottingham,The Old Cold Store,Dirtbox Disco,Knock Off,MC16,,,No,Yes,,
+20/06/2023,Huddersfield,John Smiths Stadium,Muse,Royal Blood,The Warning ,,,Yes,Yes,,
+14/07/2023,Leicester,Firebug,Frenchy and the Punk,Flesh Tetris,Before Victoria,,,No,Yes,,
+21/07/2023,Derby,The Hairy Dog,Spunk Volcano & The Eruption,Noose,,,,No,Yes,,
+03/08/2023,Blackpool,Winter Gardens,Rebellion Punk Festival 2023,,,,,Yes,Yes,,
+13/08/2023,Saffron Waldron,Audley End House,Razorlight,Embrace,The Feeling,Toploader,,No,Yes,,
+18/08/2023,Derby,The Hairy Dog,Teenage Werewolves,She's in Bauhaus,,,,No,Yes,,
+06/10/2023,Wolverhampton,Wulfrun - The Halls,Half Man Half Biscuit,The Hitchers,,,,Yes,Yes,,
+02/11/2023,Nottingham,The Chameleon,Express Office Portico,The Cost of Living,Playbow,,,No,Yes,,
+13/11/2023,Nottingham,Rock City,Death Cult,Lili Refrain,,,,No,Yes,,
+17/11/2023,Derby,The Hairy Dog,Dirtbox Disco,Angry Itch,,,,No,Yes,,
+19/11/2023,Nottingham,The Bodega,The Meffs,Noah and the Loners,,,,Yes,Yes,,
+20/11/2023,Nottingham,Rock City,Bob Vylan,Kid Bookie,Panic Shack,,,Yes,Yes,,
+05/12/2023,Nottingham,The Chameleon,Subhumans,Scene Killers,Sex Germs,,,No,Yes,,
+06/12/2023,Derby,Victoria Inn,Subhumans,Addictive Phiosophy,Eryx London,,,Yes,Yes,,
+08/12/2023,Nottingham,Rock City,New Model Army,,,,,Yes,Yes,,
+28/01/2024,Nottingham ,Various,Beat the Streets 2024,,,,,No,Yes,,
+16/03/2024,Nottingham ,The Bodega,Pete Wylie - Mighty Wah,,,,,Yes,Yes,,
+03/05/2024,Nottingham ,The Old Cold Store,Conflict,Sick On The Bus,Yur Mum,Eryx London,,No,Yes,,
+19/05/2024,Melbourne,Assembly Rooms,Boo Hewerdine,Jemma Johnson ,,,,No,Yes,,
+14/06/2024,Leicester,Firebug,Before Victoria,Frenchy and the Punk,,,,No,Yes,,
+29/06/2024,Coalville,Victoria Biker Pub,The Meffs,Sick On The Bus,Vomit,Eryx London,,No,Yes,,
+12/07/2024,Nottingham ,JT Soars,Slime City,The Noise ,Revenge of Calculon,,,No,Yes,,
+01/08/2024,Blackpool,Winter Gardens,Rebellion Punk Festival 2024,,,,,Yes,Yes,,
+06/08/2024,Leicester,Duffys,GogoPonies,Spitting Feathers,,,,No,Yes,,
+27/08/2024,Nottingham ,The Bodega,Gustaf,Cousines Like Shit,,,,No,Yes,,
+13/09/2024,Nottingham ,JT Soars,Fatbigfat,Latchkey Kids,Push Rope,,,No,Yes,,
+26/10/2024,Nottingham ,The Chapel,The Kytes,Killing Aura,Set The Fire,,,No,Yes,,
+29/10/2024,Nottingham ,Rock City,Soft Play,Panic Shack,,,,Yes,Yes,,
+02/11/2024,Pontefract,Malt Shovel,Dirtbox Disco,The Papashangos,MC16,,,No,Yes,,
+05/11/2024,Nottingham ,Rock City,Bob Vylan,Hyphen,Clt Drp,,,Yes,Yes,,
+14/11/2024,Nottingham ,The Old Cold Store,Steve Ignorant - Crass,Interrorbang,Sunk,,,No,Yes,,
+28/11/2024,Nottingham ,Billy Bootleggers,Fountain,Push Rope,Luna and the Lime Slices,Possum Kid,,No,Yes,,
+07/12/2024,Stoke,Underground,King Kurt,The Gruffs,,,,No,Yes,,
+12/12/2024,Nottingham ,Rock City,Jesus & Mary Chain,Ciel,,,,Yes,Yes,,
+20/12/2024,Nottingham ,JT Soars,Dead Raze,Eryx London,Minatore,,,No,Yes,,
+21/12/2024,Nottingham ,Rescue Rooms,The Public,M60,Shadows Of A Silhouette,,,No,Yes,,
+16/01/2025,Nottingham,The Bodega,Desperate Journalist,Bloodworm,,,,No,Yes,,
+26/01/2025,Nottingham ,Various,Beat the Streets 2025,,,,,No,Yes,,
+23/02/2025,Las Vegas,The Usual Place,Koffin Kats,The Drowns,Crimson Riot,,,No,Yes,,
+20/03/2025,Nottingham,Salt Box,Rob Green,Tash Bird,,,,No,Yes,,
+24/04/2025,Nottingham,The Bodega,Benefits,Hang Linton ,,,,No,Yes,,
+01/05/2025,Nottingham,The Bodega,Panic Shack,The Pill,,,,No,Yes,,
+04/05/2025,Shrewsbury,Loopfest,Yur Mum,Flesh Tetris,Little Juke,Baudelaire,Mere Amore,No,Yes,,
+11/05/2025,Nottingham,Rough Trade,Slime City,Irked,Xtroghost,,,No,Yes,,
+16/05/2025,Nottingham,Billy Bootleggers,Sunk,Skunk,Rhythm Eaters,Bleach Works,,No,Yes,,
+25/05/2025,Sheffield,Bramall Lane,Paul Heaton,Shed Seven,Lightening Seeds,,,No,Yes,,
+26/05/2025,Nottingham ,Rough Trade,Sports Team,,,,,No,Yes,,
+12/06/2025,Nottingham ,The Chapel,Our Souls,Sunk,Hex Poseur,Character Actors,,No,Yes,,
+20/06/2025,Nottingham,The Bodega,The Molotovs,Soaked,,,,No,Yes,,
+27/06/2025,Nottingham,Rock City,Public Image Limited,Stuart Pearce,Sunk,,,No,Yes,,
+20/07/2025,Nottingham,Rough Trade,Panic Shack,,,,,No,Yes,,
+03/08/2025,Nottingham,Billy Bootleggers,Headsticks,Sally Pepper,,,,No,Yes,,
+06/08/2025,Blackpool,Winter Gardens,Rebellion Punk Festival 2025,,,,,Yes,Yes,,
+12/08/2025,Derby,The Hairy Dog,The Courettes,Velocettes,,,,No,Yes,,
+14/09/2025,Derby,The Hairy Dog,The Meffs,Face Up,,,,No,Yes,,
+17/09/2025,Nottingham,Metronome,Sunk,Laketown Band,Joel Foster,Vona Vella,,No,Yes,,
+27/09/2025,Alfreton,Brackenfield,Boo Hewerdine,,,,,No,Yes,,
+06/10/2025,Nottingham ,The Grove,Sunk,Apewards,,,,No,Yes,,
+27/10/2025,Nottingham,Rough Trade,Bruise Control,Sunk,,,,No,Yes,,
+`;
 
-        let concerts = [];
-        let filterState = {
-            searchTerm: '',
-            showSimonAttended: false,
-            showJonAttended: false
-        };
+        // Utility function to convert DD/MM/YYYY to a Date object
+        function parseDate(dateStr) {
+            const parts = dateStr.split('/');
+            if (parts.length === 3) {
+                // Date constructor uses YYYY, MM (0-indexed), DD
+                return new Date(parts[2], parts[1] - 1, parts[0]);
+            }
+            return new Date(0); // Return epoch for invalid dates
+        }
 
-        const concertList = document.getElementById('concert-list');
-        const searchInput = document.getElementById('search-input');
-        const noResultsMessage = document.getElementById('no-results');
-
-        // --- Data Parsing ---
-
-        /**
-         * Parses the raw CSV string into an array of concert objects.
-         * @param {string} csv - The raw CSV string.
-         * @returns {Array<Object>} The array of concert objects.
-         */
+        // Utility function to parse the CSV string
         function parseCSV(csv) {
-            const lines = csv.split('\n').filter(line => line.trim() !== '');
-            if (lines.length === 0) return [];
+            const lines = csv.trim().split('\n');
+            if (lines.length < 2) return [];
 
-            // Clean headers (remove spaces/non-alphanumeric and standardize)
-            const rawHeaders = lines[0].split(',').map(h => h.trim());
-            const headers = rawHeaders.map(header => {
-                if (header === 'Simon attended ') return 'Simon attended';
-                if (header === 'Jon attended') return 'Jon attended';
-                return header;
-            });
+            const headers = lines[0].split(',').map(h => h.trim());
+            const data = [];
 
-            return lines.slice(1).map(line => {
-                // Simple split that may break on quoted commas, but works for this clean data
-                const values = line.split(',');
-                const item = {};
-                headers.forEach((header, i) => {
-                    item[header] = (values[i] || '').trim();
-                });
-                return item;
-            });
+            for (let i = 1; i < lines.length; i++) {
+                // Simple split by comma, works for this data structure
+                const values = lines[i].split(',').map(v => v.trim());
+                if (values.length === headers.length) {
+                    let item = {};
+                    headers.forEach((header, index) => {
+                        item[header] = values[index];
+                    });
+                    data.push(item);
+                }
+            }
+            return data;
         }
 
-        // --- Utility Functions ---
+        const initialData = parseCSV(csvDataString).map(item => ({
+            ...item,
+            // Convert 'Yes'/'No' attendance to boolean true/false
+            'Simon attended': item['Simon attended'] === 'Yes',
+            'Jon attended': item['Jon attended'] === 'Yes',
+            // Add a Date object for reliable sorting
+            parsedDate: parseDate(item.Date),
+            // Create a searchable string for easier filtering
+            searchableText: Object.values(item).join(' ').toLowerCase()
+        }));
 
-        /**
-         * Helper function to create the attendance indicator HTML.
-         * @param {string} name - The person's name ('Simon' or 'Jon').
-         * @param {string} attended - 'Yes' or 'No'.
-         * @returns {string} HTML string for the indicator.
-         */
-        function getAttendanceHtml(name, attended) {
-            const isAttended = attended.toUpperCase() === 'YES';
-            const color = isAttended ? 'bg-indigo-500' : 'bg-gray-400';
-            const icon = isAttended ? '&#10003;' : '&#10005;'; // Checkmark or X
-            return `
-                <div class="flex items-center space-x-1">
-                    <div class="w-5 h-5 ${color} rounded-full flex items-center justify-center text-xs text-white font-bold">
-                        ${icon}
-                    </div>
-                    <span class="text-sm text-gray-700">${name}</span>
-                </div>
-            `;
-        }
+        const app = {
+            data: initialData,
+            state: {
+                searchTerm: '',
+                filterSimon: false,
+                filterJon: false,
+                // 1 for ascending (oldest first), -1 for descending (newest first)
+                sortDirection: -1
+            },
 
-        /**
-         * Renders the concerts list based on the current filters.
-         */
-        function renderConcerts() {
-            const filteredConcerts = concerts.filter(concert => {
+            filterAndSort() {
+                let filtered = this.data;
+                const search = this.state.searchTerm.toLowerCase();
+                const { filterSimon, filterJon, sortDirection } = this.state;
+
                 // 1. Search Filter
-                const searchLower = filterState.searchTerm.toLowerCase();
-                const concertText = [
-                    concert['Date'],
-                    concert['Location'],
-                    concert['Venue'],
-                    concert['Headline'],
-                    concert['Support 1'],
-                    concert['Support 2'],
-                    concert['Support 3']
-                ].join(' ').toLowerCase();
-
-                if (searchLower && !concertText.includes(searchLower)) {
-                    return false;
+                if (search) {
+                    filtered = filtered.filter(item => item.searchableText.includes(search));
                 }
 
-                // 2. Attendance Filters
-                const simonAttended = concert['Simon attended'].toUpperCase() === 'YES';
-                const jonAttended = concert['Jon attended'].toUpperCase() === 'YES';
-
-                if (filterState.showSimonAttended && !simonAttended) {
-                    return false;
+                // 2. Attendance Filter
+                if (filterSimon || filterJon) {
+                    filtered = filtered.filter(item => {
+                        let matches = true;
+                        if (filterSimon) {
+                            matches = matches && item['Simon attended'];
+                        }
+                        if (filterJon) {
+                            matches = matches && item['Jon attended'];
+                        }
+                        return matches;
+                    });
                 }
-                if (filterState.showJonAttended && !jonAttended) {
-                    return false;
+
+                // 3. Sort by Date
+                filtered.sort((a, b) => {
+                    // Dates are reliable because of the pre-parsed 'parsedDate' property
+                    const dateA = a.parsedDate.getTime();
+                    const dateB = b.parsedDate.getTime();
+                    return (dateA - dateB) * sortDirection;
+                });
+
+                this.renderConcerts(filtered);
+            },
+
+            renderConcerts(concerts) {
+                const listEl = document.getElementById('concertList');
+                const countEl = document.getElementById('resultsCount');
+                const noResultsEl = document.getElementById('noResults');
+                listEl.innerHTML = '';
+
+                countEl.textContent = `${concerts.length} total results`;
+
+                if (concerts.length === 0) {
+                    noResultsEl.classList.remove('hidden');
+                    return;
                 }
+                noResultsEl.classList.add('hidden');
 
-                return true;
-            });
+                // Generate HTML for each concert card
+                const html = concerts.map(concert => {
+                    const supports = [concert['Support 1'], concert['Support 2'], concert['Support 3'], concert['Support 4']]
+                        .filter(s => s && s.trim() !== '')
+                        .join(' • ');
 
-            concertList.innerHTML = '';
+                    const simonBadge = concert['Simon attended'] ?
+                        `<span class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2 py-0.5 rounded-full">Simon</span>` :
+                        '';
+                    const jonBadge = concert['Jon attended'] ?
+                        `<span class="bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-0.5 rounded-full">Jon</span>` :
+                        '';
+                    const attendingBadges = [simonBadge, jonBadge].filter(b => b.length > 0).join('');
 
-            if (filteredConcerts.length === 0) {
-                noResultsMessage.classList.remove('hidden');
-                return;
-            } else {
-                noResultsMessage.classList.add('hidden');
-            }
+                    return `
+                        <div class="bg-white p-6 shadow-xl hover:shadow-2xl transition duration-300 rounded-xl border border-gray-100">
+                            <!-- Header Row: Date & Attendance Badges -->
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-lg font-bold text-gray-800 tracking-wide">${concert.Date}</span>
+                                <div class="flex gap-2">${attendingBadges}</div>
+                            </div>
 
-            filteredConcerts.forEach(concert => {
-                const supports = [concert['Support 1'], concert['Support 2'], concert['Support 3']]
-                    .filter(s => s) // Remove empty/null supports
-                    .map(s => `<span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">${s}</span>`)
-                    .join('');
+                            <!-- Headline & Venue/Location -->
+                            <h2 class="text-2xl font-extrabold text-primary mb-1">${concert.Headline}</h2>
+                            <p class="text-sm text-gray-500 mb-4">@ ${concert.Venue} in ${concert.Location}</p>
 
-                const cardHtml = `
-                    <div class="concert-card bg-white p-5 rounded-xl shadow-md border-t-4 border-indigo-500 flex flex-col justify-between">
-                        <!-- Top Section: Date & Location -->
-                        <div class="mb-4">
-                            <h2 class="text-xl font-bold text-gray-900 mb-1">${concert['Headline']}</h2>
-                            <p class="text-indigo-600 font-semibold mb-3">${concert['Date']} | ${concert['Location']}</p>
-                            <p class="text-gray-600 text-sm italic">@ ${concert['Venue']}</p>
+                            <!-- Support Acts -->
+                            ${supports ? `
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <p class="text-xs font-semibold uppercase text-gray-400 mb-1">Support Acts</p>
+                                    <p class="text-sm text-gray-600">${supports}</p>
+                                </div>
+                            ` : ''}
                         </div>
+                    `;
+                }).join('');
 
-                        <!-- Supports -->
-                        ${supports ? `<div class="mb-4 pt-3 border-t border-gray-100">
-                                        <p class="text-sm font-medium text-gray-700 mb-2">Support Acts:</p>
-                                        <div class="flex flex-wrap gap-2">${supports}</div>
-                                      </div>` : ''}
+                listEl.innerHTML = html;
+            },
 
-                        <!-- Attendance -->
-                        <div class="pt-4 border-t border-gray-100 flex justify-between">
-                            ${getAttendanceHtml('Simon', concert['Simon attended'])}
-                            ${getAttendanceHtml('Jon', concert['Jon attended'])}
-                        </div>
-                    </div>
-                `;
-                concertList.insertAdjacentHTML('beforeend', cardHtml);
-            });
-        }
+            handleSearch(term) {
+                this.state.searchTerm = term.trim();
+                this.filterAndSort();
+            },
 
+            handleAttendanceToggle(person) {
+                if (person === 'Simon') {
+                    this.state.filterSimon = document.getElementById('toggleSimon').checked;
+                } else if (person === 'Jon') {
+                    this.state.filterJon = document.getElementById('toggleJon').checked;
+                }
+                this.filterAndSort();
+            },
 
-        /**
-         * Toggles the visual state of a switch and updates the filter state.
-         * @param {string} filterKey - The key in filterState to update.
-         * @param {HTMLElement} visualElement - The visual toggle element.
-         */
-        function toggleFilter(filterKey, visualElement) {
-            const isChecked = !filterState[filterKey];
-            filterState[filterKey] = isChecked;
+            handleSort() {
+                // Toggle between descending (-1) and ascending (1)
+                this.state.sortDirection *= -1;
+                this.updateSortButton();
+                this.filterAndSort();
+            },
 
-            // Update visual state
-            const circle = visualElement.querySelector('div');
-            const bg = visualElement;
+            updateSortButton() {
+                const button = document.getElementById('sortButton');
+                const icon = document.getElementById('sortIcon');
+                if (this.state.sortDirection === -1) {
+                    // Descending (Newest first)
+                    button.textContent = 'Sort by Date (Newest)';
+                    button.prepend(icon); // Re-insert icon
+                    icon.classList.add('rotate-180');
+                    icon.classList.remove('rotate-0');
+                } else {
+                    // Ascending (Oldest first)
+                    button.textContent = 'Sort by Date (Oldest)';
+                    button.prepend(icon); // Re-insert icon
+                    icon.classList.remove('rotate-180');
+                    icon.classList.add('rotate-0');
+                }
+            },
 
-            if (isChecked) {
-                bg.classList.remove('bg-gray-300');
-                bg.classList.add('bg-indigo-500');
-                circle.classList.add('translate-x-full');
-                visualElement.setAttribute('aria-checked', 'true');
-            } else {
-                bg.classList.remove('bg-indigo-500');
-                bg.classList.add('bg-gray-300');
-                circle.classList.remove('translate-x-full');
-                visualElement.setAttribute('aria-checked', 'false');
+            init() {
+                this.updateSortButton(); // Set initial button text
+                this.filterAndSort(); // Render initial data
             }
-
-            renderConcerts();
-        }
-
-        // --- Event Listeners and Initialization ---
-
-        window.onload = function() {
-            // 1. Initialize data
-            concerts = parseCSV(csvData);
-
-            // 2. Set up event listeners
-
-            // Search Listener (with debounce for performance)
-            let debounceTimer;
-            searchInput.addEventListener('input', (e) => {
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(() => {
-                    filterState.searchTerm = e.target.value;
-                    renderConcerts();
-                }, 300); // Wait 300ms after user stops typing
-            });
-
-            // Toggle Listeners
-            const simonToggleVisual = document.getElementById('toggle-simon-visual');
-            const jonToggleVisual = document.getElementById('toggle-jon-visual');
-
-            simonToggleVisual.addEventListener('click', () => toggleFilter('showSimonAttended', simonToggleVisual));
-            simonToggleVisual.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleFilter('showSimonAttended', simonToggleVisual);
-                }
-            });
-
-            jonToggleVisual.addEventListener('click', () => toggleFilter('showJonAttended', jonToggleVisual));
-            jonToggleVisual.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleFilter('showJonAttended', jonToggleVisual);
-                }
-            });
-
-            // 3. Initial Render
-            renderConcerts();
         };
 
+        window.onload = () => app.init();
     </script>
+
 </body>
 </html>

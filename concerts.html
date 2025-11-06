@@ -88,227 +88,227 @@
     <script>
         // Use the provided CSV data snippet
         const csvDataString = `Date,Location,Venue,Headline,Support 1,Support 2,Support 3,Support 4,Simon attended,Jon attended
-07/06/1984,Derby,Blue Note,New Model Army,,,,,Yes,No,,222 entries
-16/12/1984,Hull,Spring Street Theatre,Red Guitars,,,,,Yes,No,,7 NMA
-30/09/1985,Nottingham,Rock City,Screaming Blue Messiahs,,,,,Yes,No,,12 KK
-29/11/1985,Nottingham,Trent Poly,Redskins,Boothill Foot Tappers,,,,Yes,No,,
-19/11/1985,Nottingham,Rock City,Robery Cray Band,,,,,Yes,No,,
-27/11/1985,Nottingham,Rock City,Big Audio Dynamite,,,,,Yes,No,,
-17/12/1985,Leeds,Adam + Eves,King Kurt,All Over The Carpet,,,,No,Yes,,
-04/03/1986,Leeds,Adam + Eves,King Kurt,The Restrictors,,,,No,Yes,,
-09/03/1986,Nottingham,Rock City,Jeff Healey Band,,,,,Yes,No,,
-08/06/1986,Nottingham,Rock City,Housemartins,,,,,Yes,No,,
-21/06/1986,Milton Keynes,Bowl,Simple Minds,The Waterboys,The Bangles,The Cult,In Tua Nua,No,Yes,,
-26/07/1986,London,Finsbury Park,The Damned,Doctor & The Medics,Restless,Electric Blue Birds,,No,Yes,,
-02/08/1986,Birmingham,NEC - Yiva,The Pogues,New Model Army,Half Man Half Biscuit,The Icicle Works,,Yes,Yes,,
-07/08/1986,Nottingham,Rock City,Big Country,,,,,Yes,Yes,,
-09/08/1986,Nottingham,Rock City,Love and Money,,,,,Yes,No,,
-13/10/1986,Nottingham,Rock City,New Model Army,L'Armourder,,,,Yes,Yes,,
-04/11/1986,Nottingham,Rock City,The Damned,Blue In Heaven,,,,Yes,Yes,,
-07/11/1986,Burton on Trent,Central Park,King Kurt,The Tool,,,,No,Yes,,
-10/11/1986,Nottingham,Rock City,Big Audio Dynamite,Pocket Rockets,Schooly D,Pure Sex,,Yes,Yes,,
-22/12/1986,Stoke On Trent,Shelleys,King Kurt,,,,,No,Yes,,
-16/02/1987,Nottingham,Rock City,The Icicle Works,The Wild Flowers,,,,Yes,Yes,,
-23/02/1987,Nottingham,Rock City,New Model Army,Rough Charm,,,,Yes,Yes,,
-09/03/1987,Nottingham,Royal Concert Hall,The Cult,Gaye Bykers On Acid,,,,No,Yes,,
-18/03/1987,Stoke On Trent,Shelleys,King Kurt,,,,,Yes,Yes,,
-15/04/1987,Nottingham,Rock City,Spear Of Destiny,The Bolshoi,The Red,,,Yes,Yes,,
-27/04/1987,Nottingham,Rock City,Julian Cope,Crazyhead,Faith Brothers,,,Yes,Yes,,
-04/05/1987,Nottingham,Rock City,The Alarm,Wiretrain,,,,Yes,Yes,,
-19/05/1987,Nottingham,Rock City,The Fall,The Walking Seeds,,,,Yes,Yes,,
-13/06/1987,London,Wembley Stadium,U2,The Pogues,Lone Justice,Lou Reed,,No,Yes,,
-03/08/1987,Birmingham,NEC  ,U2,Hoodu Gurus,,,,No,Yes,,
-28/08/1987,Reading,Festival,The Godfathers,The Icicle Works,The Fall,The Mission,All About Eve,Yes,Yes,,
-08/09/1987,Nottingham,Rock City,Jesus & Mary Chain,Motorcycle Boy,,,,Yes,Yes,,
-07/10/1987,Nottingham,Rock City,Love & Rockets,Red Lorry Yellow Lorry,,,,Yes,Yes,,
-26/11/1987,Derby,20th Century,The Macc Lads,,,,,No,Yes,,
-10/12/1987,London,Wembley Stadium,New Order,Primal Scream,,,,Yes,Yes,,
-13/01/1988,Derby,20th Century,Pop Will Eat Itself,The Telescopes,,,,Yes,Yes,,
-16/02/1988,Nottingham,Rock City,The Woodentops,Badlands,,,,Yes,Yes,,
-19/03/1988,Bradford,University,New Model Army,The Way,7 Dead Americans,,,Yes,Yes,,
-30/03/1988,London,The Astoria,The Men They Couldn’t Hang,,,,,No,Yes,,
-10/05/1988,Nottingham,Rock City,The Icicle Works,Fire Next Time,,,,Yes,Yes,,
-14/05/1988,London,Mean Fiddler,Brendan Crocker,Nutmeg,,,,No,Yes,,
-18/06/1988,Milton Keynes,Bowl - Amnesty,The Stranglers,The Damned,New Model Army,Aztec Camera,Howard Jones,Yes,Yes,,
-26/06/1988,Birmingham ,NEC,INXS,Big Pig,,,,Yes,Yes,,
-06/08/1988,Birmingham ,NEC,Prince,,,,,Yes,Yes,,
-21/10/1988,Derby,Confettis,The Wedding Present,Heart Throbs,,,,Yes,Yes,,
-14/11/1988,Nottingham,Rock City,The Godfathers,Diesel Park West,,,,Yes,Yes,,
-17/12/1988,Manchester,Gmex Centre,New Order,A Certain Ratio,Happy Mondays,,,Yes,Yes,,
-08/02/1989,Derby,The Dial,Mega City Four,The Libertines,,,,Yes,Yes,,
-16/03/1989,Nottingham,Trent Poly,Gaye Bykers On Acid,Thee Hypnotics,,,,Yes,Yes,,
-03/05/1989,Nottingham,Trent Poly,The Men They Couldn’t Hang,Playing At Trains,,,,Yes,Yes,,
-18/05/1989,Nottingham,Rock City,Hurrah,Fatima Mansions,,,,Yes,Yes,,
-31/05/1989,Birmingham ,NEC,REM,The Blue Aeroplanes,,,,Yes,Yes,,
-05/07/1989,Derby,The Dial,Kitchens Of Distinctions,The Happy Ever After,,,,Yes,Yes,,
-19/07/1989,Leicester,Princess Charlotte,Del Amitri,Huge Big Massive,,,,Yes,Yes,,
-21/12/1989,Birmingham ,NEC,Erasure,Ocean,,,,No,Yes,,
-27/12/1989,Nottingham,Trent Poly,Mega City Four,Venus Beads,,,,Yes,Yes,,
-09/02/1990,Nottingham,Trent Poly,Del Amitri,The Amazing Colossal,,,,Yes,Yes,,
-11/02/1990,Nottingham,Trent Poly,Birdland,See See Rider,,,,Yes,Yes,,
-24/02/1990,Birmingham ,Humming Bird,The Cramps,Mega City Four,,,,No,Yes,,
-11/03/1990,Nottingham,Trent Poly,The Icicle Works,Innocence Lost,,,,Yes,Yes,,
-14/03/1990,Nottingham,Rock City,House Of Love,Parachute Men,,,,Yes,Yes,,
-29/04/1990,Nottingham,Trent Poly,The Soup Dragons,,,,,Yes,Yes,,
-15/05/1990,Nottingham,Trent Poly,Fatima Mansions,The Mothers,,,,Yes,Yes,,
-01/06/1990,Derby,Assembly Rooms,The Icicle Works,Innocence Lost,,,,Yes,Yes,,
-13/06/1990,Derby,The Dial,The Soup Dragons,Teenage Fan Club,,,,Yes,Yes,,
-01/08/1990,Nottingham,Rock City,The Soup Dragons,Teenage Fan Club,,,,Yes,Yes,,
-12/09/1990,Derby,Assembly Rooms,The Blue Nile,,,,,Yes,Yes,,
-18/09/1990,Derby,Rockhouse,Mega City Four,The Boosolvers,,,,Yes,Yes,,
-28/11/1990,Derby,Assembly Rooms,The Wedding Present,Metropolis,,,,Yes,Yes,,
-08/05/1991,Derby,Assembly Rooms,Julian Cope,Railway Children,Beyond,,,Yes,Yes,,
-24/10/1991,Derby,Assembly Rooms,Neds Atomic Dustbin ,Power Of Dreams,Scum Pups,,,Yes,Yes,,
-21/04/1992,Derby,Rockhouse,Doctor & The Medics,,,,,Yes,Yes,,
-19/05/1992,Derby,Assembly Rooms,Carter USM,Holy Joy,,,,Yes,Yes,,
-20/06/1992,Sheffield,Lead Mill,Fatima Mansions,Cast,Bone Yard,,,Yes,Yes,,
-07/10/1992,Nottingham,Rock City,Manic Street Preachers,Kinky Machine,,,,Yes,Yes,,
-18/01/1993,Nottingham,Rock City,Julian Cope,,,,,Yes,Yes,,
-01/05/1993,Derby,Wherehouse,Blaggers ITA,Blade,Fun-Da-Mental,,,Yes,Yes,,
-25/10/1993,Derby,Wherehouse,Power of Dreams,,,,,Yes,Yes,,
-10/11/1993,Derby,University,Grant Lee Buffalo,,,,,Yes,Yes,,
-29/04/1994,Leicester,Princess Charlotte,King Kurt,Frantic Flintstones,,,,Yes,Yes,,
-14/07/1994,Stratford,Long Martson,Phoenix Festival 1994,,,,,Yes,Yes,,
-12/09/1994,Derby,Wherehouse,Fatima Mansions,Jale,,,,Yes,Yes,,
-03/10/1994,Derby,Assembly Rooms,Pop Will Eat Itself,Compulsion,Blaggers ITA,Dub War,,Yes,Yes,,
-02/11/1994,Derby,Wherehouse,The Damned,The Gin Goblins,,,,Yes,Yes,,
-15/12/1994,Stoke,Trentham Gardens,The Beautiful South,,,,,Yes,Yes,,
-31/01/1995,Nottingham,Rock City,Killing Joke,Shootz Groove,Skunk Anansie,,,Yes,Yes,,
-13/07/1995,Stratford,Long Martson,Phoenix Festival 1995,,,,,Yes,Yes,,
-01/10/1995,Nottingham,Rock City,Black Grape,,,,,Yes,Yes,,
-25/10/1995,Derby,Assembly Rooms,The Beautiful South,,,,,Yes,Yes,,
-18/07/1996,Stratford,Long Martson,Phoenix Festival 1996,,,,,Yes,Yes,,
-17/07/1997,Stratford,Long Martson,Phoenix Festival 1997,,,,,Yes,Yes,,
-08/10/1997,Nottingham,Rock City,Stereophonics,Mover,,,,Yes,Yes,,
-04/12/1997,Nottingham,Rock City,Faith No More,Radish,,,,Yes,Yes,,
-01/04/1998,Derby,The Victoria,Earl Brutus,The Cherry Stains,,,,Yes,Yes,,
-09/07/1998,Derby,The Victoria,Subhumans,The Varukers,Roadrage,,,Yes,Yes,,
-08/09/1998,Nottingham,Rock City,Embrace,Delakota,,,,Yes,Yes,,
-07/10/1998,Nottingham,Rock City,Rocket From The Crypt,BIS,,,,Yes,Yes,,
-03/11/1998,Derby,Assembly Rooms,Stereophonics,Our Lady Peace,,,,Yes,Yes,,
-18/12/1998,Birmingham ,NEC,Manic Street Preachers,Catatonia,,,,Yes,Yes,,
-27/08/1999,Derby,The Victoria,Spear Of Destiny,Dive,,,,Yes,Yes,,
-26/08/2001,Nottingham,Wollaton Park,The Wonderstuff,New Model Army,Terrovision,,,Yes,Yes,,
-30/09/2001,Sheffield,City Memorial Hall,Jello Biafra,-,,,,Yes,Yes,,
-12/10/2005,Derby,Assembly Rooms,Dead Men Walking,-,,,,Yes,Yes,,
-14/12/2005,Nottingham,Rock City,New Model Army,-,,,,Yes,Yes,,
-02/02/2006,Birmingham ,Carling Academy,Bauhaus,-,,,,No,Yes,,
-11/11/2007,Nottingham,Rock City,Jello Biafra,-,,,,Yes,Yes,,
-05/05/2010,Nottingham,Rescue Rooms,The Godfathers,,,,,Yes,Yes,,
-07/10/2010,Derby,Flower Pot,Mike Peters,-,,,,No,Yes,,
-30/03/2011,Nottingham,Rock City,Killing Joke,,,,,Yes,No,,
-14/05/2011,Nottingham,Rescue Rooms,The Alarm,The Last Republic,,,,Yes,Yes,,
-21/03/2012,Nottingham,Rescue Rooms,Pop Will Eat Itself,Method Cell,,,,Yes,Yes,,
-17/05/2013,Derby,Kedleston Hall,Bearded Theory Festival 2013,,,,,Yes,Yes,,
-14/09/2013,Nottingham,Royal Concert Hall,Deacon Blue,Hazey Janes,,,,No,Yes,,
-15/05/2014,London,The Garage,The Chameleons,,,,,Yes,No,,
-22/05/2014,Melbourne,Catton Hall,Bearded Theory Festival 2014,,,,,Yes,Yes,,
-07/06/2014,Moscow,Muzeon Park,Ahmad Tea Music Festival,,,,,No,Yes,,
-20/11/2016,Nottingham,Rescue Rooms,Men That Will Not Be Blamed,Andrew O'Neil,,,,Yes,Yes,,
-06/12/2016,Nottingham,Motorpoint,Placebo,Minor Victories,,,,No,Yes,,
-18/12/2016,Derby,The Hairy Dog,King Kurt,The Atoms,,,,No,Yes,,
-01/10/2017,Derby,The Hairy Dog,Subhumans,Addicted Philosophy,Bones Park Rider,,,No,Yes,,
-10/12/2017,Manchester,Palace Theatre,Tom Chaplin,Fyfe Dangerfield,,,,No,Yes,,
-27/11/2017,London,Sebright Arms,Men That Will Not Be Blamed,Polypickpocketz,,,,No,Yes,,
-12/03/2018,Nottingham,Rescue Rooms,Men That Will Not Be Blamed,Idestroy,,,,Yes,Yes,,
-24/03/2018,London,Shepherds Bush,Jim Bob,Mark Morriss,,,,No,Yes,,
-03/02/2018,Derby,The Hairy Dog,The Godfathers,The Lengthmen,Damn Cargo,,,Yes,Yes,,
-15/04/2018,Derby,The Hairy Dog,The Meteors,Kings of Hong Kong,Hotrod Hooliganz,,,No,Yes,,
-20/04/2018,Eastwood,MFN,FILF,Special Brew,,,,No,Yes,,
-21/04/2018,Eastwood,MFN,The Complete Clash,The Joe Publix,,,,No,Yes,,
-08/06/2018,Derby,The Hairy Dog,King Kurt,Hyper Jax,,,,No,Yes,,
-03/08/2018,Blackpool,Winter Gardens,Rebellion Punk Festival 2018,,,,,Yes,Yes,,
-20/10/2018,Derby,The Hairy Dog,Pussycat & Dirty Johnsons,You Want Fox,THINKING PINK 2018,,,No,Yes,,
-23/11/2018,Stoke,Underground,King Kurt,The Runawayz,Two Step Goodbyes,,,No,Yes,,
-29/12/2018,Nottingham,Rescue Rooms,Dirtbox Disco,Headsticks,,,,No,Yes,,
-29/01/2019,Sheffield,02 Academy,The Streets,The Manor,,,,No,Yes,,
-13/02/2019,Nottingham,Motorpoint,Tears for Fears,Alison Moyet,,,,No,Yes,,
-23/03/2019,London,Shepherds Bush,Jim Bob,The Frank & Walters,,,,No,Yes,,
-11/04/2019,Sheffield,The Plug,Men That Will Not Be Blamed,Louise Distras,Syteria,,,Yes,Yes,,
-22/06/2019,Derby,The Hairy Dog,Spunk Volcano & The Eruption,Berlin Blackouts,Billy Club,,,No,Yes,,
-27/07/2019,Eastwood,MFN,Dirtbox Disco,Verbal Warning,The Glory,,,No,Yes,,
-01/08/2019,Blackpool,Winter Gardens,Rebellion Punk Festival 2019,,,,,Yes,Yes,,
-02/02/2020,Berlin,Huxleys Neue Hall,Stereophonics,Nadia Sheikh,,,,No,Yes,,
-03/02/2020,Berlin,Verti Music Hall,Keane,Eliza Shaddad,,,,No,Yes,,
-21/08/2021,Derby,The Hairy Dog,Teenage Werewolves,She's in Bauhaus,Kitten de Ville,Ramonas,,No,Yes,,
-16/10/2021,Nottingham,Rock City,The Macc Lads,Resistance 77,,,,No,Yes,,
-26/11/2021,Nottingham,Rock City,New Model Army,,,,,No,Yes,,
-27/11/2021,Nottingham,Motorpoint,Sleaford Mods,Dry Cleaning,Billy Nomates,Warmduscher,,No,Yes,,
-04/12/2021,Stoke,Underground,King Kurt,The Hell Katz,The Strays,,,No,Yes,,
-19/02/2022,Derby,The Hairy Dog,The Lengthmen,Unholy Alliance,Billy Club,,,No,Yes,,
-16/04/2022,Nottingham ,Rescue Rooms,Dirtbox Disco,Guitar Gangsters,,,,No,Yes,,
-23/07/2022,Eastwood,MFN,King Kurt,The Highliners,Blue Carpet Band,,,No,Yes,,
-04/08/2022,Blackpool,Winter Gardens,Rebellion Punk Festival 2022,,,,,Yes,Yes,,
-17/10/2022,Amsterdam,Melkweg,Steve Ignorant - Crass,Headsticks,,,,No,Yes,,
-04/11/2022,Nottingham ,The Old Cold Store,Headsticks,Steve Ignorant SofL,Carol Hodge,,,No,Yes,,
-04/12/2022,Nottingham ,The Old Cold Store,Glory Days,,,,,No,Yes,,
-11/01/2023,London,100 Club,Subhumans,Headsticks,Backstreet Abortions,,,No,Yes,,
-29/01/2023,Nottingham ,Various,Beat the Streets 2023,,,,,Yes,Yes,,
-06/02/2023,Nottingham,Rescue Rooms,Kid Kapichi,Snayx,Monakis,,,Yes,Yes,,
-14/03/2023,Nottingham,Rock City,Sleaford Mods,,,,,No,Yes,,
-18/03/2023,Leicester,Firebug,Before Victoria,Andrew O'Neil,Something Orange,,,No,Yes,,
-27/03/2023,Nottingham,The Bodega,Berries,Airport Dad,Electric Pets,Headcut,,No,Yes,,
-21/05/2023,Birmingham,02 Institute,The Wedding Present,Dogviolet,,,,No,Yes,,
-17/06/2023,Nottingham,The Old Cold Store,Dirtbox Disco,Knock Off,MC16,,,No,Yes,,
-20/06/2023,Huddersfield,John Smiths Stadium,Muse,Royal Blood,The Warning ,,,Yes,Yes,,
-14/07/2023,Leicester,Firebug,Frenchy and the Punk,Flesh Tetris,Before Victoria,,,No,Yes,,
-21/07/2023,Derby,The Hairy Dog,Spunk Volcano & The Eruption,Noose,,,,No,Yes,,
-03/08/2023,Blackpool,Winter Gardens,Rebellion Punk Festival 2023,,,,,Yes,Yes,,
-13/08/2023,Saffron Waldron,Audley End House,Razorlight,Embrace,The Feeling,Toploader,,No,Yes,,
-18/08/2023,Derby,The Hairy Dog,Teenage Werewolves,She's in Bauhaus,,,,No,Yes,,
-06/10/2023,Wolverhampton,Wulfrun - The Halls,Half Man Half Biscuit,The Hitchers,,,,Yes,Yes,,
-02/11/2023,Nottingham,The Chameleon,Express Office Portico,The Cost of Living,Playbow,,,No,Yes,,
-13/11/2023,Nottingham,Rock City,Death Cult,Lili Refrain,,,,No,Yes,,
-17/11/2023,Derby,The Hairy Dog,Dirtbox Disco,Angry Itch,,,,No,Yes,,
-19/11/2023,Nottingham,The Bodega,The Meffs,Noah and the Loners,,,,Yes,Yes,,
-20/11/2023,Nottingham,Rock City,Bob Vylan,Kid Bookie,Panic Shack,,,Yes,Yes,,
-05/12/2023,Nottingham,The Chameleon,Subhumans,Scene Killers,Sex Germs,,,No,Yes,,
-06/12/2023,Derby,Victoria Inn,Subhumans,Addictive Phiosophy,Eryx London,,,Yes,Yes,,
-08/12/2023,Nottingham,Rock City,New Model Army,,,,,Yes,Yes,,
-28/01/2024,Nottingham ,Various,Beat the Streets 2024,,,,,No,Yes,,
-16/03/2024,Nottingham ,The Bodega,Pete Wylie - Mighty Wah,,,,,Yes,Yes,,
-03/05/2024,Nottingham ,The Old Cold Store,Conflict,Sick On The Bus,Yur Mum,Eryx London,,No,Yes,,
-19/05/2024,Melbourne,Assembly Rooms,Boo Hewerdine,Jemma Johnson ,,,,No,Yes,,
-14/06/2024,Leicester,Firebug,Before Victoria,Frenchy and the Punk,,,,No,Yes,,
-29/06/2024,Coalville,Victoria Biker Pub,The Meffs,Sick On The Bus,Vomit,Eryx London,,No,Yes,,
-12/07/2024,Nottingham ,JT Soars,Slime City,The Noise ,Revenge of Calculon,,,No,Yes,,
-01/08/2024,Blackpool,Winter Gardens,Rebellion Punk Festival 2024,,,,,Yes,Yes,,
-06/08/2024,Leicester,Duffys,GogoPonies,Spitting Feathers,,,,No,Yes,,
-27/08/2024,Nottingham ,The Bodega,Gustaf,Cousines Like Shit,,,,No,Yes,,
-13/09/2024,Nottingham ,JT Soars,Fatbigfat,Latchkey Kids,Push Rope,,,No,Yes,,
-26/10/2024,Nottingham ,The Chapel,The Kytes,Killing Aura,Set The Fire,,,No,Yes,,
-29/10/2024,Nottingham ,Rock City,Soft Play,Panic Shack,,,,Yes,Yes,,
-02/11/2024,Pontefract,Malt Shovel,Dirtbox Disco,The Papashangos,MC16,,,No,Yes,,
-05/11/2024,Nottingham ,Rock City,Bob Vylan,Hyphen,Clt Drp,,,Yes,Yes,,
-14/11/2024,Nottingham ,The Old Cold Store,Steve Ignorant - Crass,Interrorbang,Sunk,,,No,Yes,,
-28/11/2024,Nottingham ,Billy Bootleggers,Fountain,Push Rope,Luna and the Lime Slices,Possum Kid,,No,Yes,,
-07/12/2024,Stoke,Underground,King Kurt,The Gruffs,,,,No,Yes,,
-12/12/2024,Nottingham ,Rock City,Jesus & Mary Chain,Ciel,,,,Yes,Yes,,
-20/12/2024,Nottingham ,JT Soars,Dead Raze,Eryx London,Minatore,,,No,Yes,,
-21/12/2024,Nottingham ,Rescue Rooms,The Public,M60,Shadows Of A Silhouette,,,No,Yes,,
-16/01/2025,Nottingham,The Bodega,Desperate Journalist,Bloodworm,,,,No,Yes,,
-26/01/2025,Nottingham ,Various,Beat the Streets 2025,,,,,No,Yes,,
-23/02/2025,Las Vegas,The Usual Place,Koffin Kats,The Drowns,Crimson Riot,,,No,Yes,,
-20/03/2025,Nottingham,Salt Box,Rob Green,Tash Bird,,,,No,Yes,,
-24/04/2025,Nottingham,The Bodega,Benefits,Hang Linton ,,,,No,Yes,,
-01/05/2025,Nottingham,The Bodega,Panic Shack,The Pill,,,,No,Yes,,
-04/05/2025,Shrewsbury,Loopfest,Yur Mum,Flesh Tetris,Little Juke,Baudelaire,Mere Amore,No,Yes,,
-11/05/2025,Nottingham,Rough Trade,Slime City,Irked,Xtroghost,,,No,Yes,,
-16/05/2025,Nottingham,Billy Bootleggers,Sunk,Skunk,Rhythm Eaters,Bleach Works,,No,Yes,,
-25/05/2025,Sheffield,Bramall Lane,Paul Heaton,Shed Seven,Lightening Seeds,,,No,Yes,,
-26/05/2025,Nottingham ,Rough Trade,Sports Team,,,,,No,Yes,,
-12/06/2025,Nottingham ,The Chapel,Our Souls,Sunk,Hex Poseur,Character Actors,,No,Yes,,
-20/06/2025,Nottingham,The Bodega,The Molotovs,Soaked,,,,No,Yes,,
-27/06/2025,Nottingham,Rock City,Public Image Limited,Stuart Pearce,Sunk,,,No,Yes,,
-20/07/2025,Nottingham,Rough Trade,Panic Shack,,,,,No,Yes,,
-03/08/2025,Nottingham,Billy Bootleggers,Headsticks,Sally Pepper,,,,No,Yes,,
-06/08/2025,Blackpool,Winter Gardens,Rebellion Punk Festival 2025,,,,,Yes,Yes,,
-12/08/2025,Derby,The Hairy Dog,The Courettes,Velocettes,,,,No,Yes,,
-14/09/2025,Derby,The Hairy Dog,The Meffs,Face Up,,,,No,Yes,,
-17/09/2025,Nottingham,Metronome,Sunk,Laketown Band,Joel Foster,Vona Vella,,No,Yes,,
-27/09/2025,Alfreton,Brackenfield,Boo Hewerdine,,,,,No,Yes,,
-06/10/2025,Nottingham ,The Grove,Sunk,Apewards,,,,No,Yes,,
-27/10/2025,Nottingham,Rough Trade,Bruise Control,Sunk,,,,No,Yes,,
+07/06/1984,Derby,Blue Note,New Model Army,,,,,Yes,No
+16/12/1984,Hull,Spring Street Theatre,Red Guitars,,,,,Yes,No
+30/09/1985,Nottingham,Rock City,Screaming Blue Messiahs,,,,,Yes,No
+29/11/1985,Nottingham,Trent Poly,Redskins,Boothill Foot Tappers,,,,Yes,No
+19/11/1985,Nottingham,Rock City,Robery Cray Band,,,,,Yes,No
+27/11/1985,Nottingham,Rock City,Big Audio Dynamite,,,,,Yes,No
+17/12/1985,Leeds,Adam + Eves,King Kurt,All Over The Carpet,,,,No,Yes
+04/03/1986,Leeds,Adam + Eves,King Kurt,The Restrictors,,,,No,Yes
+09/03/1986,Nottingham,Rock City,Jeff Healey Band,,,,,Yes,No
+08/06/1986,Nottingham,Rock City,Housemartins,,,,,Yes,No
+21/06/1986,Milton Keynes,Bowl,Simple Minds,The Waterboys,The Bangles,The Cult,In Tua Nua,No,Yes
+26/07/1986,London,Finsbury Park,The Damned,Doctor & The Medics,Restless,Electric Blue Birds,,No,Yes
+02/08/1986,Birmingham,NEC - Yiva,The Pogues,New Model Army,Half Man Half Biscuit,The Icicle Works,,Yes,Yes
+07/08/1986,Nottingham,Rock City,Big Country,,,,,Yes,Yes
+09/08/1986,Nottingham,Rock City,Love and Money,,,,,Yes,No
+13/10/1986,Nottingham,Rock City,New Model Army,L'Armourder,,,,Yes,Yes
+04/11/1986,Nottingham,Rock City,The Damned,Blue In Heaven,,,,Yes,Yes
+07/11/1986,Burton on Trent,Central Park,King Kurt,The Tool,,,,No,Yes
+10/11/1986,Nottingham,Rock City,Big Audio Dynamite,Pocket Rockets,Schooly D,Pure Sex,,Yes,Yes
+22/12/1986,Stoke On Trent,Shelleys,King Kurt,,,,,No,Yes
+16/02/1987,Nottingham,Rock City,The Icicle Works,The Wild Flowers,,,,Yes,Yes
+23/02/1987,Nottingham,Rock City,New Model Army,Rough Charm,,,,Yes,Yes
+09/03/1987,Nottingham,Royal Concert Hall,The Cult,Gaye Bykers On Acid,,,,No,Yes
+18/03/1987,Stoke On Trent,Shelleys,King Kurt,,,,,Yes,Yes
+15/04/1987,Nottingham,Rock City,Spear Of Destiny,The Bolshoi,The Red,,,Yes,Yes
+27/04/1987,Nottingham,Rock City,Julian Cope,Crazyhead,Faith Brothers,,,Yes,Yes
+04/05/1987,Nottingham,Rock City,The Alarm,Wiretrain,,,,Yes,Yes
+19/05/1987,Nottingham,Rock City,The Fall,The Walking Seeds,,,,Yes,Yes
+13/06/1987,London,Wembley Stadium,U2,The Pogues,Lone Justice,Lou Reed,,No,Yes
+03/08/1987,Birmingham,NEC  ,U2,Hoodu Gurus,,,,No,Yes
+28/08/1987,Reading,Festival,The Godfathers,The Icicle Works,The Fall,The Mission,All About Eve,Yes,Yes
+08/09/1987,Nottingham,Rock City,Jesus & Mary Chain,Motorcycle Boy,,,,Yes,Yes
+07/10/1987,Nottingham,Rock City,Love & Rockets,Red Lorry Yellow Lorry,,,,Yes,Yes
+26/11/1987,Derby,20th Century,The Macc Lads,,,,,No,Yes
+10/12/1987,London,Wembley Stadium,New Order,Primal Scream,,,,Yes,Yes
+13/01/1988,Derby,20th Century,Pop Will Eat Itself,The Telescopes,,,,Yes,Yes
+16/02/1988,Nottingham,Rock City,The Woodentops,Badlands,,,,Yes,Yes
+19/03/1988,Bradford,University,New Model Army,The Way,7 Dead Americans,,,Yes,Yes
+30/03/1988,London,The Astoria,The Men They Couldn’t Hang,,,,,No,Yes
+10/05/1988,Nottingham,Rock City,The Icicle Works,Fire Next Time,,,,Yes,Yes
+14/05/1988,London,Mean Fiddler,Brendan Crocker,Nutmeg,,,,No,Yes
+18/06/1988,Milton Keynes,Bowl - Amnesty,The Stranglers,The Damned,New Model Army,Aztec Camera,Howard Jones,Yes,Yes
+26/06/1988,Birmingham ,NEC,INXS,Big Pig,,,,Yes,Yes
+06/08/1988,Birmingham ,NEC,Prince,,,,,Yes,Yes
+21/10/1988,Derby,Confettis,The Wedding Present,Heart Throbs,,,,Yes,Yes
+14/11/1988,Nottingham,Rock City,The Godfathers,Diesel Park West,,,,Yes,Yes
+17/12/1988,Manchester,Gmex Centre,New Order,A Certain Ratio,Happy Mondays,,,Yes,Yes
+08/02/1989,Derby,The Dial,Mega City Four,The Libertines,,,,Yes,Yes
+16/03/1989,Nottingham,Trent Poly,Gaye Bykers On Acid,Thee Hypnotics,,,,Yes,Yes
+03/05/1989,Nottingham,Trent Poly,The Men They Couldn’t Hang,Playing At Trains,,,,Yes,Yes
+18/05/1989,Nottingham,Rock City,Hurrah,Fatima Mansions,,,,Yes,Yes
+31/05/1989,Birmingham ,NEC,REM,The Blue Aeroplanes,,,,Yes,Yes
+05/07/1989,Derby,The Dial,Kitchens Of Distinctions,The Happy Ever After,,,,Yes,Yes
+19/07/1989,Leicester,Princess Charlotte,Del Amitri,Huge Big Massive,,,,Yes,Yes
+21/12/1989,Birmingham ,NEC,Erasure,Ocean,,,,No,Yes
+27/12/1989,Nottingham,Trent Poly,Mega City Four,Venus Beads,,,,Yes,Yes
+09/02/1990,Nottingham,Trent Poly,Del Amitri,The Amazing Colossal,,,,Yes,Yes
+11/02/1990,Nottingham,Trent Poly,Birdland,See See Rider,,,,Yes,Yes
+24/02/1990,Birmingham ,Humming Bird,The Cramps,Mega City Four,,,,No,Yes
+11/03/1990,Nottingham,Trent Poly,The Icicle Works,Innocence Lost,,,,Yes,Yes
+14/03/1990,Nottingham,Rock City,House Of Love,Parachute Men,,,,Yes,Yes
+29/04/1990,Nottingham,Trent Poly,The Soup Dragons,,,,,Yes,Yes
+15/05/1990,Nottingham,Trent Poly,Fatima Mansions,The Mothers,,,,Yes,Yes
+01/06/1990,Derby,Assembly Rooms,The Icicle Works,Innocence Lost,,,,Yes,Yes
+13/06/1990,Derby,The Dial,The Soup Dragons,Teenage Fan Club,,,,Yes,Yes
+01/08/1990,Nottingham,Rock City,The Soup Dragons,Teenage Fan Club,,,,Yes,Yes
+12/09/1990,Derby,Assembly Rooms,The Blue Nile,,,,,Yes,Yes
+18/09/1990,Derby,Rockhouse,Mega City Four,The Boosolvers,,,,Yes,Yes
+28/11/1990,Derby,Assembly Rooms,The Wedding Present,Metropolis,,,,Yes,Yes
+08/05/1991,Derby,Assembly Rooms,Julian Cope,Railway Children,Beyond,,,Yes,Yes
+24/10/1991,Derby,Assembly Rooms,Neds Atomic Dustbin ,Power Of Dreams,Scum Pups,,,Yes,Yes
+21/04/1992,Derby,Rockhouse,Doctor & The Medics,,,,,Yes,Yes
+19/05/1992,Derby,Assembly Rooms,Carter USM,Holy Joy,,,,Yes,Yes
+20/06/1992,Sheffield,Lead Mill,Fatima Mansions,Cast,Bone Yard,,,Yes,Yes
+07/10/1992,Nottingham,Rock City,Manic Street Preachers,Kinky Machine,,,,Yes,Yes
+18/01/1993,Nottingham,Rock City,Julian Cope,,,,,Yes,Yes
+01/05/1993,Derby,Wherehouse,Blaggers ITA,Blade,Fun-Da-Mental,,,Yes,Yes
+25/10/1993,Derby,Wherehouse,Power of Dreams,,,,,Yes,Yes
+10/11/1993,Derby,University,Grant Lee Buffalo,,,,,Yes,Yes
+29/04/1994,Leicester,Princess Charlotte,King Kurt,Frantic Flintstones,,,,Yes,Yes
+14/07/1994,Stratford,Long Martson,Phoenix Festival 1994,,,,,Yes,Yes
+12/09/1994,Derby,Wherehouse,Fatima Mansions,Jale,,,,Yes,Yes
+03/10/1994,Derby,Assembly Rooms,Pop Will Eat Itself,Compulsion,Blaggers ITA,Dub War,,Yes,Yes
+02/11/1994,Derby,Wherehouse,The Damned,The Gin Goblins,,,,Yes,Yes
+15/12/1994,Stoke,Trentham Gardens,The Beautiful South,,,,,Yes,Yes
+31/01/1995,Nottingham,Rock City,Killing Joke,Shootz Groove,Skunk Anansie,,,Yes,Yes
+13/07/1995,Stratford,Long Martson,Phoenix Festival 1995,,,,,Yes,Yes
+01/10/1995,Nottingham,Rock City,Black Grape,,,,,Yes,Yes
+25/10/1995,Derby,Assembly Rooms,The Beautiful South,,,,,Yes,Yes
+18/07/1996,Stratford,Long Martson,Phoenix Festival 1996,,,,,Yes,Yes
+17/07/1997,Stratford,Long Martson,Phoenix Festival 1997,,,,,Yes,Yes
+08/10/1997,Nottingham,Rock City,Stereophonics,Mover,,,,Yes,Yes
+04/12/1997,Nottingham,Rock City,Faith No More,Radish,,,,Yes,Yes
+01/04/1998,Derby,The Victoria,Earl Brutus,The Cherry Stains,,,,Yes,Yes
+09/07/1998,Derby,The Victoria,Subhumans,The Varukers,Roadrage,,,Yes,Yes
+08/09/1998,Nottingham,Rock City,Embrace,Delakota,,,,Yes,Yes
+07/10/1998,Nottingham,Rock City,Rocket From The Crypt,BIS,,,,Yes,Yes
+03/11/1998,Derby,Assembly Rooms,Stereophonics,Our Lady Peace,,,,Yes,Yes
+18/12/1998,Birmingham ,NEC,Manic Street Preachers,Catatonia,,,,Yes,Yes
+27/08/1999,Derby,The Victoria,Spear Of Destiny,Dive,,,,Yes,Yes
+26/08/2001,Nottingham,Wollaton Park,The Wonderstuff,New Model Army,Terrovision,,,Yes,Yes
+30/09/2001,Sheffield,City Memorial Hall,Jello Biafra,-,,,,Yes,Yes
+12/10/2005,Derby,Assembly Rooms,Dead Men Walking,-,,,,Yes,Yes
+14/12/2005,Nottingham,Rock City,New Model Army,-,,,,Yes,Yes
+02/02/2006,Birmingham ,Carling Academy,Bauhaus,-,,,,No,Yes
+11/11/2007,Nottingham,Rock City,Jello Biafra,-,,,,Yes,Yes
+05/05/2010,Nottingham,Rescue Rooms,The Godfathers,,,,,Yes,Yes
+07/10/2010,Derby,Flower Pot,Mike Peters,-,,,,No,Yes
+30/03/2011,Nottingham,Rock City,Killing Joke,,,,,Yes,No
+14/05/2011,Nottingham,Rescue Rooms,The Alarm,The Last Republic,,,,Yes,Yes
+21/03/2012,Nottingham,Rescue Rooms,Pop Will Eat Itself,Method Cell,,,,Yes,Yes
+17/05/2013,Derby,Kedleston Hall,Bearded Theory Festival 2013,,,,,Yes,Yes
+14/09/2013,Nottingham,Royal Concert Hall,Deacon Blue,Hazey Janes,,,,No,Yes
+15/05/2014,London,The Garage,The Chameleons,,,,,Yes,No
+22/05/2014,Melbourne,Catton Hall,Bearded Theory Festival 2014,,,,,Yes,Yes
+07/06/2014,Moscow,Muzeon Park,Ahmad Tea Music Festival,,,,,No,Yes
+20/11/2016,Nottingham,Rescue Rooms,Men That Will Not Be Blamed,Andrew O'Neil,,,,Yes,Yes
+06/12/2016,Nottingham,Motorpoint,Placebo,Minor Victories,,,,No,Yes
+18/12/2016,Derby,The Hairy Dog,King Kurt,The Atoms,,,,No,Yes
+01/10/2017,Derby,The Hairy Dog,Subhumans,Addicted Philosophy,Bones Park Rider,,,No,Yes
+10/12/2017,Manchester,Palace Theatre,Tom Chaplin,Fyfe Dangerfield,,,,No,Yes
+27/11/2017,London,Sebright Arms,Men That Will Not Be Blamed,Polypickpocketz,,,,No,Yes
+12/03/2018,Nottingham,Rescue Rooms,Men That Will Not Be Blamed,Idestroy,,,,Yes,Yes
+24/03/2018,London,Shepherds Bush,Jim Bob,Mark Morriss,,,,No,Yes
+03/02/2018,Derby,The Hairy Dog,The Godfathers,The Lengthmen,Damn Cargo,,,Yes,Yes
+15/04/2018,Derby,The Hairy Dog,The Meteors,Kings of Hong Kong,Hotrod Hooliganz,,,No,Yes
+20/04/2018,Eastwood,MFN,FILF,Special Brew,,,,No,Yes
+21/04/2018,Eastwood,MFN,The Complete Clash,The Joe Publix,,,,No,Yes
+08/06/2018,Derby,The Hairy Dog,King Kurt,Hyper Jax,,,,No,Yes
+03/08/2018,Blackpool,Winter Gardens,Rebellion Punk Festival 2018,,,,,Yes,Yes
+20/10/2018,Derby,The Hairy Dog,Pussycat & Dirty Johnsons,You Want Fox,THINKING PINK 2018,,,No,Yes
+23/11/2018,Stoke,Underground,King Kurt,The Runawayz,Two Step Goodbyes,,,No,Yes
+29/12/2018,Nottingham,Rescue Rooms,Dirtbox Disco,Headsticks,,,,No,Yes
+29/01/2019,Sheffield,02 Academy,The Streets,The Manor,,,,No,Yes
+13/02/2019,Nottingham,Motorpoint,Tears for Fears,Alison Moyet,,,,No,Yes
+23/03/2019,London,Shepherds Bush,Jim Bob,The Frank & Walters,,,,No,Yes
+11/04/2019,Sheffield,The Plug,Men That Will Not Be Blamed,Louise Distras,Syteria,,,Yes,Yes
+22/06/2019,Derby,The Hairy Dog,Spunk Volcano & The Eruption,Berlin Blackouts,Billy Club,,,No,Yes
+27/07/2019,Eastwood,MFN,Dirtbox Disco,Verbal Warning,The Glory,,,No,Yes
+01/08/2019,Blackpool,Winter Gardens,Rebellion Punk Festival 2019,,,,,Yes,Yes
+02/02/2020,Berlin,Huxleys Neue Hall,Stereophonics,Nadia Sheikh,,,,No,Yes
+03/02/2020,Berlin,Verti Music Hall,Keane,Eliza Shaddad,,,,No,Yes
+21/08/2021,Derby,The Hairy Dog,Teenage Werewolves,She's in Bauhaus,Kitten de Ville,Ramonas,,No,Yes
+16/10/2021,Nottingham,Rock City,The Macc Lads,Resistance 77,,,,No,Yes
+26/11/2021,Nottingham,Rock City,New Model Army,,,,,No,Yes
+27/11/2021,Nottingham,Motorpoint,Sleaford Mods,Dry Cleaning,Billy Nomates,Warmduscher,,No,Yes
+04/12/2021,Stoke,Underground,King Kurt,The Hell Katz,The Strays,,,No,Yes
+19/02/2022,Derby,The Hairy Dog,The Lengthmen,Unholy Alliance,Billy Club,,,No,Yes
+16/04/2022,Nottingham ,Rescue Rooms,Dirtbox Disco,Guitar Gangsters,,,,No,Yes
+23/07/2022,Eastwood,MFN,King Kurt,The Highliners,Blue Carpet Band,,,No,Yes
+04/08/2022,Blackpool,Winter Gardens,Rebellion Punk Festival 2022,,,,,Yes,Yes
+17/10/2022,Amsterdam,Melkweg,Steve Ignorant - Crass,Headsticks,,,,No,Yes
+04/11/2022,Nottingham ,The Old Cold Store,Headsticks,Steve Ignorant SofL,Carol Hodge,,,No,Yes
+04/12/2022,Nottingham ,The Old Cold Store,Glory Days,,,,,No,Yes
+11/01/2023,London,100 Club,Subhumans,Headsticks,Backstreet Abortions,,,No,Yes
+29/01/2023,Nottingham ,Various,Beat the Streets 2023,,,,,Yes,Yes
+06/02/2023,Nottingham,Rescue Rooms,Kid Kapichi,Snayx,Monakis,,,Yes,Yes
+14/03/2023,Nottingham,Rock City,Sleaford Mods,,,,,No,Yes
+18/03/2023,Leicester,Firebug,Before Victoria,Andrew O'Neil,Something Orange,,,No,Yes
+27/03/2023,Nottingham,The Bodega,Berries,Airport Dad,Electric Pets,Headcut,,No,Yes
+21/05/2023,Birmingham,02 Institute,The Wedding Present,Dogviolet,,,,No,Yes
+17/06/2023,Nottingham,The Old Cold Store,Dirtbox Disco,Knock Off,MC16,,,No,Yes
+20/06/2023,Huddersfield,John Smiths Stadium,Muse,Royal Blood,The Warning ,,,Yes,Yes
+14/07/2023,Leicester,Firebug,Frenchy and the Punk,Flesh Tetris,Before Victoria,,,No,Yes
+21/07/2023,Derby,The Hairy Dog,Spunk Volcano & The Eruption,Noose,,,,No,Yes
+03/08/2023,Blackpool,Winter Gardens,Rebellion Punk Festival 2023,,,,,Yes,Yes
+13/08/2023,Saffron Waldron,Audley End House,Razorlight,Embrace,The Feeling,Toploader,,No,Yes
+18/08/2023,Derby,The Hairy Dog,Teenage Werewolves,She's in Bauhaus,,,,No,Yes
+06/10/2023,Wolverhampton,Wulfrun - The Halls,Half Man Half Biscuit,The Hitchers,,,,Yes,Yes
+02/11/2023,Nottingham,The Chameleon,Express Office Portico,The Cost of Living,Playbow,,,No,Yes
+13/11/2023,Nottingham,Rock City,Death Cult,Lili Refrain,,,,No,Yes
+17/11/2023,Derby,The Hairy Dog,Dirtbox Disco,Angry Itch,,,,No,Yes
+19/11/2023,Nottingham,The Bodega,The Meffs,Noah and the Loners,,,,Yes,Yes
+20/11/2023,Nottingham,Rock City,Bob Vylan,Kid Bookie,Panic Shack,,,Yes,Yes
+05/12/2023,Nottingham,The Chameleon,Subhumans,Scene Killers,Sex Germs,,,No,Yes
+06/12/2023,Derby,Victoria Inn,Subhumans,Addictive Phiosophy,Eryx London,,,Yes,Yes
+08/12/2023,Nottingham,Rock City,New Model Army,,,,,Yes,Yes
+28/01/2024,Nottingham ,Various,Beat the Streets 2024,,,,,No,Yes
+16/03/2024,Nottingham ,The Bodega,Pete Wylie - Mighty Wah,,,,,Yes,Yes
+03/05/2024,Nottingham ,The Old Cold Store,Conflict,Sick On The Bus,Yur Mum,Eryx London,,No,Yes
+19/05/2024,Melbourne,Assembly Rooms,Boo Hewerdine,Jemma Johnson ,,,,No,Yes
+14/06/2024,Leicester,Firebug,Before Victoria,Frenchy and the Punk,,,,No,Yes
+29/06/2024,Coalville,Victoria Biker Pub,The Meffs,Sick On The Bus,Vomit,Eryx London,,No,Yes
+12/07/2024,Nottingham ,JT Soars,Slime City,The Noise ,Revenge of Calculon,,,No,Yes
+01/08/2024,Blackpool,Winter Gardens,Rebellion Punk Festival 2024,,,,,Yes,Yes
+06/08/2024,Leicester,Duffys,GogoPonies,Spitting Feathers,,,,No,Yes
+27/08/2024,Nottingham ,The Bodega,Gustaf,Cousines Like Shit,,,,No,Yes
+13/09/2024,Nottingham ,JT Soars,Fatbigfat,Latchkey Kids,Push Rope,,,No,Yes
+26/10/2024,Nottingham ,The Chapel,The Kytes,Killing Aura,Set The Fire,,,No,Yes
+29/10/2024,Nottingham ,Rock City,Soft Play,Panic Shack,,,,Yes,Yes
+02/11/2024,Pontefract,Malt Shovel,Dirtbox Disco,The Papashangos,MC16,,,No,Yes
+05/11/2024,Nottingham ,Rock City,Bob Vylan,Hyphen,Clt Drp,,,Yes,Yes
+14/11/2024,Nottingham ,The Old Cold Store,Steve Ignorant - Crass,Interrorbang,Sunk,,,No,Yes
+28/11/2024,Nottingham ,Billy Bootleggers,Fountain,Push Rope,Luna and the Lime Slices,Possum Kid,,No,Yes
+07/12/2024,Stoke,Underground,King Kurt,The Gruffs,,,,No,Yes
+12/12/2024,Nottingham ,Rock City,Jesus & Mary Chain,Ciel,,,,Yes,Yes
+20/12/2024,Nottingham ,JT Soars,Dead Raze,Eryx London,Minatore,,,No,Yes
+21/12/2024,Nottingham ,Rescue Rooms,The Public,M60,Shadows Of A Silhouette,,,No,Yes
+16/01/2025,Nottingham,The Bodega,Desperate Journalist,Bloodworm,,,,No,Yes
+26/01/2025,Nottingham ,Various,Beat the Streets 2025,,,,,No,Yes
+23/02/2025,Las Vegas,The Usual Place,Koffin Kats,The Drowns,Crimson Riot,,,No,Yes
+20/03/2025,Nottingham,Salt Box,Rob Green,Tash Bird,,,,No,Yes
+24/04/2025,Nottingham,The Bodega,Benefits,Hang Linton ,,,,No,Yes
+01/05/2025,Nottingham,The Bodega,Panic Shack,The Pill,,,,No,Yes
+04/05/2025,Shrewsbury,Loopfest,Yur Mum,Flesh Tetris,Little Juke,Baudelaire,Mere Amore,No,Yes
+11/05/2025,Nottingham,Rough Trade,Slime City,Irked,Xtroghost,,,No,Yes
+16/05/2025,Nottingham,Billy Bootleggers,Sunk,Skunk,Rhythm Eaters,Bleach Works,,No,Yes
+25/05/2025,Sheffield,Bramall Lane,Paul Heaton,Shed Seven,Lightening Seeds,,,No,Yes
+26/05/2025,Nottingham ,Rough Trade,Sports Team,,,,,No,Yes
+12/06/2025,Nottingham ,The Chapel,Our Souls,Sunk,Hex Poseur,Character Actors,,No,Yes
+20/06/2025,Nottingham,The Bodega,The Molotovs,Soaked,,,,No,Yes
+27/06/2025,Nottingham,Rock City,Public Image Limited,Stuart Pearce,Sunk,,,No,Yes
+20/07/2025,Nottingham,Rough Trade,Panic Shack,,,,,No,Yes
+03/08/2025,Nottingham,Billy Bootleggers,Headsticks,Sally Pepper,,,,No,Yes
+06/08/2025,Blackpool,Winter Gardens,Rebellion Punk Festival 2025,,,,,Yes,Yes
+12/08/2025,Derby,The Hairy Dog,The Courettes,Velocettes,,,,No,Yes
+14/09/2025,Derby,The Hairy Dog,The Meffs,Face Up,,,,No,Yes
+17/09/2025,Nottingham,Metronome,Sunk,Laketown Band,Joel Foster,Vona Vella,,No,Yes
+27/09/2025,Alfreton,Brackenfield,Boo Hewerdine,,,,,No,Yes
+06/10/2025,Nottingham ,The Grove,Sunk,Apewards,,,,No,Yes
+27/10/2025,Nottingham,Rough Trade,Bruise Control,Sunk,,,,No,Yes
 `;
 
         // Utility function to convert DD/MM/YYYY to a Date object

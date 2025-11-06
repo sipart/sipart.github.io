@@ -1,102 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concert Schedule</title>
+    <title>Concert History & Tracker</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
     <style>
-        /* Custom scrollbar for a professional look in the dark theme */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f6f9; /* Light gray background */
         }
-        ::-webkit-scrollbar-track {
-            background: #1e293b; /* slate-800 */
+        /* Custom card styling for better visual separation */
+        .concert-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #475569; /* slate-600 */
-            border-radius: 4px;
+        .concert-card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #64748b; /* slate-500 */
-        }
-
-        /* Ensure table header sticks while scrolling content */
-        .sticky-header th {
-            position: sticky;
-            top: 0;
-            background-color: #1e293b; /* slate-800 */
-            z-index: 10;
+        .toggle-switch-bg {
+            transition: background-color 0.4s;
         }
     </style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans min-h-screen p-4 sm:p-8">
+<body class="p-4 sm:p-8">
 
-    <!-- Main Container -->
-    <div class="max-w-7xl mx-auto">
-        <header class="mb-8 p-4 bg-slate-800 rounded-xl shadow-2xl">
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-400 mb-2">Concert Attendance Log</h1>
-            <p class="text-slate-400">A detailed, sortable list of past and upcoming gigs from your CSV file.</p>
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 p-4 bg-white rounded-xl shadow-lg">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">Concert History Database</h1>
+            <p class="text-gray-600">Explore past and upcoming gigs.</p>
         </header>
 
-        <!-- Controls (Search & Filters) -->
-        <div class="mb-6 flex flex-col sm:flex-row gap-4">
-            <input type="text" id="search-input" placeholder="Search by Band, Venue, or Location..."
-                   class="flex-grow p-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
-            
-            <select id="attended-filter" onchange="filterAndRenderData()"
-                    class="p-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors w-full sm:w-auto">
-                <option value="all">All Concerts</option>
-                <option value="simon">Simon Attended</option>
-                <option value="jon">Jon Attended</option>
-                <option value="neither">Neither Attended</option>
-                <option value="both">Both Attended</option>
-            </select>
+        <!-- Control Panel (Search and Filters) -->
+        <div class="bg-white p-4 sm:p-6 mb-8 rounded-xl shadow-lg sticky top-0 z-10 border-b-4 border-indigo-500">
+            <!-- Search Field -->
+            <input
+                type="text"
+                id="search-input"
+                placeholder="Search by band, venue, or location..."
+                class="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-lg transition duration-150 ease-in-out"
+                aria-label="Search concerts"
+            >
+
+            <!-- Attendance Toggles -->
+            <div class="flex flex-col sm:flex-row sm:space-x-8 space-y-4 sm:space-y-0 items-start sm:items-center">
+                <p class="font-semibold text-gray-700">Filter by Attendance:</p>
+
+                <!-- Simon Toggle -->
+                <div class="flex items-center space-x-2">
+                    <label for="toggle-simon" class="text-gray-900 font-medium">Simon Attended</label>
+                    <input type="checkbox" id="toggle-simon" class="hidden">
+                    <div id="toggle-simon-visual" class="relative w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer toggle-switch-bg" role="switch" aria-checked="false" tabindex="0">
+                        <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition duration-300"></div>
+                    </div>
+                </div>
+
+                <!-- Jon Toggle -->
+                <div class="flex items-center space-x-2">
+                    <label for="toggle-jon" class="text-gray-900 font-medium">Jon Attended</label>
+                    <input type="checkbox" id="toggle-jon" class="hidden">
+                    <div id="toggle-jon-visual" class="relative w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer toggle-switch-bg" role="switch" aria-checked="false" tabindex="0">
+                        <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition duration-300"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Table Container (Responsive) -->
-        <div class="bg-slate-800 rounded-xl shadow-2xl overflow-x-auto h-[70vh]">
-            <table id="concert-table" class="min-w-full divide-y divide-slate-700 text-sm">
-                <thead class="sticky-header">
-                    <tr>
-                        <th class="px-6 py-3 text-left font-medium text-slate-300 uppercase tracking-wider cursor-pointer hover:bg-slate-700 transition-colors rounded-tl-xl" onclick="sortData('Date')">
-                            Date 
-                            <span id="sort-icon-Date">↓</span>
-                        </th>
-                        <th class="px-6 py-3 text-left font-medium text-slate-300 uppercase tracking-wider">Location</th>
-                        <th class="px-6 py-3 text-left font-medium text-slate-300 uppercase tracking-wider">Venue</th>
-                        <th class="px-6 py-3 text-left font-medium text-slate-300 uppercase tracking-wider">Headline</th>
-                        <th class="px-6 py-3 text-left font-medium text-slate-300 uppercase tracking-wider">Support Acts</th>
-                        <th class="px-6 py-3 text-center font-medium text-slate-300 uppercase tracking-wider">Simon</th>
-                        <th class="px-6 py-3 text-center font-medium text-slate-300 uppercase tracking-wider rounded-tr-xl">Jon</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body" class="divide-y divide-slate-700">
-                    <!-- Data will be injected here by JavaScript -->
-                    <tr>
-                        <td colspan="7" class="text-center py-8 text-slate-400">Loading data...</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Concert Cards Container -->
+        <div id="concert-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Concert cards will be injected here by JavaScript -->
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center p-12 bg-white rounded-xl shadow-lg text-gray-500 text-xl font-medium">
+            No concerts found matching your search and filter criteria.
         </div>
     </div>
 
     <script>
-        // --- 1. CSV Data Initialization ---
-        // The data is included directly in the JavaScript for immediate access.
-        const csvData = `Date,Location,Venue,Headline,Support 1,Support 2,Support 3,Simon attended,Jon attended
+        // --- START CSV DATA ---
+        const csvData = `Date,Location,Venue,Headline,Support 1,Support 2,Support 3,Simon attended ,Jon attended
 07/06/1984,Derby,Blue Note,New Model Army,,,,Yes,No
 16/12/1984,Hull,Spring Street Theatre,Red Guitars,,,,Yes,No
 30/09/1985,Nottingham,Rock City,Screaming Blue Messiahs,,,,Yes,No
@@ -135,8 +123,8 @@
 13/01/1988,Derby,20th Century,Pop Will Eat Itself,The Telescopes,,,Yes,Yes
 16/02/1988,Nottingham,Rock City,The Woodentops,Badlands,,,Yes,Yes
 19/03/1988,Bradford,University,New Model Army,The Way,7 Dead Americans,,Yes,Yes
-30/03/1988,London,The Astoria,The Men They Couldn’t Hang,,,,No,Yes
-10/05/1988,Nottingham,Rock City,The Icicle Works,Fire Next Time,,,Yes,Yes
+30/03/1988,London,The Astoria,The Men They Couldnt Hang,,,,No,Yes
+10/05/1988,Nottingham,Rock City,The Icicle Work,Fire Next Time,,,Yes,Yes
 14/05/1988,London,Mean Fiddler,Brendan Crocker,Nutmeg,,,No,Yes
 18/06/1988,Milton Keynes,Bowl - Amnesty,The Stranglers,The Damned,New Model Army,Aztec Camera,Yes,Yes
 26/06/1988,Birmingham ,NEC,INXS,Big Pig,,,No,Yes
@@ -146,7 +134,7 @@
 17/12/1988,Manchester,Gmex Centre,New Order,A Certain Ratio,Happy Mondays,,Yes,Yes
 08/02/1989,Derby,The Dial,Mega City Four,The Libertines,,,Yes,Yes
 16/03/1989,Nottingham,Trent Poly,Gaye Bykers On Acid,Thee Hypnotics,,,Yes,Yes
-03/05/1989,Nottingham,Trent Poly,The Men They Couldn’t Hang,Playing At Trains,,,Yes,Yes
+03/05/1989,Nottingham,Trent Poly,The Men They Couldnt Hang,Playing At Trains,,,Yes,Yes
 18/05/1989,Nottingham,Rock City,Hurrah,Fatima Mansions,,,Yes,Yes
 31/05/1989,Birmingham ,NEC,REM,The Blue Aeroplanes,,,Yes,Yes
 05/07/1989,Derby,The Dial,Kitchens Of Distinctions,The Happy Ever After,,,Yes,Yes
@@ -160,7 +148,7 @@
 14/03/1990,Nottingham,Rock City,House Of Love,Parachute Men,,,Yes,Yes
 29/04/1990,Nottingham,Trent Poly,The Soup Dragons,,,,Yes,Yes
 15/05/1990,Nottingham,Trent Poly,Fatima Mansions,The Mothers,,,Yes,Yes
-01/06/1990,Derby,Assembly Rooms,The Icicle Works,Innocence Lost,,,Yes,Yes
+01/06/1990,Derby,Assembly Rooms,The Icicle Work,Innocence Lost,,,Yes,Yes
 13/06/1990,Derby,The Dial,The Soup Dragons,Teenage Fan Club,,,Yes,Yes
 01/08/1990,Nottingham,Rock City,The Soup Dragons,Teenage Fan Club,,,Yes,Yes
 12/09/1990,Derby,Assembly Rooms,The Blue Nile,,,,Yes,Yes
@@ -299,226 +287,218 @@
 17/09/2025,Nottingham,Metronome,Sunk,Laketown Band,Joel Foster,Vona Vella,No,Yes
 27/09/2025,Alfreton,Brackenfield,Boo Hewedrine,,,,No,Yes
 06/10/2025,Nottingham ,The Grove,Sunk,Apewards,,,No,Yes
-27/10/2025,Nottingham,Rough Trade,Bruise Control,Sunk,,,No,Yes
-`;
-        let allConcerts = [];
-        let sortColumn = 'Date';
-        let sortDirection = 'asc'; // 'asc' or 'desc'
+27/10/2025,Nottingham,Rough Trade,Bruise Control,Sunk,,,No,Yes`;
+        // --- END CSV DATA ---
 
-        // --- 2. Data Parsing and Cleaning ---
+        let concerts = [];
+        let filterState = {
+            searchTerm: '',
+            showSimonAttended: false,
+            showJonAttended: false
+        };
 
-        /**
-         * Converts DD/MM/YYYY string to a sortable Date object.
-         * @param {string} dateStr - Date string in 'DD/MM/YYYY' format.
-         * @returns {Date} A Date object.
-         */
-        function parseDate(dateStr) {
-            const parts = dateStr.split('/');
-            if (parts.length === 3) {
-                // new Date(year, monthIndex, day) - JS months are 0-indexed
-                return new Date(parts[2], parts[1] - 1, parts[0]);
-            }
-            return new Date(0); // Epoch start for invalid dates
-        }
+        const concertList = document.getElementById('concert-list');
+        const searchInput = document.getElementById('search-input');
+        const noResultsMessage = document.getElementById('no-results');
+
+        // --- Data Parsing ---
 
         /**
-         * Parses the CSV string into an array of concert objects.
-         * @param {string} data - The raw CSV string.
-         * @returns {Array<Object>} Array of concert objects.
+         * Parses the raw CSV string into an array of concert objects.
+         * @param {string} csv - The raw CSV string.
+         * @returns {Array<Object>} The array of concert objects.
          */
-        function parseCSV(data) {
-            const lines = data.trim().split('\n');
+        function parseCSV(csv) {
+            const lines = csv.split('\n').filter(line => line.trim() !== '');
             if (lines.length === 0) return [];
-            
-            // Extract headers and sanitize them for property names
-            const headers = lines[0].split(',').map(header => 
-                header.trim()
-                      .replace(/\s+/g, '_') // Replace spaces with underscore
-                      .replace(/[^a-zA-Z0-9_]/g, '') // Remove special characters
-                      .toLowerCase()
-            );
 
-            const results = [];
-            for (let i = 1; i < lines.length; i++) {
-                const values = lines[i].split(',');
-                if (values.length !== headers.length) continue; // Skip malformed lines
-
-                const concert = {};
-                headers.forEach((header, index) => {
-                    // Trim whitespace from values
-                    concert[header] = values[index].trim();
-                });
-                results.push(concert);
-            }
-            return results;
-        }
-
-        // --- 3. Filtering, Sorting, and Rendering Logic ---
-
-        /**
-         * Compares two items based on the current sort column and direction.
-         */
-        function compareItems(a, b) {
-            let aValue = a[sortColumn];
-            let bValue = b[sortColumn];
-
-            // Special handling for Date sorting
-            if (sortColumn === 'date') {
-                aValue = parseDate(a.date);
-                bValue = parseDate(b.date);
-                if (aValue.getTime() < bValue.getTime()) return sortDirection === 'asc' ? -1 : 1;
-                if (aValue.getTime() > bValue.getTime()) return sortDirection === 'asc' ? 1 : -1;
-                return 0;
-            }
-
-            // General string/numeric comparison
-            if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
-            if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
-            return 0;
-        }
-
-        /**
-         * Handles all filtering and sorting before calling renderTable.
-         */
-        function filterAndRenderData() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const filterValue = document.getElementById('attended-filter').value;
-
-            let filteredConcerts = [...allConcerts];
-
-            // 1. Apply Search Filter
-            if (searchTerm) {
-                filteredConcerts = filteredConcerts.filter(concert => {
-                    const searchFields = [
-                        concert.date, 
-                        concert.location, 
-                        concert.venue, 
-                        concert.headline, 
-                        concert.support_1, 
-                        concert.support_2, 
-                        concert.support_3
-                    ].join(' ').toLowerCase();
-                    return searchFields.includes(searchTerm);
-                });
-            }
-
-            // 2. Apply Attendance Filter
-            if (filterValue !== 'all') {
-                filteredConcerts = filteredConcerts.filter(concert => {
-                    const simon = concert.simon_attended.toLowerCase() === 'yes';
-                    const jon = concert.jon_attended.toLowerCase() === 'yes';
-
-                    if (filterValue === 'simon') return simon;
-                    if (filterValue === 'jon') return jon;
-                    if (filterValue === 'both') return simon && jon;
-                    if (filterValue === 'neither') return !simon && !jon;
-                    return true;
-                });
-            }
-
-            // 3. Apply Sort
-            filteredConcerts.sort(compareItems);
-
-            // 4. Render
-            renderTable(filteredConcerts);
-        }
-
-        /**
-         * Renders the given array of concert data into the table body.
-         * @param {Array<Object>} data - The concert objects to display.
-         */
-        function renderTable(data) {
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = '';
-
-            if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-12 text-lg text-red-400">No concerts found matching your criteria.</td></tr>`;
-                return;
-            }
-
-            data.forEach((concert, index) => {
-                const isOddRow = index % 2 === 0;
-                const rowClass = isOddRow ? 'bg-slate-700/50 hover:bg-slate-700' : 'bg-slate-800/50 hover:bg-slate-700';
-                
-                // Format support acts (non-empty only)
-                const supportActs = [
-                    concert.support_1, 
-                    concert.support_2, 
-                    concert.support_3
-                ].filter(a => a && a.trim() !== '').join(' / ');
-                
-                const simonIcon = concert.simon_attended.toLowerCase() === 'yes' 
-                    ? '<span class="text-green-400 text-lg" title="Attended">&#x2713;</span>' // Checkmark
-                    : '<span class="text-red-400 text-lg" title="Did Not Attend">&#x2717;</span>'; // X
-                
-                const jonIcon = concert.jon_attended.toLowerCase() === 'yes' 
-                    ? '<span class="text-green-400 text-lg" title="Attended">&#x2713;</span>'
-                    : '<span class="text-red-400 text-lg" title="Did Not Attend">&#x2717;</span>';
-
-                const row = document.createElement('tr');
-                row.className = rowClass + ' transition-colors duration-150';
-                row.innerHTML = `
-                    <td class="px-6 py-3 whitespace-nowrap font-semibold text-indigo-300">${concert.date}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-slate-300">${concert.location}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-slate-300">${concert.venue}</td>
-                    <td class="px-6 py-3 font-bold text-lg whitespace-nowrap text-indigo-200">${concert.headline}</td>
-                    <td class="px-6 py-3 text-slate-400 max-w-xs">${supportActs || '—'}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-center">${simonIcon}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-center">${jonIcon}</td>
-                `;
-                tbody.appendChild(row);
+            // Clean headers (remove spaces/non-alphanumeric and standardize)
+            const rawHeaders = lines[0].split(',').map(h => h.trim());
+            const headers = rawHeaders.map(header => {
+                if (header === 'Simon attended ') return 'Simon attended';
+                if (header === 'Jon attended') return 'Jon attended';
+                return header;
             });
-            updateSortIcon();
+
+            return lines.slice(1).map(line => {
+                // Simple split that may break on quoted commas, but works for this clean data
+                const values = line.split(',');
+                const item = {};
+                headers.forEach((header, i) => {
+                    item[header] = (values[i] || '').trim();
+                });
+                return item;
+            });
+        }
+
+        // --- Utility Functions ---
+
+        /**
+         * Helper function to create the attendance indicator HTML.
+         * @param {string} name - The person's name ('Simon' or 'Jon').
+         * @param {string} attended - 'Yes' or 'No'.
+         * @returns {string} HTML string for the indicator.
+         */
+        function getAttendanceHtml(name, attended) {
+            const isAttended = attended.toUpperCase() === 'YES';
+            const color = isAttended ? 'bg-indigo-500' : 'bg-gray-400';
+            const icon = isAttended ? '&#10003;' : '&#10005;'; // Checkmark or X
+            return `
+                <div class="flex items-center space-x-1">
+                    <div class="w-5 h-5 ${color} rounded-full flex items-center justify-center text-xs text-white font-bold">
+                        ${icon}
+                    </div>
+                    <span class="text-sm text-gray-700">${name}</span>
+                </div>
+            `;
         }
 
         /**
-         * Updates the global sort state and triggers a re-render.
-         * @param {string} column - The column property name to sort by.
+         * Renders the concerts list based on the current filters.
          */
-        function sortData(column) {
-            const headerName = column.toLowerCase();
-            if (sortColumn === headerName) {
-                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-            } else {
-                sortColumn = headerName;
-                sortDirection = 'asc';
-            }
-            filterAndRenderData();
-        }
+        function renderConcerts() {
+            const filteredConcerts = concerts.filter(concert => {
+                // 1. Search Filter
+                const searchLower = filterState.searchTerm.toLowerCase();
+                const concertText = [
+                    concert['Date'],
+                    concert['Location'],
+                    concert['Venue'],
+                    concert['Headline'],
+                    concert['Support 1'],
+                    concert['Support 2'],
+                    concert['Support 3']
+                ].join(' ').toLowerCase();
 
-        /**
-         * Updates the visual indicator on the sorted column header.
-         */
-        function updateSortIcon() {
-            document.querySelectorAll('[id^="sort-icon-"]').forEach(icon => icon.innerHTML = '');
-            const iconElement = document.getElementById(`sort-icon-${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`);
-            if (iconElement) {
-                iconElement.innerHTML = sortDirection === 'asc' ? ' &uarr;' : ' &darr;';
-            }
-        }
-
-        // --- 4. Initialization & Event Listeners ---
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Parse Data
-            allConcerts = parseCSV(csvData);
-
-            // 2. Initial Render (default sorted by Date ascending)
-            filterAndRenderData();
-
-            // 3. Set up Event Listeners
-            document.getElementById('search-input').addEventListener('input', () => {
-                // Throttle search input slightly for performance on large datasets
-                if (window.searchTimeout) {
-                    clearTimeout(window.searchTimeout);
+                if (searchLower && !concertText.includes(searchLower)) {
+                    return false;
                 }
-                window.searchTimeout = setTimeout(filterAndRenderData, 200);
-            });
-        });
 
-        // Expose sortData to global scope for use in onclick attribute
-        window.sortData = sortData;
-        window.filterAndRenderData = filterAndRenderData;
+                // 2. Attendance Filters
+                const simonAttended = concert['Simon attended'].toUpperCase() === 'YES';
+                const jonAttended = concert['Jon attended'].toUpperCase() === 'YES';
+
+                if (filterState.showSimonAttended && !simonAttended) {
+                    return false;
+                }
+                if (filterState.showJonAttended && !jonAttended) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            concertList.innerHTML = '';
+
+            if (filteredConcerts.length === 0) {
+                noResultsMessage.classList.remove('hidden');
+                return;
+            } else {
+                noResultsMessage.classList.add('hidden');
+            }
+
+            filteredConcerts.forEach(concert => {
+                const supports = [concert['Support 1'], concert['Support 2'], concert['Support 3']]
+                    .filter(s => s) // Remove empty/null supports
+                    .map(s => `<span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">${s}</span>`)
+                    .join('');
+
+                const cardHtml = `
+                    <div class="concert-card bg-white p-5 rounded-xl shadow-md border-t-4 border-indigo-500 flex flex-col justify-between">
+                        <!-- Top Section: Date & Location -->
+                        <div class="mb-4">
+                            <h2 class="text-xl font-bold text-gray-900 mb-1">${concert['Headline']}</h2>
+                            <p class="text-indigo-600 font-semibold mb-3">${concert['Date']} | ${concert['Location']}</p>
+                            <p class="text-gray-600 text-sm italic">@ ${concert['Venue']}</p>
+                        </div>
+
+                        <!-- Supports -->
+                        ${supports ? `<div class="mb-4 pt-3 border-t border-gray-100">
+                                        <p class="text-sm font-medium text-gray-700 mb-2">Support Acts:</p>
+                                        <div class="flex flex-wrap gap-2">${supports}</div>
+                                      </div>` : ''}
+
+                        <!-- Attendance -->
+                        <div class="pt-4 border-t border-gray-100 flex justify-between">
+                            ${getAttendanceHtml('Simon', concert['Simon attended'])}
+                            ${getAttendanceHtml('Jon', concert['Jon attended'])}
+                        </div>
+                    </div>
+                `;
+                concertList.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        }
+
+
+        /**
+         * Toggles the visual state of a switch and updates the filter state.
+         * @param {string} filterKey - The key in filterState to update.
+         * @param {HTMLElement} visualElement - The visual toggle element.
+         */
+        function toggleFilter(filterKey, visualElement) {
+            const isChecked = !filterState[filterKey];
+            filterState[filterKey] = isChecked;
+
+            // Update visual state
+            const circle = visualElement.querySelector('div');
+            const bg = visualElement;
+
+            if (isChecked) {
+                bg.classList.remove('bg-gray-300');
+                bg.classList.add('bg-indigo-500');
+                circle.classList.add('translate-x-full');
+                visualElement.setAttribute('aria-checked', 'true');
+            } else {
+                bg.classList.remove('bg-indigo-500');
+                bg.classList.add('bg-gray-300');
+                circle.classList.remove('translate-x-full');
+                visualElement.setAttribute('aria-checked', 'false');
+            }
+
+            renderConcerts();
+        }
+
+        // --- Event Listeners and Initialization ---
+
+        window.onload = function() {
+            // 1. Initialize data
+            concerts = parseCSV(csvData);
+
+            // 2. Set up event listeners
+
+            // Search Listener (with debounce for performance)
+            let debounceTimer;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    filterState.searchTerm = e.target.value;
+                    renderConcerts();
+                }, 300); // Wait 300ms after user stops typing
+            });
+
+            // Toggle Listeners
+            const simonToggleVisual = document.getElementById('toggle-simon-visual');
+            const jonToggleVisual = document.getElementById('toggle-jon-visual');
+
+            simonToggleVisual.addEventListener('click', () => toggleFilter('showSimonAttended', simonToggleVisual));
+            simonToggleVisual.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleFilter('showSimonAttended', simonToggleVisual);
+                }
+            });
+
+            jonToggleVisual.addEventListener('click', () => toggleFilter('showJonAttended', jonToggleVisual));
+            jonToggleVisual.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleFilter('showJonAttended', jonToggleVisual);
+                }
+            });
+
+            // 3. Initial Render
+            renderConcerts();
+        };
 
     </script>
 </body>

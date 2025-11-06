@@ -1,407 +1,525 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concert History</title>
+    <title>Concert Schedule</title>
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Style for the sticky header */
-        .sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-        /* Custom scrollbar for better aesthetics */
+        /* Custom scrollbar for a professional look in the dark theme */
         ::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #1e293b; /* slate-800 */
         }
         ::-webkit-scrollbar-thumb {
-            background: #a8a8a8;
+            background: #475569; /* slate-600 */
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: #64748b; /* slate-500 */
+        }
+
+        /* Ensure table header sticks while scrolling content */
+        .sticky-header th {
+            position: sticky;
+            top: 0;
+            background-color: #1e293b; /* slate-800 */
+            z-index: 10;
         }
     </style>
-</head>
-<body class="bg-gray-100 text-gray-800">
-
-    <!-- Header -->
-    <header class="bg-white shadow-md sticky-header py-4">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900">Concert History</h1>
-                    <p class="mt-1 text-md text-gray-600">A personal gig list from 1985 to 2022</p>
-                </div>
-                <div class="w-full md:w-auto">
-                    <input type="text" id="searchInput" placeholder="Search by artist, venue, city..." class="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main id="concert-list-container" class="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
-        <!-- Concert data will be injected here by JavaScript -->
-        <p id="loading-message" class="text-center text-gray-500 text-xl">Loading concert data...</p>
-    </main>
-
-    <!-- Footer -->
-    <footer class="text-center py-6 text-gray-500">
-        <p>&copy; 2024 Concert History. All data rendered from markdown.</p>
-    </footer>
-
-    <!-- Data and JS -->
     <script>
-        // The raw markdown data from the file
-        const rawMarkdownData = `
-| 17/12/1985 | Leeds           | Adam + Eves        | King Kurt                                                                   | All Over The Carpet    |                       |                     |               |
-| ---------- | --------------- | ------------------ | --------------------------------------------------------------------------- | ---------------------- | --------------------- | ------------------- | ------------- |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 04/03/1986 | Leeds           | Adam + Eves        | King Kurt                                                                   | The Restrictors        |                       |                     |               |
-| 21/06/1986 | Milton Keynes   | Bowl               | Simple Minds                                                                | The Waterboys          | The Bangles           | The Cult            | In Tua Nua    |
-| 26/07/1986 | London          | Finsbury Park      | The Damned                                                                  | Doctor & The Medics    | Restless              | Electric Blue Birds |               |
-| 02/08/1986 | Birmingham      | NEC - Yiva         | The Pogues                                                                  | New Model Army         | Half Man Half Biscuit | Icicle Works        |               |
-| 07/08/1986 | Nottingham      | Rock City          | Big Country                                                                 |                        |                       |                     |               |
-| 13/10/1986 | Nottingham      | Rock City          | New Model Army                                                              | L'Armourder            |                       |                     |               |
-| 04/11/1986 | Nottingham      | Rock City          | The Damned                                                                  | Blue In Heaven         |                       |                     |               |
-| 07/11/1986 | Burton on Trent | Central Park       | King Kurt                                                                   | The Tool               |                       |                     |               |
-| 10/11/1986 | Nottingham      | Rock City          | Big Audio Dynamite                                                          | Pocket Rockets         | Schooly D             | Pure Sex            |               |
-| 22/12/1986 | Stoke On Trent  | Shelleys           | King Kurt                                                                   |                        |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 16/02/1987 | Nottingham      | Rock City          | The Icicle Works                                                            | The Wild Flowers       |                       |                     |               |
-| 23/02/1987 | Nottingham      | Rock City          | New Model Army                                                              | Rough Charm            |                       |                     |               |
-| 09/03/1987 | Nottingham      | Royal Concert Hall | The Cult                                                                    | Gaye Bykers On Acid    |                       |                     |               |
-| 18/03/1987 | Stoke On Trent  | Shelleys           | King Kurt                                                                   |                        |                       |                     |               |
-| 15/04/1987 | Nottingham      | Rock City          | Spear Of Destiny                                                            | The Bolshoi            | The Red               |                     |               |
-| 27/04/1987 | Nottingham      | Rock City          | Julian Cope                                                                 | Crazyhead              | Faith Brothers        |                     |               |
-| 04/05/1987 | Nottingham      | Rock City          | The Alarm                                                                   | Wiretrain              |                       |                     |               |
-| 19/05/1987 | Nottingham      | Rock City          | The Fall                                                                    | The Walking Seeds      |                       |                     |               |
-| 13/06/1987 | London          | Wembley Stadium    | U2                                                                          | The Pogues             | Lone Justice          | Lou Reed            |               |
-| 03/08/1987 | Birmingham      | NEC                | U2                                                                          | Hoodu Gurus            |                       |                     |               |
-| 28/08/1987 | Reading         | Festival           | The Godfathers                                                              | The Icicle Works       | The Fall              | The Mission         | All About Eve |
-| 08/09/1987 | Nottingham      | Rock City          | Jesus & Mary Chain                                                          | Motorcycle Boy         |                       |                     |               |
-| 07/10/1987 | Nottingham      | Rock City          | Love & Rockets                                                              | Red Lorry Yellow Lorry |                       |                     |               |
-| 26/11/1987 | Derby           | 20th Century       | The Macc Lads                                                               |                        |                       |                     |               |
-| 10/11/1987 | London          | Wembley Stadium    | New Order                                                                   | Primal Scream          |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 13/01/1988 | Derby           | 20th Century       | Pop Will Eat Itself                                                         | The Telescopes         |                       |                     |               |
-| 16/02/1988 | Nottingham      | Rock City          | The Woodentops                                                              | Badlands               |                       |                     |               |
-| 19/03/1988 | Bradford        | University         | New Model Army                                                              | The Way                | 7 Dead Americans      |                     |               |
-| 30/03/1988 | London          | The Astoria        | The Men They Couldn’t Hang                                                  |                        |                       |                     |               |
-| 10/05/1988 | Nottingham      | Rock City          | The Icicle Work                                                             | Fire Next Time         |                       |                     |               |
-| 14/05/1988 | London          | Mean Fiddler       | Brendan Crocker                                                             | Nutmeg                 |                       |                     |               |
-| 18/06/1988 | Milton Keynes   | Bowl - Amnesty     | The Stranglers                                                              | The Damned             | New Model Army        | Aztec Camera        | Howard Jones  |
-| 26/06/1988 | Birmingham      | NEC                | INXS                                                                        | Big Pig                |                       |                     |               |
-| 06/08/1988 | Birmingham      | NEC                | Prince                                                                      |                        |                       |                     |               |
-| 21/10/1988 | Derby           | Confettis          | The Wedding Present                                                         | Heart Throbs           |                       |                     |               |
-| 14/11/1988 | Nottingham      | Rock City          | The Godfathers                                                              | Diesel Park West       |                       |                     |               |
-| 17/12/1988 | Manchester      | Gmex Centre        | New Order                                                                   | A Certain Ratio        | Happy Mondays         |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 08/02/1989 | Derby           | The Dial           | Mega City Four                                                              | The Libertines         |                       |                     |               |
-| 16/03/1989 | Nottingham      | Trent Poly         | Gaye Bykers On Acid                                                         | Thee Hypnotics         |                       |                     |               |
-| 03/05/1989 | Nottingham      | Trent Poly         | The Men They Couldn’t Hang                                                  | Playing At Trains      |                       |                     |               |
-| 18/05/1989 | Nottingham      | Rock City          | Hurrah                                                                      | Fatima Mansions        |                       |                     |               |
-| 31/05/1989 | Birmingham      | NEC                | REM                                                                         | The Blue Aeroplanes    |                       |                     |               |
-| 05/07/1989 | Derby           | The Dial           | Kitchens Of Distinctions                                                    | The Happy Ever After   |                       |                     |               |
-| 19/07/1989 | Leicester       | Princess Charlotte | Del Amitri                                                                  | Huge Big Massive       |                       |                     |               |
-| 21/12/1989 | Birmingham      | NEC                | Erasure                                                                     | Ocean                  |                       |                     |               |
-| 27/12/1989 | Nottingham      | Trent Poly         | Mega City Four                                                              | Venus Beads            |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 09/02/1990 | Nottingham      | Trent Poly         | Del Amitri                                                                  | The Amazing Colossal   |                       |                     |               |
-| 11/02/1990 | Nottingham      | Trent Poly         | Birdland                                                                    | See See Rider          |                       |                     |               |
-| 24/02/1990 | Birmingham      | Humming Bird       | The Cramps                                                                  | Mega City Four         |                       |                     |               |
-| 11/03/1990 | Nottingham      | Trent Poly         | The Icicle Work                                                             | Innocence Lost         |                       |                     |               |
-| 14/03/1990 | Nottingham      | Rock City          | House Of Love                                                               | Parachute Men          |                       |                     |               |
-| 29/04/1990 | Nottingham      | Trent Poly         | The Soup Dragons                                                            |                        |                       |                     |               |
-| 15/05/1990 | Nottingham      | Trent Poly         | Fatima Mansions                                                             | The Mothers            |                       |                     |               |
-| 01/06/1990 | Derby           | Assembly Rooms     | The Icicle Work                                                             | Innocence Lost         |                       |                     |               |
-| 13/06/1990 | Derby           | The Dial           | The Soup Dragons                                                            | Teenage Fan Club       |                       |                     |               |
-| 01/08/1990 | Nottingham      | Rock City          | The Soup Dragons                                                            | Teenage Fan Club       |                       |                     |               |
-| 12/09/1990 | Derby           | Assembly Rooms     | The Blue Nile                                                               |                        |                       |                     |               |
-| 18/09/1990 | Derby           | Rockhouse          | Mega City Four                                                              | The Boosolvers         |                       |                     |               |
-| 28/11/1990 | Derby           | Assembly Rooms     | The Wedding Present                                                         | Metropolis             |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 08/05/1991 | Derby           | Assembly Rooms     | Julian Cope                                                                 | Railway Children       | Beyond                |                     |               |
-| 24/10/1991 | Derby           | Assembly Rooms     | Neds Atomic Dustbin                                                         | Power Of Dreams        | Scum Pups             |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 21/04/1992 | Derby           | Rockhouse          | Doctor & The Medics                                                         |                        |                       |                     |               |
-| 19/05/1992 | Derby           | Assembly Rooms     | Carter USM                                                                  | Holy Joy               |                       |                     |               |
-| 20/06/1992 | Sheffield       | Lead Mill          | Fatima Mansions                                                             | Cast                   | Bone Yard             |                     |               |
-| 07/10/1992 | Nottingham      | Rock City          | Manic Street Preachers                                                      | Kinky Machine          |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 18/01/1993 | Nottingham      | Rock City          | Julian Cope                                                                 |                        |                       |                     |               |
-| 10/11/1993 | Derby           | University         | Grant Lee Buffalo                                                           |                        |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 29/04/1994 | Leicester       | Princess Charlotte | King Kurt                                                                   | Frantic Flintstones    |                       |                     |               |
-| 14/07/1994 | Stratford       | Long Martson       | Phoenix Festival                                                            |                        |                       |
-| 12/09/1994 | Derby           | Wherehouse         | Fatima Mansions                                                             | Jale                   |                       |                     |               |
-| 03/10/1994 | Derby           | Assembly Rooms     | Pop Will Eat Itself                                                         | Compulsion             | Blaggers ITA          | Dub War             |               |
-| 02/11/1994 | Derby           | Wherehouse         | The Damned                                                                  | The Gin Goblins        |                       |                     |               |
-| 15/12/1994 | Stoke           | Trentham Gardens   | The Beautiful South                                                         |                        |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 31/01/1995 | Nottingham      | Rock City          | Killing Joke                                                                | Shootz Groove          | Skunk Anansie         |                     |               |
-| 20/04/1995 | Sheffield       | Arena              | REM                                                                         |                        |                       |                     |               |
-| 13/07/1995 | Stratford       | Long Martson       | Phoenix Festival                                                            |                        |                       |
-| 01/10/1995 | Nottingham      | Rock City          | Black Grape                                                                 |                        |                       |                     |               |
-| 25/10/1995 | Derby           | Assembly Rooms     | The Beautiful South                                                         |                        |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 18/07/1996 | Stratford       | Long Martson       | Phoenix Festival                                                            |                        |                       |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 17/07/1997 | Stratford       | Long Martson       | Phoenix Festival                                                            |                        |                       |
-| 08/10/1997 | Nottingham      | Rock City          | Stereophonics                                                               | Mover                  |                       |                     |               |
-| 04/12/1997 | Nottingham      | Rock City          | Faith No More                                                               | Radish                 |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 01/04/1998 | Derby           | The Victoria       | Earl Brutus                                                                 | The Cherry Stains      |                       |                     |               |
-| 09/07/1998 | Derby           | The Victoria       | Subhumans                                                                   | The Varukers           | Roadrage              |                     |               |
-| 16/07/1998 | Stratford       | Long Martson       | Phoenix Festival                                                            |                        |                       |
-| 08/09/1998 | Nottingham      | Rock City          | Embrace                                                                     | Delakota               |                       |                     |               |
-| 07/10/1998 | Nottingham      | Rock City          | Rocket From The Crypt                                                       |                        |                       |                     |               |
-| 03/11/1998 | Derby           | Assembly Rooms     | Stereophonics                                                               | Our Lady Peace         |                       |                     |               |
-| 18/12/1998 | Birmingham      | NEC                | Manic Street Preachers                                                      | Catatonia              |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 27/08/1999 | Derby           | The Victoria       | Spear Of Destiny                                                            | Dive                   |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 26/08/2001 | Nottingham      | Wollaton Park      | The Wonderstuff                                                             | New Model Army         | Terrovision           |                     |               |
-| 30/09/2001 | Sheffield       | City Memorial Hall | Jello Biafra                                                                | \-                     |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 12/10/2005 | Derby           | Assembly Rooms     | Dead Men Walking                                                            | \-                     |                       |                     |               |
-| 14/12/2005 | Nottingham      | Rock City          | New Model Army                                                              | \-                     |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 02/02/2006 | Birmingham      | Carling Academy    | Bauhaus                                                                     | \-                     |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 11/11/2007 | Nottingham      | Rock City          | Jello Biafra                                                                | \-                     |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 05/05/2010 | Nottingham      | Rescue Rooms       | The Godfathers                                                              |                        |                       |                     |               |
-| 07/10/2010 | Derby           | Flower Pot         | Mike Peters                                                                 | \-                     |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 14/05/2011 | Nottingham      | Rescue Rooms       | The Alarm                                                                   | The Last Republic      |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 21/03/2012 | Nottingham      | Rescue Rooms       | Pop Will Eat Itself                                                         | Method Cell            |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 17/05/2013 | Derby           | Kedleston Hall     | Bearded Theory Festival                                                     |                        |                       |
-| 14/09/2013 | Nottingham      | Royal Concert Hall | Deacon Blue                                                                 | Hazey Janes            |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 22/05/2014 | Melbourne       | Catton Hall        | Bearded Theory Festival                                                     |                        |                       |
-| 07/06/2014 | Moscow          | Muzeon Park        | Ahmad Tea Music Festival - Elbow, Palma Violets, Peace, Bombay Bicycle Club |                        |                       |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 20/11/2016 | Nottingham      | Rescue Rooms       | Men That Will Not Be Blamed                                                 | Andrew O'Neil          |                       |                     |               |
-| 06/12/2016 | Nottingham      | Motor Point        | Placebo                                                                     | Minor Victories        |                       |                     |               |
-| 18/1tam/2016 | Derby           | The Hairy Dog      | King Kurt                                                                   | The Atoms              |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 01/10/2017 | Derby           | The Hairy Dog      | Subhumans                                                                   | Addicted Philosophy    | Bones Park Rider      |                     |               |
-| 10/12/2017 | Manchester      | Palace Theatre     | Tom Chaplin                                                                 | Fyfe Dangerfield       |                       |                     |               |
-| 27/11/2017 | London          | Sebright Arms      | Men That Will Not Be Blamed                                                 | Polypickpocketz        |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 12/03/2018 | Nottingham      | Rescue Rooms       | Men That Will Not Be Blamed                                                 | Idestroy               |                       |                     |               |
-| 24/03/2018 | London          | Shepherds Bush     | Jim Bob                                                                     | Mark Morriss           |                       |                     |               |
-| 03/02/2018 | Derby           | The Hairy Dog      | The Godfathers                                                              | The Lengthmen          | Damn Cargo            |                     |               |
-| 15/04/2018 | Derby           | The Hairy Dog      | The Meteors                                                                 | Kings of Hong Kong     | Hotrod Hooliganz      |                     |               |
-| 20/04/2018 | Eastwood        | MFN                | FILF                                                                        | Special Brew           |                       |                     |               |
-| 21/04/2018 | Eastwood        | MFN                | The Complete Clash                                                          | The Joe Publix         |                       |                     |               |
-| 08/06/2018 | Derby           | The Hairy Dog      | King Kurt                                                                   | Hyper Jax              |                       |                     |               |
-| 03/08/2018 | Blackpool       | Winter Gardens     | Rebellion Punk Festival                                                     |                        |                       |
-| 20/10/2018 | Derby           | The Hairy Dog      | Pussycat & Dirty Johnsons                                                   | You Want Fox           | THINKING PINK 2018    |                     |               |
-| 23/11/2018 | Stoke           | Underground        | King Kurt                                                                   | The Runawayz           | Two Step Goodbyes     |                     |               |
-| 29/12/2018 | Nottingham      | Rescue Rooms       | Dirtbox Disco                                                               | Headsticks             |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 29/01/2019 | Sheffield       | 02 Academy         | The Streets                                                                 | The Manor              |                       |                     |               |
-| 13/02/2019 | Nottingham      | Motorpoint         | Tears for Fears                                                             | Alison Moyet           |                       |                     |               |
-| 23/03/2019 | London          | Shepherds Bush     | Jim Bob                                                                     | The Frank & Walters    |                       |                     |               |
-| 11/04/2019 | Sheffield       | The Plug           | Men That Will Not Be Blamed                                                 | Louise Distras         | Syteria               |                     |               |
-| 22/06/2019 | Derby           | The Hairy Dog      | Spunk Volcano & The Eruption                                                | Berlin Blackouts       | Billy Club            |                     |               |
-| 27/07/2019 | Eastwood        | MFN                | Dirtbox Disco                                                               | Verbal Warning         | The Glory             |                     |               |
-| 01/08/2019 | Blackpool       | Winter Gardens     | Rebellion Punk Festival                                                     |                        |                       |
-| 22/11/2019 | Stoke           | Underground        | King Kurt                                                                   | The Runawayz           | Two Step Goodbyes     |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 02/02/2020 | Berlin          | Huxleys Neue Hall  | Stereophonics                                                               | Nadia Sheikh           |                       |                     |               |
-| 03/02/2020 | Berlin          | Verti Music Hall   | Keane                                                                       | Eliza Shaddad          |                       |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 21/08/2021 | Derby           | The Hairy Dog      | Teenage Werewolves                                                          | She's in Bauhaus       | Kitten de Ville       | Ramonas             |               |
-| 16/10/2021 | Nottingham      | Rock City          | The Macc Lads                                                               | Resistance 77          |                       |                     |               |
-| 26/11/2021 | Nottingham      | Rock City          | New Model Army                                                              |                        |                       |                     |               |
-| 27/11/2021 | Nottingham      | Motorpoint         | Sleaford Mods                                                               | Dry Cleaning           | Billy Nomates         | Warmduscher         |               |
-| 04/12/2021 | Stoke           | Underground        | King Kurt                                                                   | The Hell Katz          | The Strays            |                     |               |
-|            |                 |                    |                                                                             |                        |                       |                     |       
-| 19/02/2022 | Derby           | The Hairy Dog      | The Lengthmen                                                               | Unholy Alliance        | Billy Club            |                     |               |
-| 16/04/2022 | Nottingham      | Rescue Rooms       | Dirtbox Disco                                                               | Guitar Gangsters       |                       |                     |               |
-| 23/07/2022 | Eastwood        | MFN                | King Kurt                                                                   | The Highliners         | Blue Carpet Band      |                     |               |
-| 04/08/2022 | Blackpool       | Winter Gardens     | Rebellion Punk Festival                                                     |                        |                       |
-        `;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen p-4 sm:p-8">
 
-        // Function to parse dd/mm/yyyy dates for correct sorting
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-8 p-4 bg-slate-800 rounded-xl shadow-2xl">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-400 mb-2">Concert Attendance Log</h1>
+            <p class="text-slate-400">A detailed, sortable list of past and upcoming gigs from your CSV file.</p>
+        </header>
+
+        <!-- Controls (Search & Filters) -->
+        <div class="mb-6 flex flex-col sm:flex-row gap-4">
+            <input type="text" id="search-input" placeholder="Search by Band, Venue, or Location..."
+                   class="flex-grow p-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
+            
+            <select id="attended-filter" onchange="filterAndRenderData()"
+                    class="p-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors w-full sm:w-auto">
+                <option value="all">All Concerts</option>
+                <option value="simon">Simon Attended</option>
+                <option value="jon">Jon Attended</option>
+                <option value="neither">Neither Attended</option>
+                <option value="both">Both Attended</option>
+            </select>
+        </div>
+
+        <!-- Table Container (Responsive) -->
+        <div class="bg-slate-800 rounded-xl shadow-2xl overflow-x-auto h-[70vh]">
+            <table id="concert-table" class="min-w-full divide-y divide-slate-700 text-sm">
+                <thead class="sticky-header">
+                    <tr>
+                        <th class="px-6 py-3 text-left font-medium text-slate-300 uppercase tracking-wider cursor-pointer hover:bg-slate-700 transition-colors rounded-tl-xl" onclick="sortData('Date')">
+                            Date 
+                            <span id="sort-icon-Date">↓</span>
+                        </th>
+                        <th class="px-6 py-3 text-left font-medium text-slate-300 uppercase tracking-wider">Location</th>
+                        <th class="px-6 py-3 text-left font-medium text-slate-300 uppercase tracking-wider">Venue</th>
+                        <th class="px-6 py-3 text-left font-medium text-slate-300 uppercase tracking-wider">Headline</th>
+                        <th class="px-6 py-3 text-left font-medium text-slate-300 uppercase tracking-wider">Support Acts</th>
+                        <th class="px-6 py-3 text-center font-medium text-slate-300 uppercase tracking-wider">Simon</th>
+                        <th class="px-6 py-3 text-center font-medium text-slate-300 uppercase tracking-wider rounded-tr-xl">Jon</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body" class="divide-y divide-slate-700">
+                    <!-- Data will be injected here by JavaScript -->
+                    <tr>
+                        <td colspan="7" class="text-center py-8 text-slate-400">Loading data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. CSV Data Initialization ---
+        // The data is included directly in the JavaScript for immediate access.
+        const csvData = `Date,Location,Venue,Headline,Support 1,Support 2,Support 3,Simon attended,Jon attended
+07/06/1984,Derby,Blue Note,New Model Army,,,,Yes,No
+16/12/1984,Hull,Spring Street Theatre,Red Guitars,,,,Yes,No
+30/09/1985,Nottingham,Rock City,Screaming Blue Messiahs,,,,Yes,No
+29/11/1985,Nottingham,Trent Poly,Redskins,Boothill Foot Tappers,,,Yes,No
+19/11/1985,Nottingham,Rock City,Robery Cray Band,,,,Yes,No
+27/11/1985,Nottingham,Rock City,Big Audio Dynamite,,,,Yes,No
+17/12/1985,Leeds,Adam + Eves,King Kurt,All Over The Carpet,,,No,Yes
+04/03/1986,Leeds,Adam + Eves,King Kurt,The Restrictors,,,No,Yes
+09/03/1986,Nottingham,Rock City,Jeff Healey Band,,,,Yes,No
+08/06/1986,Nottingham,Rock City,Housemartins,,,,Yes,No
+21/06/1986,Milton Keynes,Bowl,Simple Minds,The Waterboys,The Bangles,The Cult,No,Yes
+26/07/1986,London,Finsbury Park,The Damned,Doctor & The Medics,Restless,Electric Blue Birds,No,Yes
+02/08/1986,Birmingham,NEC - Yiva,The Pogues,New Model Army,Half Man Half Biscuit,Icicle Works,Yes,Yes
+07/08/1986,Nottingham,Rock City,Big Country,,,,Yes,Yes
+09/08/1986,Nottingham,Rock City,Love and Money,,,,Yes,No
+13/10/1986,Nottingham,Rock City,New Model Army,L'Armourder,,,Yes,Yes
+04/11/1986,Nottingham,Rock City,The Damned,Blue In Heaven,,,Yes,Yes
+07/11/1986,Burton on Trent,Central Park,King Kurt,The Tool,,,No,Yes
+10/11/1986,Nottingham,Rock City,Big Audio Dynamite,Pocket Rockets,Schooly D,Pure Sex,Yes,Yes
+22/12/1986,Stoke On Trent,Shelleys,King Kurt,,,,No,Yes
+16/02/1987,Nottingham,Rock City,The Icicle Works,The Wild Flowers,,,Yes,Yes
+23/02/1987,Nottingham,Rock City,New Model Army,Rough Charm,,,Yes,Yes
+09/03/1987,Nottingham,Royal Concert Hall,The Cult,Gaye Bykers On Acid,,,No,Yes
+18/03/1987,Stoke On Trent,Shelleys,King Kurt,,,,Yes,Yes
+15/04/1987,Nottingham,Rock City,Spear Of Destiny,The Bolshoi,The Red,,Yes,Yes
+27/04/1987,Nottingham,Rock City,Julian Cope,Crazyhead,Faith Brothers,,Yes,Yes
+04/05/1987,Nottingham,Rock City,The Alarm,Wiretrain,,,Yes,Yes
+19/05/1987,Nottingham,Rock City,The Fall,The Walking Seeds,,,Yes,Yes
+13/06/1987,London,Wembley Stadium,U2,The Pogues,Lone Justice,Lou Reed,No,Yes
+03/08/1987,Birmingham,NEC  ,U2,Hoodu Gurus,,,No,Yes
+28/08/1987,Reading,Festival,The Godfathers,The Icicle Works,The Fall,The Mission,Yes,Yes
+08/09/1987,Nottingham,Rock City,Jesus & Mary Chain,Motorcycle Boy,,,Yes,Yes
+07/10/1987,Nottingham,Rock City,Love & Rockets,Red Lorry Yellow Lorry,,,Yes,Yes
+26/11/1987,Derby,20th Century,The Macc Lads,,,,No,Yes
+10/12/1987,London,Wembley Stadium,New Order,Primal Scream,,,Yes,Yes
+13/01/1988,Derby,20th Century,Pop Will Eat Itself,The Telescopes,,,Yes,Yes
+16/02/1988,Nottingham,Rock City,The Woodentops,Badlands,,,Yes,Yes
+19/03/1988,Bradford,University,New Model Army,The Way,7 Dead Americans,,Yes,Yes
+30/03/1988,London,The Astoria,The Men They Couldn’t Hang,,,,No,Yes
+10/05/1988,Nottingham,Rock City,The Icicle Work,Fire Next Time,,,Yes,Yes
+14/05/1988,London,Mean Fiddler,Brendan Crocker,Nutmeg,,,No,Yes
+18/06/1988,Milton Keynes,Bowl - Amnesty,The Stranglers,The Damned,New Model Army,Aztec Camera,Yes,Yes
+26/06/1988,Birmingham ,NEC,INXS,Big Pig,,,No,Yes
+06/08/1988,Birmingham ,NEC,Prince,,,,Yes,Yes
+21/10/1988,Derby,Confettis,The Wedding Present,Heart Throbs,,,Yes,Yes
+14/11/1988,Nottingham,Rock City,The Godfathers,Diesel Park West,,,Yes,Yes
+17/12/1988,Manchester,Gmex Centre,New Order,A Certain Ratio,Happy Mondays,,Yes,Yes
+08/02/1989,Derby,The Dial,Mega City Four,The Libertines,,,Yes,Yes
+16/03/1989,Nottingham,Trent Poly,Gaye Bykers On Acid,Thee Hypnotics,,,Yes,Yes
+03/05/1989,Nottingham,Trent Poly,The Men They Couldn’t Hang,Playing At Trains,,,Yes,Yes
+18/05/1989,Nottingham,Rock City,Hurrah,Fatima Mansions,,,Yes,Yes
+31/05/1989,Birmingham ,NEC,REM,The Blue Aeroplanes,,,Yes,Yes
+05/07/1989,Derby,The Dial,Kitchens Of Distinctions,The Happy Ever After,,,Yes,Yes
+19/07/1989,Leicester,Princess Charlotte,Del Amitri,Huge Big Massive,,,Yes,Yes
+21/12/1989,Birmingham ,NEC,Erasure,Ocean,,,No,Yes
+27/12/1989,Nottingham,Trent Poly,Mega City Four,Venus Beads,,,Yes,Yes
+09/02/1990,Nottingham,Trent Poly,Del Amitri,The Amazing Colossal,,,Yes,Yes
+11/02/1990,Nottingham,Trent Poly,Birdland,See See Rider,,,Yes,Yes
+24/02/1990,Birmingham ,Humming Bird,The Cramps,Mega City Four,,,No,Yes
+11/03/1990,Nottingham,Trent Poly,The Icicle Works,Innocence Lost,,,Yes,Yes
+14/03/1990,Nottingham,Rock City,House Of Love,Parachute Men,,,Yes,Yes
+29/04/1990,Nottingham,Trent Poly,The Soup Dragons,,,,Yes,Yes
+15/05/1990,Nottingham,Trent Poly,Fatima Mansions,The Mothers,,,Yes,Yes
+01/06/1990,Derby,Assembly Rooms,The Icicle Work,Innocence Lost,,,Yes,Yes
+13/06/1990,Derby,The Dial,The Soup Dragons,Teenage Fan Club,,,Yes,Yes
+01/08/1990,Nottingham,Rock City,The Soup Dragons,Teenage Fan Club,,,Yes,Yes
+12/09/1990,Derby,Assembly Rooms,The Blue Nile,,,,Yes,Yes
+18/09/1990,Derby,Rockhouse,Mega City Four,The Boosolvers,,,Yes,Yes
+28/11/1990,Derby,Assembly Rooms,The Wedding Present,Metropolis,,,Yes,Yes
+08/05/1991,Derby,Assembly Rooms,Julian Cope,Railway Children,Beyond,,Yes,Yes
+24/10/1991,Derby,Assembly Rooms,Neds Atomic Dustbin ,Power Of Dreams,Scum Pups,,Yes,Yes
+21/04/1992,Derby,Rockhouse,Doctor & The Medics,,,,Yes,Yes
+19/05/1992,Derby,Assembly Rooms,Carter USM,Holy Joy,,,Yes,Yes
+20/06/1992,Sheffield,Lead Mill,Fatima Mansions,Cast,Bone Yard,,Yes,Yes
+07/10/1992,Nottingham,Rock City,Manic Street Preachers,Kinky Machine,,,Yes,Yes
+18/01/1993,Nottingham,Rock City,Julian Cope,,,,Yes,Yes
+01/05/1993,Derby,Wherehouse,Blaggers ITA,Blade,Fun-Da-Mental,,Yes,Yes
+25/10/1993,Derby,Wherehouse,Power of Dreams,,,,Yes,Yes
+10/11/1993,Derby,University,Grant Lee Buffalo,,,,Yes,Yes
+29/04/1994,Leicester,Princess Charlotte,King Kurt,Frantic Flintstones,,,Yes,Yes
+14/07/1994,Stratford,Long Martson,Phoenix Festival,,,,Yes,Yes
+12/09/1994,Derby,Wherehouse,Fatima Mansions,Jale,,,Yes,Yes
+03/10/1994,Derby,Assembly Rooms,Pop Will Eat Itself,Compulsion,Blaggers ITA,Dub War,Yes,Yes
+02/11/1994,Derby,Wherehouse,The Damned,The Gin Goblins,,,Yes,Yes
+15/12/1994,Stoke,Trentham Gardens,The Beautiful South,,,,Yes,Yes
+31/01/1995,Nottingham,Rock City,Killing Joke,Shootz Groove,Skunk Anansie,,Yes,Yes
+13/07/1995,Stratford,Long Martson,Phoenix Festival,,,,Yes,Yes
+01/10/1995,Nottingham,Rock City,Black Grape,,,,Yes,Yes
+25/10/1995,Derby,Assembly Rooms,The Beautiful South,,,,Yes,Yes
+18/07/1996,Stratford,Long Martson,Phoenix Festival,,,,Yes,Yes
+17/07/1997,Stratford,Long Martson,Phoenix Festival,,,,Yes,Yes
+08/10/1997,Nottingham,Rock City,Stereophonics,Mover,,,Yes,Yes
+04/12/1997,Nottingham,Rock City,Faith No More,Radish,,,Yes,Yes
+01/04/1998,Derby,The Victoria,Earl Brutus,The Cherry Stains,,,Yes,Yes
+09/07/1998,Derby,The Victoria,Subhumans,The Varukers,Roadrage,,Yes,Yes
+08/09/1998,Nottingham,Rock City,Embrace,Delakota,,,Yes,Yes
+07/10/1998,Nottingham,Rock City,Rocket From The Crypt,BIS,,,Yes,Yes
+03/11/1998,Derby,Assembly Rooms,Stereophonics,Our Lady Peace,,,Yes,Yes
+18/12/1998,Birmingham ,NEC,Manic Street Preachers,Catatonia,,,Yes,Yes
+27/08/1999,Derby,The Victoria,Spear Of Destiny,Dive,,,Yes,Yes
+30/09/2001,Sheffield,City Memorial Hall,Jello Biafra,-,,,Yes,Yes
+12/10/2005,Derby,Assembly Rooms,Dead Men Walking,-,,,Yes,Yes
+02/02/2006,Birmingham ,Carling Academy,Bauhaus,-,,,No,Yes
+11/11/2007,Nottingham,Rock City,Jello Biafra,-,,,Yes,Yes
+07/10/2010,Derby,Flower Pot,Mike Peters,-,,,No,Yes
+21/03/2012,Nottingham,Rescue Rooms,Pop Will Eat Itself,Method Cell,,,Yes,Yes
+14/09/2013,Nottingham,Royal Concert Hall,Deacon Blue,Hazey Janes,,,No,Yes
+15/05/2014,London,The Garage,The Chameleons,,,,Yes,No
+22/05/2014,Melbourne,Catton Hall,Bearded Theory Festival,,,,Yes,Yes
+20/11/2016,Nottingham,Rescue Rooms,Men That Will Not Be Blamed,Andrew O'Neil,,,Yes,Yes
+18/12/2016,Derby,The Hairy Dog,King Kurt,The Atoms,,,No,Yes
+10/12/2017,Manchester,Palace Theatre,Tom Chaplin,Fyfe Dangerfield,,,No,Yes
+27/11/2017,London,Sebright Arms,Men That Will Not Be Blamed,Polypickpocketz,,,No,Yes
+24/03/2018,London,Shepherds Bush,Jim Bob,Mark Morriss,,,No,Yes
+03/02/2018,Derby,The Hairy Dog,The Godfathers,The Lengthmen,Damn Cargo,,Yes,Yes
+20/04/2018,Eastwood,MFN,FILF,Special Brew,,,No,Yes
+21/04/2018,Eastwood,MFN,The Complete Clash,The Joe Publix,,,No,Yes
+08/06/2018,Derby,The Hairy Dog,King Kurt,Hyper Jax,,,No,Yes
+20/10/2018,Derby,The Hairy Dog,Pussycat & Dirty Johnsons,You Want Fox,THINKING PINK 2018,,No,Yes
+23/11/2018,Stoke,Underground,King Kurt,The Runawayz,Two Step Goodbyes,,No,Yes
+29/12/2018,Nottingham,Rescue Rooms,Dirtbox Disco,Headsticks,,,No,Yes
+13/02/2019,Nottingham,Motorpoint,Tears for Fears,Alison Moyet,,,No,Yes
+23/03/2019,London,Shepherds Bush,Jim Bob,The Frank & Walters,,,No,Yes
+11/04/2019,Sheffield,The Plug,Men That Will Not Be Blamed,Louise Distras,Syteria,,Yes,Yes
+22/06/2019,Derby,The Hairy Dog,Spunk Volcano & The Eruption,Berlin Blackouts,Billy Club,,No,Yes
+27/07/2019,Eastwood,MFN,Dirtbox Disco,Verbal Warning,The Glory,,No,Yes
+01/08/2019,Blackpool,Winter Gardens,Rebellion Punk Festival,,,,Yes,Yes
+22/11/2019,Stoke,Underground,King Kurt,The Runawayz,Two Step Goodbyes,,No,Yes
+02/02/2020,Berlin,Huxleys Neue Hall,Stereophonics,Nadia Sheikh,,,No,Yes
+03/02/2020,Berlin,Verti Music Hall,Keane,Eliza Shaddad,,,No,Yes
+21/08/2021,Derby,The Hairy Dog,Teenage Werewolves,She's in Bauhaus,Kitten de Ville,Ramonas,No,Yes
+16/10/2021,Nottingham,Rock City,The Macc Lads,Resistance 77,,,No,Yes
+27/11/2021,Nottingham,Motorpoint,Sleaford Mods,Dry Cleaning,Billy Nomates,Warmduscher,No,Yes
+04/12/2021,Stoke,Underground,King Kurt,The Hell Katz,The Strays,,No,Yes
+19/02/2022,Derby,The Hairy Dog,The Lengthmen,Unholy Alliance,Billy Club,,No,Yes
+16/04/2022,Nottingham ,Rescue Rooms,Dirtbox Disco,Guitar Gangsters,,,No,Yes
+23/07/2022,Eastwood,MFN,King Kurt,The Highliners,Blue Carpet Band,,No,Yes
+04/08/2022,Blackpool,Winter Gardens,Rebellion Punk Festival,,,,Yes,Yes
+17/10/2022,Amsterdam,Melkweg,Steve Ignorant - Crass,Headsticks,,,No,Yes
+04/11/2022,Nottingham ,The Old Cold Store,Headsticks,Steve Ignorant SofL,Carol Hodge,,No,Yes
+11/01/2023,London,100 Club,Subhumans,Headsticks,Backstreet Abortions,,No,Yes
+29/01/2023,Nottingham ,Various,Beat the Streets 2023,,,,No,Yes
+14/03/2023,Nottingham,Rock City,Sleaford Mods,,,,No,Yes
+18/03/2023,Leicester,Firebug,Before Victoria,Andrew O'Neil,Something Orange,,No,Yes
+27/03/2023,Nottingham,The Bodega,Berries,Airport Dad,Electric Pets,Headcut,No,Yes
+21/05/2023,Birmingham,02 Institute,The Wedding Present,Dogviolet,,,No,Yes
+17/06/2023,Nottingham,The Old Cold Store,Dirtbox Disco,Knock Off,MC16,,No,Yes
+14/07/2023,Leicester,Firebug,Frenchy and the Punk,Flesh Tetris,Before Victoria,,No,Yes
+21/07/2023,Derby,The Hairy Dog,Spunk Volcano & The Eruption,Noose,,,No,Yes
+03/08/2023,Blackpool,Winter Gardens,Rebellion Punk Festival,,,,Yes,Yes
+13/08/2023,Saffron Waldron,Audley End House,Razorlight,Embrace,The Feeling,Toploader,No,Yes
+18/08/2023,Derby,The Hairy Dog,Teenage Werewolves,She's in Bauhaus,,,No,Yes
+06/10/2023,Wolverhampton,Wulfrun - The Halls,Half Man Half Biscuit,The Hitchers,,,Yes,Yes
+02/11/2023,Nottingham,The Chameleon,Express Office Portico,The Cost of Living,Playbow,,No,Yes
+17/11/2023,Derby,The Hairy Dog,Dirtbox Disco,Angry Itch,,,No,Yes
+19/11/2023,Nottingham,The Bodega,The Meffs,Noah and the Loners,,,Yes,Yes
+20/11/2023,Nottingham,Rock City,Bob Vylan,Kid Bookie,Panic Shack,,Yes,Yes
+05/12/2023,Nottingham,The Chameleon,Subhumans,Scene Killers,Sex Germs,,No,Yes
+06/12/2023,Derby,Victoria Inn,Subhumans,Addictive Phiosophy,Eryx London,,Yes,Yes
+08/12/2023,Nottingham,Rock City,New Model Army,,,,Yes,Yes
+28/01/2024,Nottingham ,Various,Beat the Streets 2024,,,,No,Yes
+16/03/2024,Nottingham ,The Bodega,Pete Wylie - Mighty Wah,,,,Yes,Yes
+03/05/2024,Nottingham ,The Old Cold Store,Conflict,Sick On The Bus,Yur Mum,Eryx London,No,Yes
+19/05/2024,Melbourne,Assembly Rooms,Boo Hewerdine,Jemma Johnson ,,,No,Yes
+14/06/2024,Leicester,Firebug,Before Victoria,Frenchy and the Punk,,,No,Yes
+29/06/2024,Coalville,Victoria Biker Pub,The Meffs,Sick On The Bus,Vomit,Eryx London,No,Yes
+12/07/2024,Nottingham ,JT Soars,Slime City,The Noise ,Revenge of Calculon,,No,Yes
+01/08/2024,Blackpool,Winter Gardens,Rebellion Punk Festival,,,,Yes,Yes
+06/08/2024,Leicester,Duffys,GogoPonies,Spitting Feathers,,,No,Yes
+27/08/2024,Nottingham ,The Bodega,Gustaf,Cousines Like Shit,,,No,Yes
+13/09/2024,Nottingham ,JT Soars,Fatbigfat,Latchkey Kids,Push Rope,,No,Yes
+26/10/2024,Nottingham ,The Chapel,The Kytes,Killing Aura,Set The Fire,,No,Yes
+29/10/2024,Nottingham ,Rock City,Soft Play,Panic Shack,,,Yes,Yes
+02/11/2024,Pontefract,Malt Shovel,Dirtbox Disco,The Papashangos,MC16,,No,Yes
+05/11/2024,Nottingham ,Rock City,Bob Vylan,Hyphen,Clt Drp,,Yes,Yes
+14/11/2024,Nottingham ,The Old Cold Store,Steve Ignorant - Crass,Interrorbang,Sunk,,No,Yes
+28/11/2024,Nottingham ,Billy Bootleggers,Fountain,Push Rope,Luna and the Lime Slices,Possum Kid,No,Yes
+12/12/2024,Nottingham ,Rock City,Jesus & Mary Chain,Ciel,,,Yes,Yes
+20/12/2024,Nottingham ,JT Soars,Dead Raze,Eryx London,Minatore,,No,Yes
+21/12/2024,Nottingham ,Rescue Rooms,The Public,M60,Shadows Of A Silhouette,,No,Yes
+16/01/2025,Nottingham,The Bodega,Desperate Journalist,Bloodworm,,,No,Yes
+26/01/2025,Nottingham ,Various,Beat the Streets 2025,,,,No,Yes
+23/02/2025,Las Vegas,The Usual Place,Koffin Kats,The Drowns,Crimson Riot,,No,Yes
+20/03/2025,Nottingham,Salt Box,Rob Green,Tash Bird,,,No,Yes
+24/04/2025,Nottingham,The Bodega,Benefits,Hang Linton ,,,No,Yes
+01/05/2025,Nottingham,The Bodega,Panic Shack,The Pill,,,No,Yes
+04/05/2025,Shrewsbury,Loopfest,Yur Mum,Flesh Tetris,Little Juke,Baudelaire,No,Yes
+11/05/2025,Nottingham,Rough Trade,Slime City,Irked,Xtroghost,,No,Yes
+16/05/2025,Nottingham,Billy Bootleggers,Sunk,Skunk,Rhythm Eaters,Bleach Works,No,Yes
+25/05/2025,Sheffield,Bramall Lane,Paul Heaton,Shed Seven,Lightening Seeds,,No,Yes
+26/05/2025,Nottingham ,Rough Trade,Sports Team,,,,No,Yes
+12/06/2025,Nottingham ,The Chapel,Our Souls,Sunk,Hex Poseur,Character Actors,No,Yes
+20/06/2025,Nottingham,The Bodega,The Molotovs,Soaked,,,No,Yes
+27/06/2025,Nottingham,Rock City,Public Image Limited,Stuart Pearce,Sunk,,No,Yes
+20/07/2025,Nottingham,Rough Trade,Panic Shack,,,,No,Yes
+03/08/2025,Nottingham,Billy Bootleggers,Headsticks,Sally Pepper,,,No,Yes
+06/08/2025,Blackpool,Winter Gardens,Rebellion Punk Festival,,,,Yes,Yes
+12/08/2025,Derby,The Hairy Dog,The Courettes,Velocettes,,,No,Yes
+14/09/2025,Derby,The Hairy Dog,The Meffs,Face Up,,,No,Yes
+17/09/2025,Nottingham,Metronome,Sunk,Laketown Band,Joel Foster,Vona Vella,No,Yes
+27/09/2025,Alfreton,Brackenfield,Boo Hewedrine,,,,No,Yes
+06/10/2025,Nottingham ,The Grove,Sunk,Apewards,,,No,Yes
+27/10/2025,Nottingham,Rough Trade,Bruise Control,Sunk,,,No,Yes
+`;
+        let allConcerts = [];
+        let sortColumn = 'Date';
+        let sortDirection = 'asc'; // 'asc' or 'desc'
+
+        // --- 2. Data Parsing and Cleaning ---
+
+        /**
+         * Converts DD/MM/YYYY string to a sortable Date object.
+         * @param {string} dateStr - Date string in 'DD/MM/YYYY' format.
+         * @returns {Date} A Date object.
+         */
         function parseDate(dateStr) {
             const parts = dateStr.split('/');
             if (parts.length === 3) {
-                // Note: new Date(year, monthIndex, day)
-                // We need to handle potential typos like '18/1tam/2016'
-                const day = parseInt(parts[0], 10);
-                const monthStr = parts[1];
-                const month = parseInt(monthStr, 10); // Will be NaN for '1tam'
-                const year = parseInt(parts[2], 10);
-                
-                if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-                    return new Date(year, month - 1, day);
-                }
+                // new Date(year, monthIndex, day) - JS months are 0-indexed
+                return new Date(parts[2], parts[1] - 1, parts[0]);
             }
-            return null; // Return null for invalid dates
+            return new Date(0); // Epoch start for invalid dates
         }
 
-        // Main function to process and render data
-        function renderConcertData() {
-            const lines = rawMarkdownData.trim().split('\n');
-            let concerts = [];
+        /**
+         * Parses the CSV string into an array of concert objects.
+         * @param {string} data - The raw CSV string.
+         * @returns {Array<Object>} Array of concert objects.
+         */
+        function parseCSV(data) {
+            const lines = data.trim().split('\n');
+            if (lines.length === 0) return [];
+            
+            // Extract headers and sanitize them for property names
+            const headers = lines[0].split(',').map(header => 
+                header.trim()
+                      .replace(/\s+/g, '_') // Replace spaces with underscore
+                      .replace(/[^a-zA-Z0-9_]/g, '') // Remove special characters
+                      .toLowerCase()
+            );
 
-            lines.forEach(line => {
-                const trimmedLine = line.trim();
-                // Skip empty lines or markdown separator lines
-                if (!trimmedLine || trimmedLine.startsWith('| ---') || trimmedLine === '|') {
-                    return;
-                }
+            const results = [];
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',');
+                if (values.length !== headers.length) continue; // Skip malformed lines
 
-                const columns = trimmedLine.split('|').map(cell => cell.trim());
+                const concert = {};
+                headers.forEach((header, index) => {
+                    // Trim whitespace from values
+                    concert[header] = values[index].trim();
+                });
+                results.push(concert);
+            }
+            return results;
+        }
+
+        // --- 3. Filtering, Sorting, and Rendering Logic ---
+
+        /**
+         * Compares two items based on the current sort column and direction.
+         */
+        function compareItems(a, b) {
+            let aValue = a[sortColumn];
+            let bValue = b[sortColumn];
+
+            // Special handling for Date sorting
+            if (sortColumn === 'date') {
+                aValue = parseDate(a.date);
+                bValue = parseDate(b.date);
+                if (aValue.getTime() < bValue.getTime()) return sortDirection === 'asc' ? -1 : 1;
+                if (aValue.getTime() > bValue.getTime()) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            }
+
+            // General string/numeric comparison
+            if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+            if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+            return 0;
+        }
+
+        /**
+         * Handles all filtering and sorting before calling renderTable.
+         */
+        function filterAndRenderData() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const filterValue = document.getElementById('attended-filter').value;
+
+            let filteredConcerts = [...allConcerts];
+
+            // 1. Apply Search Filter
+            if (searchTerm) {
+                filteredConcerts = filteredConcerts.filter(concert => {
+                    const searchFields = [
+                        concert.date, 
+                        concert.location, 
+                        concert.venue, 
+                        concert.headline, 
+                        concert.support_1, 
+                        concert.support_2, 
+                        concert.support_3
+                    ].join(' ').toLowerCase();
+                    return searchFields.includes(searchTerm);
+                });
+            }
+
+            // 2. Apply Attendance Filter
+            if (filterValue !== 'all') {
+                filteredConcerts = filteredConcerts.filter(concert => {
+                    const simon = concert.simon_attended.toLowerCase() === 'yes';
+                    const jon = concert.jon_attended.toLowerCase() === 'yes';
+
+                    if (filterValue === 'simon') return simon;
+                    if (filterValue === 'jon') return jon;
+                    if (filterValue === 'both') return simon && jon;
+                    if (filterValue === 'neither') return !simon && !jon;
+                    return true;
+                });
+            }
+
+            // 3. Apply Sort
+            filteredConcerts.sort(compareItems);
+
+            // 4. Render
+            renderTable(filteredConcerts);
+        }
+
+        /**
+         * Renders the given array of concert data into the table body.
+         * @param {Array<Object>} data - The concert objects to display.
+         */
+        function renderTable(data) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-12 text-lg text-red-400">No concerts found matching your criteria.</td></tr>`;
+                return;
+            }
+
+            data.forEach((concert, index) => {
+                const isOddRow = index % 2 === 0;
+                const rowClass = isOddRow ? 'bg-slate-700/50 hover:bg-slate-700' : 'bg-slate-800/50 hover:bg-slate-700';
                 
-                // Ensure it's a valid data row (must have date and main act)
-                if (columns.length > 4 && columns[1] && columns[4]) {
-                    const dateStr = columns[1];
-                    const dateObj = parseDate(dateStr);
-                    
-                    if (!dateObj) {
-                         // Fix for 10/11/1987 (was 10/11)
-                        if (dateStr === "10/11/1987") { 
-                           dateObj = parseDate("10/12/1987"); // Assuming it's 10/12/1987 as per context
-                        } else if (dateStr === "18/1tam/2016") { // Fix for 18/1tam/2016
-                           dateObj = parseDate("18/12/2016"); 
-                        } else {
-                            console.warn('Invalid or unfixable date format:', dateStr);
-                            return; // Skip this row
-                        }
-                    }
+                // Format support acts (non-empty only)
+                const supportActs = [
+                    concert.support_1, 
+                    concert.support_2, 
+                    concert.support_3
+                ].filter(a => a && a.trim() !== '').join(' / ');
+                
+                const simonIcon = concert.simon_attended.toLowerCase() === 'yes' 
+                    ? '<span class="text-green-400 text-lg" title="Attended">&#x2713;</span>' // Checkmark
+                    : '<span class="text-red-400 text-lg" title="Did Not Attend">&#x2717;</span>'; // X
+                
+                const jonIcon = concert.jon_attended.toLowerCase() === 'yes' 
+                    ? '<span class="text-green-400 text-lg" title="Attended">&#x2713;</span>'
+                    : '<span class="text-red-400 text-lg" title="Did Not Attend">&#x2717;</span>';
 
-                    const year = dateObj.getFullYear().toString();
-                    
-                    let allArtists = [columns[4]];
-                    // Add support acts (columns 5, 6, 7, 8) if they exist and are not '-'
-                    for (let i = 5; i <= 8; i++) {
-                        if (columns[i] && columns[i] !== '\\-') {
-                            allArtists.push(columns[i]);
-                        }
-                    }
-
-                    concerts.push({
-                        date: dateStr,
-                        dateObj: dateObj,
-                        city: columns[2],
-                        venue: columns[3],
-                        mainAct: columns[4],
-                        supports: allArtists.slice(1),
-                        year: year,
-                        searchText: `${dateStr} ${columns[2]} ${columns[3]} ${allArtists.join(' ')}`.toLowerCase()
-                    });
-                }
-            });
-
-            // Sort concerts reverse chronologically (newest first)
-            concerts.sort((a, b) => b.dateObj - a.dateObj);
-
-            // Group by year
-            const groupedByYear = concerts.reduce((acc, concert) => {
-                const year = concert.year;
-                if (!acc[year]) {
-                    acc[year] = [];
-                }
-                acc[year].push(concert);
-                return acc;
-            }, {});
-
-            const sortedYears = Object.keys(groupedByYear).sort((a, b) => b - a);
-
-            const container = document.getElementById('concert-list-container');
-            container.innerHTML = ''; // Clear loading message
-
-            // Render HTML
-            sortedYears.forEach(year => {
-                let yearHtml = `
-                    <section class="mb-12 concert-year-group" data-year="${year}">
-                        <h2 class="text-4xl font-bold text-indigo-700 border-b-2 border-indigo-200 pb-3 mb-6">${year}</h2>
-                        <div class="space-y-6">
+                const row = document.createElement('tr');
+                row.className = rowClass + ' transition-colors duration-150';
+                row.innerHTML = `
+                    <td class="px-6 py-3 whitespace-nowrap font-semibold text-indigo-300">${concert.date}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-slate-300">${concert.location}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-slate-300">${concert.venue}</td>
+                    <td class="px-6 py-3 font-bold text-lg whitespace-nowrap text-indigo-200">${concert.headline}</td>
+                    <td class="px-6 py-3 text-slate-400 max-w-xs">${supportActs || '—'}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">${simonIcon}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center">${jonIcon}</td>
                 `;
-
-                groupedByYear[year].forEach(concert => {
-                    const supportHtml = concert.supports.length > 0 
-                        ? `<p class="text-md text-gray-600 mt-2">With: ${concert.supports.join(', ')}</p>`
-                        : '';
-                    
-                    // Format date for display
-                    const displayDate = concert.dateObj.toLocaleDateString('en-GB', {
-                        day: '2-digit', month: 'short', year: 'numeric'
-                    });
-
-                    yearHtml += `
-                        <article class="concert-item bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl" data-search="${concert.searchText}">
-                            <div class="flex flex-col sm:flex-row">
-                                <div class="w-full sm:w-1/4 md:w-1/5 bg-gray-50 p-4 sm:p-6 flex flex-row sm:flex-col justify-between sm:justify-center items-center text-center">
-                                    <div class="sm:mb-2">
-                                        <span class="text-xl sm:text-2xl font-semibold text-indigo-600">${concert.dateObj.toLocaleDateString('en-GB', { month: 'short' })}</span>
-                                    </div>
-                                    <span class="text-3xl sm:text-5xl font-bold text-gray-900">${concert.dateObj.toLocaleDateString('en-GB', { day: '2-digit' })}</span>
-                                    <!-- Mobile-only year -->
-                                    <span class="text-xl sm:hidden font-medium text-gray-500">${concert.year}</span>
-                                </div>
-                                <div class="p-4 sm:p-6 w-full">
-                                    <h3 class="text-2xl font-bold text-gray-900">${concert.mainAct}</h3>
-                                    <p class="text-lg font-medium text-gray-700 mt-1">${concert.venue}, ${concert.city}</p>
-                                    ${supportHtml}
-                                </div>
-                            </div>
-                        </article>
-                    `;
-                });
-
-                yearHtml += `</div></section>`;
-                container.innerHTML += yearHtml;
+                tbody.appendChild(row);
             });
-
-            // Add search functionality
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                
-                document.querySelectorAll('.concert-year-group').forEach(yearGroup => {
-                    let yearHasVisibleItems = false;
-                    yearGroup.querySelectorAll('.concert-item').forEach(item => {
-                        const itemSearchText = item.getAttribute('data-search');
-                        if (itemSearchText.includes(searchTerm)) {
-                            item.style.display = 'block';
-                            yearHasVisibleItems = true;
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                    
-                    // Hide year heading if no items in that year match
-                    if (yearHasVisibleItems) {
-                        yearGroup.style.display = 'block';
-                    } else {
-                        yearGroup.style.display = 'none';
-                    }
-                });
-            });
+            updateSortIcon();
         }
 
-        // Run the script after the DOM is loaded
-        document.addEventListener('DOMContentLoaded', renderConcertData);
+        /**
+         * Updates the global sort state and triggers a re-render.
+         * @param {string} column - The column property name to sort by.
+         */
+        function sortData(column) {
+            const headerName = column.toLowerCase();
+            if (sortColumn === headerName) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = headerName;
+                sortDirection = 'asc';
+            }
+            filterAndRenderData();
+        }
+
+        /**
+         * Updates the visual indicator on the sorted column header.
+         */
+        function updateSortIcon() {
+            document.querySelectorAll('[id^="sort-icon-"]').forEach(icon => icon.innerHTML = '');
+            const iconElement = document.getElementById(`sort-icon-${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`);
+            if (iconElement) {
+                iconElement.innerHTML = sortDirection === 'asc' ? ' &uarr;' : ' &darr;';
+            }
+        }
+
+        // --- 4. Initialization & Event Listeners ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Parse Data
+            allConcerts = parseCSV(csvData);
+
+            // 2. Initial Render (default sorted by Date ascending)
+            filterAndRenderData();
+
+            // 3. Set up Event Listeners
+            document.getElementById('search-input').addEventListener('input', () => {
+                // Throttle search input slightly for performance on large datasets
+                if (window.searchTimeout) {
+                    clearTimeout(window.searchTimeout);
+                }
+                window.searchTimeout = setTimeout(filterAndRenderData, 200);
+            });
+        });
+
+        // Expose sortData to global scope for use in onclick attribute
+        window.sortData = sortData;
+        window.filterAndRenderData = filterAndRenderData;
+
     </script>
 </body>
 </html>

@@ -68,8 +68,8 @@
         <!-- Slideshow Modal (Hidden by default) -->
         <div id="slideshow-modal" class="slideshow-modal fixed inset-0 z-50 flex items-center justify-center hidden p-4">
             <div class="relative w-full max-w-4xl max-h-full">
-                <!-- Close Button -->
-                <button onclick="closeSlideshow()" class="absolute top-4 right-4 text-4xl text-white z-50 opacity-90 hover:opacity-100 transition focus:outline-none">
+                <!-- Close Button (Updated) -->
+                <button onclick="closeSlideshow()" class="absolute top-4 right-4 bg-white/70 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center text-gray-800 text-2xl font-bold z-50 transition hover:bg-white focus:outline-none shadow-lg" aria-label="Close slideshow">
                     &times;
                 </button>
                 
@@ -83,11 +83,16 @@
                     <div class="text-center">
                         <p id="slideshow-description" class="text-xl font-medium mb-4 text-indigo-600"></p>
                         
-                        <div class="flex justify-between space-x-4">
-                            <button id="prev-btn" onclick="prevSlide()" class="primary-btn px-6 py-2 rounded-lg flex-1">
+                        <!-- Updated Button Layout -->
+                        <div class="flex flex-col sm:flex-row justify-between space-y-2 sm:space-y-0 sm:space-x-4">
+                            <button id="prev-btn" onclick="prevSlide()" class="primary-btn px-6 py-2 rounded-lg sm:flex-1">
                                 &larr; Previous
                             </button>
-                            <button id="next-btn" onclick="nextSlide()" class="primary-btn px-6 py-2 rounded-lg flex-1">
+                            <!-- NEW Fullscreen Button -->
+                            <button id="fullscreen-btn" onclick="toggleFullscreen()" class="primary-btn bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg sm:flex-1">
+                                Fullscreen
+                            </button>
+                            <button id="next-btn" onclick="nextSlide()" class="primary-btn px-6 py-2 rounded-lg sm:flex-1">
                                 Next &rarr;
                             </button>
                         </div>
@@ -213,6 +218,35 @@
         window.prevSlide = function() {
             currentSlideIndex = (currentSlideIndex - 1 + images.length) % images.length;
             updateSlideshow();
+        }
+
+        /**
+         * (NEW) Toggles fullscreen mode for the slideshow image.
+         */
+        window.toggleFullscreen = function() {
+            const elem = document.getElementById('slideshow-image');
+
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.mozRequestFullScreen) { // Firefox
+                    elem.mozRequestFullScreen();
+                } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { // IE/Edge
+                    elem.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
+            }
         }
 
         // Initialize the app on window load

@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Image Gallery</title>
+    <title>Static Professional Image Gallery</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Use Inter font family for a clean look -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
         
@@ -35,17 +34,6 @@
         .slideshow-modal {
             background-color: rgba(0, 0, 0, 0.85); /* Darker backdrop for focused view */
         }
-        /* Clean inputs and textareas */
-        input, textarea {
-            border: 1px solid #d1d5db !important;
-            background-color: #f9fafb !important;
-            border-radius: 0.5rem !important;
-        }
-        input:focus, textarea:focus {
-            border-color: #4f46e5 !important; /* Focus color: Indigo */
-            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2) !important;
-        }
-
         /* Clean scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -65,29 +53,11 @@
         
         <header class="text-center mb-10 p-4 border-b border-gray-300">
             <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800">
-                Professional Image Repository
+                Static Asset Portfolio Viewer
             </h1>
-            <p id="user-id-display" class="text-sm text-gray-500 mt-2">Connecting to service...</p>
+            <p id="user-id-display" class="text-sm text-gray-500 mt-2">Data loaded locally from code.</p>
         </header>
-
-        <!-- Image Upload Form (Elevated Card Style) -->
-        <div class="elevated-card p-8 rounded-2xl mb-12">
-            <h2 class="text-xl font-semibold text-gray-700 mb-6 border-b pb-3 border-gray-200">Upload New Asset</h2>
-            <form id="upload-form" class="space-y-4">
-                <div>
-                    <label for="imageUrl" class="block text-sm font-medium text-gray-700 mb-1">Asset URL (HTTPS recommended):</label>
-                    <input type="url" id="imageUrl" required class="w-full p-3">
-                </div>
-                <div>
-                    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Asset Description:</label>
-                    <textarea id="description" required rows="2" class="w-full p-3"></textarea>
-                </div>
-                <button type="submit" class="primary-btn w-full font-medium py-3 rounded-lg shadow-md">
-                    Submit Asset
-                </button>
-            </form>
-        </div>
-
+        
         <!-- Gallery Section -->
         <h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 pl-4 border-indigo-500">Asset Collection</h2>
         <div id="gallery-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -128,24 +98,25 @@
 
     </div>
 
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, addDoc, onSnapshot, collection, query, orderBy, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // --- GLOBAL VARIABLES (Provided by Canvas Environment) ---
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+    <!-- Application Script (No Firebase) -->
+    <script type="text/javascript">
         
-        let db;
-        let auth;
-        let userId = null;
-        let isAuthReady = false;
+        // --- DEFINE YOUR IMAGES HERE ---
+        // To use your GitHub images, you will need the raw links (e.g., raw.githubusercontent.com)
+        // or just link to the files if they are hosted on a server.
+        // Example structure for a GitHub raw file: 
+        // "https://raw.githubusercontent.com/sipart/sipart.github.io/master/img/your-image.jpg"
+        const imageAssets = [
+            { url: "https://placehold.co/400x400/3b82f6/ffffff?text=Image+1", description: "First project overview photo." },
+            { url: "https://placehold.co/400x400/10b981/ffffff?text=Image+2", description: "Detailed design sketch for Phase Alpha." },
+            { url: "https://placehold.co/400x400/f59e0b/ffffff?text=Image+3", description: "Q4 Marketing campaign result graphic." },
+            { url: "https://placehold.co/400x400/ef4444/ffffff?text=Image+4", description: "Internal architecture blueprint." },
+            { url: "https://placehold.co/400x400/8b5cf6/ffffff?text=Image+5", description: "End-of-year celebratory group photo." },
+            { url: "https://placehold.co/400x400/14b8a6/ffffff?text=Image+6", description: "Concept art for next-gen product." },
+        ];
 
         // --- GLOBAL APP STATE ---
-        let images = [];
+        let images = imageAssets; // Use the hardcoded list
         let currentSlideIndex = 0;
 
         // --- DOM Elements ---
@@ -153,79 +124,15 @@
         const slideshowModal = document.getElementById('slideshow-modal');
         const slideshowImage = document.getElementById('slideshow-image');
         const slideshowDescription = document.getElementById('slideshow-description');
-        const uploadForm = document.getElementById('upload-form');
         const loadingIndicator = document.getElementById('loading-indicator');
         const userIdDisplay = document.getElementById('user-id-display');
 
         /**
-         * Initializes Firebase and authenticates the user.
+         * Initializes the application by rendering the hardcoded images.
          */
-        async function initApp() {
-            try {
-                // setLogLevel('Debug'); // Uncomment for verbose logging
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-                
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        userIdDisplay.textContent = `Authenticated User ID: ${userId}`;
-                        isAuthReady = true;
-                        loadImages(); // Start listening for data after auth is ready
-                    } else {
-                        // Attempt to sign in
-                        try {
-                            if (initialAuthToken) {
-                                await signInWithCustomToken(auth, initialAuthToken);
-                            } else {
-                                await signInAnonymously(auth);
-                            }
-                        } catch (error) {
-                            console.error("Firebase Auth Error:", error);
-                            userIdDisplay.textContent = 'Authentication Failed.';
-                            isAuthReady = true;
-                        }
-                    }
-                });
-
-            } catch (error) {
-                console.error("Initialization Error:", error);
-            }
-        }
-
-        /**
-         * Attaches the real-time listener to the Firestore collection.
-         */
-        function loadImages() {
-            if (!isAuthReady) {
-                console.warn("Auth not ready, cannot load images yet.");
-                return;
-            }
-
-            // Collection path for public, shared data
-            const collectionPath = `artifacts/${appId}/public/data/funky_gallery`;
-            const itemsCollection = collection(db, collectionPath);
-            
-            // NOTE: orderBy is removed as per instructions, will sort client-side.
-            const q = query(itemsCollection);
-
-            onSnapshot(q, (snapshot) => {
-                loadingIndicator.classList.add('hidden');
-                
-                images = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                
-                // Sort by timestamp descending (newest first) client-side
-                images.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-
-                renderThumbnails();
-            }, (error) => {
-                console.error("Firestore Snapshot Error:", error);
-                galleryContainer.innerHTML = '<p class="text-red-500 col-span-full">Failed to load assets. Check console for errors.</p>';
-            });
+        function initApp() {
+            renderThumbnails();
+            loadingIndicator.classList.add('hidden');
         }
 
         /**
@@ -235,7 +142,7 @@
             galleryContainer.innerHTML = '';
             
             if (images.length === 0) {
-                galleryContainer.innerHTML = '<p class="text-gray-500 col-span-full text-center p-8">No assets uploaded yet. Use the form above to add your first entry.</p>';
+                galleryContainer.innerHTML = '<p class="text-gray-500 col-span-full text-center p-8">No assets defined in the imageAssets array.</p>';
                 return;
             }
 
@@ -249,7 +156,6 @@
                                  onerror="this.onerror=null; this.src='https://placehold.co/400x400/9ca3af/ffffff?text=Image+Load+Failed'">
                             <div class="absolute bottom-0 left-0 right-0 p-3 bg-white/90 backdrop-blur-sm border-t border-gray-200">
                                 <p class="text-sm font-medium text-gray-800 truncate">${img.description}</p>
-                                <p class="text-xs text-gray-500">By: ${img.uploadedBy ? img.uploadedBy.substring(0, 8) + '...' : 'Unknown'}</p>
                             </div>
                         </div>
                     </div>
@@ -307,77 +213,6 @@
         window.prevSlide = function() {
             currentSlideIndex = (currentSlideIndex - 1 + images.length) % images.length;
             updateSlideshow();
-        }
-
-        /**
-         * Handles the form submission to add a new image.
-         */
-        uploadForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!isAuthReady) {
-                alertUser("Connection not ready. Please wait a moment and try again.", 'error');
-                return;
-            }
-
-            const imageUrl = document.getElementById('imageUrl').value.trim();
-            const description = document.getElementById('description').value.trim();
-
-            if (!imageUrl || !description) {
-                alertUser("URL and description fields are required.", 'info');
-                return;
-            }
-
-            try {
-                const collectionPath = `artifacts/${appId}/public/data/funky_gallery`;
-                
-                await addDoc(collection(db, collectionPath), {
-                    url: imageUrl,
-                    description: description,
-                    timestamp: serverTimestamp(),
-                    uploadedBy: userId,
-                });
-
-                uploadForm.reset();
-                alertUser('Asset submitted successfully!', 'success');
-
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                alertUser('Failed to submit asset: ' + error.message, 'error');
-            }
-        });
-
-        /**
-         * Simple custom alert box implementation instead of alert().
-         */
-        function alertUser(message, type = 'info') {
-            let alertBox = document.getElementById('custom-alert');
-            if (!alertBox) {
-                alertBox = document.createElement('div');
-                alertBox.id = 'custom-alert';
-                alertBox.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-xl z-[9999] transition-all duration-300 transform opacity-0 translate-y-full font-medium';
-                document.body.appendChild(alertBox);
-            }
-
-            alertBox.textContent = message;
-            alertBox.classList.remove('bg-green-500', 'bg-red-500', 'bg-blue-500', 'bg-yellow-500', 'text-white');
-
-            if (type === 'success') {
-                alertBox.classList.add('bg-green-500', 'text-white');
-            } else if (type === 'error') {
-                alertBox.classList.add('bg-red-500', 'text-white');
-            } else {
-                alertBox.classList.add('bg-indigo-500', 'text-white');
-            }
-
-            // Show and then hide
-            alertBox.classList.remove('opacity-0', 'translate-y-full');
-            alertBox.classList.add('opacity-100', 'translate-y-0');
-
-            setTimeout(() => {
-                alertBox.classList.remove('opacity-100', 'translate-y-0');
-                alertBox.classList.add('opacity-0', 'translate-y-full');
-            }, 3000);
         }
 
         // Initialize the app on window load

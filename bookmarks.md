@@ -8,6 +8,12 @@ bigimg: /img/bigimg/blur.jpg
 
 Note: when I say **free** I mean **free to use** - please donate or contribute to the projects if possible
 
+## Tech Snippets Sub Pages
+
+* A Few Favorite [Photos](https://sipart.github.io/photos){:target="_blank"}
+* Gig [History](https://sipart.github.io/concerts){:target="_blank"}
+* EV Charging [Summary](https://sipart.github.io/ev-april24_to_sept25.html){:target="_blank"}
+
 ## Tech Snippets Guidance Posts
 
 * [Cumulus EVE-NG DC lab](https://sipart.github.io/2017-09-12-cvxnetq/){:target="_blank"}

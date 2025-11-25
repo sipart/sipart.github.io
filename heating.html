@@ -18,7 +18,14 @@
         
         // Mandatory global variables for Canvas environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'energy-explorer-default';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const firebaseConfig = {
+            apiKey: "AIzaSyAyfZj3n5VZRoqusOpAi24DmJIl4VHSbu4",
+            authDomain: "heating-15542.firebaseapp.com",
+            projectId: "heating-15542",
+            storageBucket: "heating-15542.firebasestorage.app",
+            messagingSenderId: "59259234430",
+            appId: "1:59259234430:web:3957956f14ee56f8b9d02f"
+            };
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
         
         let app, db, auth, userId;
@@ -5674,4 +5681,5 @@
         </footer>
     </div>
 </body>
+
 </html>

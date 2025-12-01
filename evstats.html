@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Charging Summary Infographic</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom gradient for the main savings card */
+        .savings-gradient {
+            background: linear-gradient(135deg, #10B981, #14B8A6);
+        }
+        .comparison-gradient {
+            background: linear-gradient(135deg, #EF4444, #F97316);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Header -->
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">EV Charging Summary</h1>
+            <p id="display-date" class="text-lg md:text-xl text-gray-600">Loading...</p>
+        </header>
+
+        <!-- Main Stats Kickers -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Total Miles -->
+            <div class="bg-white p-6 rounded-lg shadow-lg flex items-center space-x-4">
+                <svg class="w-12 h-12 text-blue-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                  <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                  <path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5" />
+                </svg>
+                <div>
+                    <div class="text-sm text-gray-500">Total Miles Driven</div>
+                    <div id="display-miles" class="text-3xl font-bold text-gray-900">-</div>
+                </div>
+            </div>
+            <!-- Total Cost -->
+            <div class="bg-white p-6 rounded-lg shadow-lg flex items-center space-x-4">
+                <svg class="w-12 h-12 text-red-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M17 18.5a6 6 0 0 1 -5 0a6 6 0 0 0 -5 .5a3 3 0 0 0 2 -2.5v-7.5a4 4 0 0 1 7.45 -2m-2.55 6h-7" />
+                </svg>
+                <div>
+                    <div class="text-sm text-gray-500">Total Charging Cost</div>
+                    <div id="display-ev-cost" class="text-3xl font-bold text-gray-900">-</div>
+                </div>
+            </div>
+            <!-- Cost per Mile -->
+            <div class="bg-white p-6 rounded-lg shadow-lg flex items-center space-x-4">
+                <svg class="w-12 h-12 text-green-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                  <path d="M15 9a2 2 0 1 0 -4 0v5a2 2 0 0 1 -2 2h6" />
+                  <path d="M9 12h4" />
+                </svg>
+                <div>
+                    <div class="text-sm text-gray-500">Cost per Mile</div>
+                    <div id="display-ev-cpm" class="text-3xl font-bold text-gray-900">-</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Column 1: Charging Breakdown -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Charging Breakdown</h2>
+                
+                <!-- Simple Bar Chart -->
+                <div class="w-full rounded-full h-8 bg-gray-200 flex overflow-hidden mb-4">
+                    <div id="bar-home" class="h-full bg-blue-500" style="width: 0%" title="Home"></div>
+                    <div id="bar-public" class="h-full bg-yellow-500" style="width: 0%" title="Public"></div>
+                    <div id="bar-free" class="h-full bg-gray-400" style="width: 0%" title="Free"></div>
+                </div>
+
+                <!-- Legend & Details -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Home -->
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <div class="text-lg font-semibold text-gray-800">Home Charging</div>
+                        <div id="home-pct" class="text-2xl font-bold text-blue-600">0%</div>
+                        <div id="home-kwh-display" class="text-sm text-gray-600">- kWh</div>
+                        <div id="home-cost-display" class="text-sm text-gray-600">- total</div>
+                        <div id="home-rate-display" class="text-xs text-gray-500">(@ -/kWh)</div>
+                    </div>
+                    <!-- Public -->
+                    <div class="border-l-4 border-yellow-500 pl-4">
+                        <div class="text-lg font-semibold text-gray-800">Public Charging</div>
+                        <div id="public-pct" class="text-2xl font-bold text-yellow-600">0%</div>
+                        <div id="public-kwh-display" class="text-sm text-gray-600">- kWh</div>
+                        <div id="public-cost-display" class="text-sm text-gray-600">- total</div>
+                        <div id="public-rate-display" class="text-xs text-gray-500">(@ -/kWh)</div>
+                    </div>
+                    <!-- Free -->
+                    <div class="border-l-4 border-gray-400 pl-4">
+                        <div class="text-lg font-semibold text-gray-800">Free Charging</div>
+                        <div id="free-pct" class="text-2xl font-bold text-gray-500">0%</div>
+                        <div id="free-kwh-display" class="text-sm text-gray-600">- kWh</div>
+                        <div class="text-sm text-gray-600">£0.00 total</div>
+                        <div class="text-xs text-gray-500">(Work, Hotels, etc.)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2: Energy & Efficiency -->
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Energy & Efficiency</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-8 h-8 text-indigo-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                        </svg>
+                        <div>
+                            <div class="text-sm text-gray-500">Total Energy Used</div>
+                            <div id="display-total-kwh" class="text-2xl font-bold text-gray-900">- kWh</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-8 h-8 text-green-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M5 21c.5 -4.5 2.5 -8 7 -10" />
+                          <path d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3z" />
+                        </svg>
+                        <div>
+                            <div class="text-sm text-gray-500">Vehicle Efficiency</div>
+                            <div id="display-efficiency" class="text-2xl font-bold text-gray-900">- miles/kWh</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 3 & 4: Comparison & Savings -->
+            <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Petrol Comparison -->
+                <div class="comparison-gradient p-6 rounded-lg shadow-lg text-white">
+                    <h2 class="text-xl font-bold mb-4">Petrol Comparison</h2>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg class="w-10 h-10 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M14 11h1a2 2 0 0 1 2 2v3a1.5 1.5 0 0 0 3 0v-7l-3 -3" />
+                          <path d="M4 20v-14a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v14" />
+                          <path d="M3 20l12 0" />
+                          <path d="M18 7v1a1 1 0 0 0 1 1h1" />
+                          <path d="M4 11l10 0" />
+                        </svg>
+                        <div>
+                            <div class="text-sm opacity-80">Estimated Petrol Cost</div>
+                            <div id="display-petrol-cost" class="text-3xl font-bold">-</div>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-bold mb-2"><span id="display-petrol-cpm">-</span> <span class="text-lg font-normal opacity-80">per mile</span></div>
+                    <div id="display-petrol-assumptions" class="text-xs opacity-70 border-t border-white/30 pt-2">
+                        Assumptions: -
+                    </div>
+                </div>
+
+                <!-- Total Savings -->
+                <div class="savings-gradient p-6 rounded-lg shadow-lg text-white">
+                    <h2 class="text-xl font-bold mb-4">Total Savings</h2>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg class="w-10 h-10 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M15 11v.01" />
+                          <path d="M5.173 8.378a3 3 0 1 1 4.656 -1.377" />
+                          <path d="M16 4v3.803a6.019 6.019 0 0 1 2.658 3.197h1.341a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-1.342c-.336 .95 -.907 1.8 -1.658 2.473v2.027a1.5 1.5 0 0 1 -3 0v-.583a6.04 6.04 0 0 1 -1 .083h-4a6.04 6.04 0 0 1 -1 -.083v.583a1.5 1.5 0 0 1 -3 0v-2l0 -.027a6 6 0 0 1 4 -10.473h2.5l4.5 -3h0z" />
+                        </svg>
+                        <div>
+                            <div class="text-sm opacity-80">Saved vs. Petrol</div>
+                            <div id="display-savings-total" class="text-3xl font-bold">-</div>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-bold"><span id="display-savings-weekly">-</span> <span class="text-lg font-normal opacity-80">per week</span></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT SECTION - UPDATE VARIABLES HERE -->
+    <script>
+        // ==========================================
+        // CONFIGURATION SECTION - UPDATE VARIABLES HERE
+        // ==========================================
+        const config = {
+            // DATE SETTINGS (YYYY-MM-DD)
+            startDate: "2024-04-01",  
+            endDate:   "2025-09-22",
+
+            // VEHICLE USAGE
+            totalMiles: 18122,        // Total mileage on EV
+            
+            // PETROL COMPARISON
+            mpg: 40,                  // Comparison car MPG
+            fuelCostPerGallon: 5.89,  // Comparison fuel cost in £
+            
+            // kWh USAGE BREAKDOWN
+            kwh: {
+                home: 4285.8,
+                public: 205.2,
+                free: 169.0
+            },
+            
+            // COSTS PER kWh (£)
+            rates: {
+                home: 0.07,   // £0.07 per kWh
+                public: 0.51  // Average £0.51 per kWh
+            }
+        };
+        // ==========================================
+        // END CONFIGURATION
+        // ==========================================
+
+        function calculateAndRender() {
+            // 1. Calculate Dates and Weeks
+            const start = new Date(config.startDate);
+            const end = new Date(config.endDate);
+            
+            // Calculate time difference in milliseconds
+            const timeDiff = Math.abs(end - start);
+            // Convert to weeks (1000ms * 60s * 60m * 24h * 7d)
+            const weeks = Math.round(timeDiff / (1000 * 60 * 60 * 24 * 7));
+            
+            // Format Date String for Header (e.g. April 2024 – September 2025)
+            const options = { year: 'numeric', month: 'long' };
+            const dateString = `${start.toLocaleDateString('en-US', options)} – ${end.toLocaleDateString('en-US', options)} (~${weeks} weeks)`;
+
+            // 2. Calculate Costs
+            const totalKwh = config.kwh.home + config.kwh.public + config.kwh.free;
+            
+            const costHome = config.kwh.home * config.rates.home;
+            const costPublic = config.kwh.public * config.rates.public;
+            const totalEVCost = costHome + costPublic;
+
+            const evCostPerMilePence = (totalEVCost / config.totalMiles) * 100;
+            const efficiency = config.totalMiles / totalKwh;
+
+            // 3. Calculate Petrol Comparison
+            const gallonsNeeded = config.totalMiles / config.mpg;
+            const petrolCost = gallonsNeeded * config.fuelCostPerGallon;
+            const petrolCostPerMilePence = (petrolCost / config.totalMiles) * 100;
+
+            // 4. Calculate Savings
+            const totalSavings = petrolCost - totalEVCost;
+            // Avoid division by zero if weeks is 0
+            const safeWeeks = weeks > 0 ? weeks : 1;
+            const weeklySavings = totalSavings / safeWeeks;
+
+            // 5. Calculate Percentages for Charts
+            const pctHome = (config.kwh.home / totalKwh) * 100;
+            const pctPublic = (config.kwh.public / totalKwh) * 100;
+            const pctFree = (config.kwh.free / totalKwh) * 100;
+
+            // --- RENDER TO HTML ---
+
+            // Formatters
+            const fmtMoney = (num) => "£" + num.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const fmtNum = (num) => num.toLocaleString('en-GB');
+
+            // Header & Top Stats
+            document.getElementById('display-date').textContent = dateString;
+            document.getElementById('display-miles').textContent = fmtNum(config.totalMiles);
+            document.getElementById('display-ev-cost').textContent = fmtMoney(totalEVCost);
+            document.getElementById('display-ev-cpm').textContent = evCostPerMilePence.toFixed(1) + "p";
+
+            // Bar Chart Widths
+            document.getElementById('bar-home').style.width = pctHome + "%";
+            document.getElementById('bar-public').style.width = pctPublic + "%";
+            document.getElementById('bar-free').style.width = pctFree + "%";
+
+            // Breakdown Text - Home
+            document.getElementById('home-pct').textContent = pctHome.toFixed(0) + "%";
+            document.getElementById('home-kwh-display').textContent = fmtNum(config.kwh.home) + " kWh";
+            document.getElementById('home-cost-display').textContent = fmtMoney(costHome) + " total";
+            document.getElementById('home-rate-display').textContent = "(@ £" + config.rates.home.toFixed(2) + "/kWh)";
+
+            // Breakdown Text - Public
+            document.getElementById('public-pct').textContent = pctPublic.toFixed(1) + "%";
+            document.getElementById('public-kwh-display').textContent = fmtNum(config.kwh.public) + " kWh";
+            document.getElementById('public-cost-display').textContent = fmtMoney(costPublic) + " total";
+            document.getElementById('public-rate-display').textContent = "(@ avg £" + config.rates.public.toFixed(2) + "/kWh)";
+
+            // Breakdown Text - Free
+            document.getElementById('free-pct').textContent = pctFree.toFixed(1) + "%";
+            document.getElementById('free-kwh-display').textContent = fmtNum(config.kwh.free) + " kWh";
+
+            // Efficiency
+            document.getElementById('display-total-kwh').textContent = fmtNum(Math.round(totalKwh)) + " kWh";
+            document.getElementById('display-efficiency').textContent = "~" + efficiency.toFixed(1) + " miles/kWh";
+
+            // Petrol Comparison
+            document.getElementById('display-petrol-cost').textContent = fmtMoney(petrolCost);
+            document.getElementById('display-petrol-cpm').textContent = "~" + petrolCostPerMilePence.toFixed(1) + "p";
+            document.getElementById('display-petrol-assumptions').textContent = `Assumptions: ${config.mpg} mpg @ £${config.fuelCostPerGallon}/gallon`;
+
+            // Savings
+            document.getElementById('display-savings-total').textContent = "~" + fmtMoney(totalSavings);
+            document.getElementById('display-savings-weekly').textContent = "~" + fmtMoney(weeklySavings);
+        }
+
+        // Run on load
+        calculateAndRender();
+    </script>
+</body>
+</html>

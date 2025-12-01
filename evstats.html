@@ -234,7 +234,7 @@
             const weeks = Math.round(timeDiff / (1000 * 60 * 60 * 24 * 7));
             
             // Format Date String for Header (e.g. April 2024 – September 2025)
-            const options = { year: 'numeric', month: 'long' };
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const dateString = `${start.toLocaleDateString('en-US', options)} – ${end.toLocaleDateString('en-US', options)} (~${weeks} weeks)`;
 
             // 2. Calculate Costs

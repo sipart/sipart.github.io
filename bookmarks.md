@@ -12,7 +12,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 
 * A Few Favorite [Photos](https://sipart.github.io/photos){:target="_blank"}
 * Gig [History](https://sipart.github.io/concerts){:target="_blank"}
-* EV Charging [Summary](https://sipart.github.io/ev-april24_to_sept25.html){:target="_blank"}
+* EV Charging [Summary](https://sipart.github.io/evstats){:target="_blank"}
 
 ## Tech Snippets Guidance Posts
 

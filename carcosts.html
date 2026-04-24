@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Cost Dashboard</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            color: var(--text);
+            margin-top: 0;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .card-header {
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+        }
+
+        .card-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .metric {
+            background: var(--bg);
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .maintenance-list {
+            margin-top: 16px;
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+        }
+
+        .maintenance-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .maintenance-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Form Styles */
+        .form-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        input {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button.secondary {
+            background-color: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        button.secondary:hover {
+            background-color: #e5e7eb;
+        }
+
+        .maintenance-inputs {
+            background: #f9fafb;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .help-text {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Car Cost Dashboard</h1>
+    
+    <div id="dashboard" class="dashboard-grid">
+        </div>
+
+    <div class="form-section">
+        <h2>Add a New Vehicle</h2>
+        <form id="addCarForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Make *</label>
+                    <input type="text" id="f_make" required placeholder="e.g. Ford">
+                </div>
+                <div class="form-group">
+                    <label>Model *</label>
+                    <input type="text" id="f_model" required placeholder="e.g. Focus">
+                </div>
+                <div class="form-group">
+                    <label>Variant</label>
+                    <input type="text" id="f_variant" placeholder="e.g. Zetec">
+                </div>
+                <div class="form-group">
+                    <label>Registration</label>
+                    <input type="text" id="f_reg">
+                </div>
+                <div class="form-group">
+                    <label>Registered Date</label>
+                    <input type="date" id="f_regDate">
+                </div>
+                <div class="form-group">
+                    <label>Purchase Date *</label>
+                    <input type="date" id="f_purDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Purchase Price (£) *</label>
+                    <input type="number" id="f_purPrice" required min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Purchase Mileage *</label>
+                    <input type="number" id="f_purMil" required min="0">
+                </div>
+                <div class="form-group">
+                    <label>Sale Date</label>
+                    <input type="date" id="f_saleDate">
+                    <span class="help-text">Leave blank if still owned</span>
+                </div>
+                <div class="form-group">
+                    <label>Sale Price (£)</label>
+                    <input type="number" id="f_salePrice" min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Sale/Current Mileage</label>
+                    <input type="number" id="f_saleMil" min="0">
+                </div>
+            </div>
+
+            <h3>Maintenance Records</h3>
+            <div id="maintenanceContainer">
+                </div>
+            <button type="button" class="secondary" onclick="addMaintenanceRow()" style="margin-bottom: 24px;">+ Add Maintenance Record</button>
+
+            <div style="border-top: 1px solid #e5e7eb; padding-top: 20px;">
+                <button type="submit">Save Vehicle to Dashboard</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Initial data from the provided CSV
+    let cars = [
+        {
+            make: 'Toyota', model: 'Yaris', variant: 'Icon Tech', registration: 'FE68 VDK',
+            registeredDate: '2018-10-31', purchaseDate: '2022-02-01', purchasePrice: 12000,
+            purchaseMileage: 17000, saleDate: '2026-04-01', salePrice: 7300, saleMileage: 54200,
+            maintenance: [
+                {date: '2022-09-23', desc: 'Service and MOT', cost: 312},
+                {date: '2023-09-25', desc: 'Service and MOT', cost: 280},
+                {date: '2024-09-13', desc: 'Service, MOT and front discs and pads', cost: 688},
+                {date: '2025-09-12', desc: 'Service and MOT', cost: 315}
+            ]
+        }
+    ];
+
+    // Format currency
+    const formatMoney = (amount) => {
+        return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(amount);
+    };
+
+    // Format numbers (e.g. for mileage)
+    const formatNumber = (num) => {
+        return new Intl.NumberFormat('en-GB').format(num);
+    };
+
+    // Calculate metrics based on car data
+    function calculateMetrics(car) {
+        const start = new Date(car.purchaseDate);
+        const end = car.saleDate ? new Date(car.saleDate) : new Date(); // Use today if not sold
+        
+        // Duration in years and months
+        const totalMonths = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+        const years = Math.floor(totalMonths / 12);
+        const months = totalMonths % 12;
+        const exactYears = totalMonths / 12;
+
+        // Mileage
+        const currentMil = car.saleMileage || car.purchaseMileage;
+        const milesDriven = currentMil - car.purchaseMileage;
+        const avgMileage = exactYears > 0 ? (milesDriven / exactYears) : milesDriven;
+
+        // Depreciation
+        const currentVal = car.salePrice !== undefined && car.salePrice !== '' ? car.salePrice : car.purchasePrice;
+        const depreciation = car.purchasePrice - currentVal;
+
+        // Maintenance
+        let totalMaintenance = 0;
+        if (car.maintenance && car.maintenance.length > 0) {
+            totalMaintenance = car.maintenance.reduce((sum, record) => sum + parseFloat(record.cost), 0);
+        }
+        const annualMaintenance = exactYears > 0 ? (totalMaintenance / exactYears) : totalMaintenance;
+
+        return {
+            durationStr: `${years} yr ${months} mo`,
+            milesDriven,
+            avgMileage,
+            depreciation,
+            totalMaintenance,
+            annualMaintenance
+        };
+    }
+
+    // Render the dashboard cards
+    function renderDashboard() {
+        const dashboard = document.getElementById('dashboard');
+        dashboard.innerHTML = '';
+
+        cars.forEach(car => {
+            const metrics = calculateMetrics(car);
+            const status = car.saleDate ? '(Sold)' : '(Active)';
+
+            let maintenanceHTML = '';
+            if (car.maintenance && car.maintenance.length > 0) {
+                maintenanceHTML = `<div class="maintenance-list">
+                    <div class="metric-label" style="margin-bottom: 8px;">Maintenance History</div>
+                    ${car.maintenance.map(m => `
+                        <div class="maintenance-item">
+                            <span>${m.date} - ${m.desc}</span>
+                            <strong>${formatMoney(m.cost)}</strong>
+                        </div>
+                    `).join('')}
+                </div>`;
+            }
+
+            const cardHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">${car.make} ${car.model} ${status}</h2>
+                        <p class="card-subtitle">${car.variant} | Reg: ${car.registration}</p>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <div class="metric-label">Ownership Time</div>
+                            <div class="metric-value">${metrics.durationStr}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Avg Miles / Year</div>
+                            <div class="metric-value">${formatNumber(Math.round(metrics.avgMileage))}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Total Depreciation</div>
+                            <div class="metric-value" style="color: #dc2626;">${formatMoney(metrics.depreciation)}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Maint. / Year</div>
+                            <div class="metric-value">${formatMoney(metrics.annualMaintenance)}</div>
+                        </div>
+                        <div class="metric" style="grid-column: span 2;">
+                            <div class="metric-label">Total Maintenance Overall</div>
+                            <div class="metric-value">${formatMoney(metrics.totalMaintenance)}</div>
+                        </div>
+                    </div>
+                    ${maintenanceHTML}
+                </div>
+            `;
+            dashboard.insertAdjacentHTML('beforeend', cardHTML);
+        });
+    }
+
+    // Dynamic Form Handlers for Maintenance
+    let maintCounter = 0;
+    function addMaintenanceRow() {
+        const container = document.getElementById('maintenanceContainer');
+        const rowId = `maint_${maintCounter++}`;
+        const rowHTML = `
+            <div class="maintenance-inputs form-grid" id="${rowId}">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" class="m-date">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Description</label>
+                    <input type="text" class="m-desc" placeholder="e.g. Service & MOT">
+                </div>
+                <div class="form-group">
+                    <label>Cost (£)</label>
+                    <input type="number" class="m-cost" min="0" step="0.01">
+                </div>
+                <div class="form-group" style="justify-content: flex-end;">
+                    <button type="button" class="secondary" onclick="document.getElementById('${rowId}').remove()">Remove</button>
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', rowHTML);
+    }
+
+    // Handle form submission
+    document.getElementById('addCarForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Gather maintenance data
+        const maintenance = [];
+        const maintRows = document.querySelectorAll('.maintenance-inputs');
+        maintRows.forEach(row => {
+            const date = row.querySelector('.m-date').value;
+            const desc = row.querySelector('.m-desc').value;
+            const cost = row.querySelector('.m-cost').value;
+            if (date || desc || cost) {
+                maintenance.push({ date, desc, cost: parseFloat(cost) || 0 });
+            }
+        });
+
+        // Build new car object
+        const newCar = {
+            make: document.getElementById('f_make').value,
+            model: document.getElementById('f_model').value,
+            variant: document.getElementById('f_variant').value,
+            registration: document.getElementById('f_reg').value,
+            registeredDate: document.getElementById('f_regDate').value,
+            purchaseDate: document.getElementById('f_purDate').value,
+            purchasePrice: parseFloat(document.getElementById('f_purPrice').value) || 0,
+            purchaseMileage: parseFloat(document.getElementById('f_purMil').value) || 0,
+            saleDate: document.getElementById('f_saleDate').value,
+            salePrice: parseFloat(document.getElementById('f_salePrice').value) || '',
+            saleMileage: parseFloat(document.getElementById('f_saleMil').value) || '',
+            maintenance: maintenance
+        };
+
+        // Add to state and re-render
+        cars.push(newCar);
+        renderDashboard();
+        
+        // Reset form
+        this.reset();
+        document.getElementById('maintenanceContainer').innerHTML = '';
+        
+        // Scroll back to top to see the new card
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Initial render
+    renderDashboard();
+</script>
+
+</body>
+</html>

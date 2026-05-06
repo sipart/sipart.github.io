@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Tesla Supercharger Fitment Tool</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 20px auto; line-height: 1.6; background: #f4f4f4; }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .input-group { margin-bottom: 15px; }
+        input, select, button { padding: 10px; width: 100%; box-sizing: border-box; margin-top: 5px; }
+        button { background: #e31937; color: white; border: none; font-weight: bold; cursor: pointer; }
+        #canvas-container { display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 20px; }
+        .sim-box { background: #eee; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; text-align: center; }
+        canvas { background: #333; display: block; margin: 0 auto; }
+        .legend { font-size: 0.8em; margin-top: 10px; }
+        .status { font-weight: bold; margin-top: 5px; }
+        .pass { color: green; }
+        .fail { color: red; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Tesla Supercharger Cable Reach Simulator</h1>
+    <p>Enter your EV details (based on <a href="https://ev-database.org" target="_blank">EV-Database</a> specs) to see if the cable will reach.</p>
+    
+    <div class="input-group">
+        <label>Car Model Name</label>
+        <input type="text" id="carName" placeholder="e.g. Hyundai IONIQ 5">
+    </div>
+    
+    <div style="display:flex; gap:10px">
+        <div class="input-group">
+            <label>Length (mm)</label>
+            <input type="number" id="carLength" value="4635">
+        </div>
+        <div class="input-group">
+            <label>Width (mm)</label>
+            <input type="number" id="carWidth" value="1890">
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label>Port Location (from EV-Database)</label>
+        <select id="portLocation">
+            <option value="Left Rear">Left Rear (Tesla Standard)</option>
+            <option value="Right Rear">Right Rear</option>
+            <option value="Left Front">Left Front</option>
+            <option value="Right Front">Right Front</option>
+            <option value="Front Grille">Front Grille</option>
+        </select>
+    </div>
+
+    <button onclick="drawSimulations()">Simulate Cable Reach</button>
+
+    <div id="canvas-container">
+        <div class="sim-box">
+            <h3>V2 / V3 Supercharger</h3>
+            <canvas id="v3Canvas" width="200" height="300"></canvas>
+            <div id="v3Status" class="status"></div>
+            <p class="legend">Short Cable (~2.0m)</p>
+        </div>
+        <div class="sim-box">
+            <h3>V4 Supercharger</h3>
+            <canvas id="v4Canvas" width="200" height="300"></canvas>
+            <div id="v4Status" class="status"></div>
+            <p class="legend">Long Cable (~3.0m)</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function drawSimulations() {
+        const length = document.getElementById('carLength').value;
+        const width = document.getElementById('carWidth').value;
+        const port = document.getElementById('portLocation').value;
+
+        simulate('v3Canvas', 'v3Status', length, width, port, 2000); // 2m cable
+        simulate('v4Canvas', 'v4Status', length, width, port, 3000); // 3m cable
+    }
+
+    function simulate(canvasId, statusId, L, W, portPos, cableReachMm) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext('2d');
+        const statusDiv = document.getElementById(statusId);
+        
+        // Scale: 1px = 25mm
+        const scale = 25;
+        const cW = W / scale;
+        const cL = L / scale;
+        const reach = cableReachMm / scale;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw Parking Bay
+        ctx.strokeStyle = "#fff";
+        ctx.strokeRect(20, 20, 160, 260);
+
+        // Draw Tesla Post (Assuming back-in parking, post is at the rear-left of the stall)
+        // Positioned roughly at x=30, y=270
+        const postX = 40;
+        const postY = 270;
+        ctx.fillStyle = "red";
+        ctx.fillRect(postX - 5, postY - 5, 10, 10);
+
+        // Draw Car (Centered in bay, backed in)
+        const carX = (canvas.width / 2) - (cW / 2);
+        const carY = 250 - cL; // Rear of car near the post
+        ctx.fillStyle = "#555";
+        ctx.fillRect(carX, carY, cW, cL);
+        
+        // Front indicator
+        ctx.fillStyle = "#777";
+        ctx.fillRect(carX, carY, cW, 10);
+
+        // Determine Port Coordinate
+        let px, py;
+        if (portPos === "Left Rear") { px = carX; py = carY + cL - 10; }
+        else if (portPos === "Right Rear") { px = carX + cW; py = carY + cL - 10; }
+        else if (portPos === "Left Front") { px = carX; py = carY + 10; }
+        else if (portPos === "Right Front") { px = carX + cW; py = carY + 10; }
+        else if (portPos === "Front Grille") { px = carX + (cW/2); py = carY; }
+
+        // Draw Port
+        ctx.fillStyle = "cyan";
+        ctx.beginPath();
+        ctx.arc(px, py, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw Cable Reach Radius
+        ctx.beginPath();
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+        ctx.arc(postX, postY, reach, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Calculate distance
+        const dist = Math.sqrt(Math.pow(px - postX, 2) + Math.pow(py - postY, 2));
+        
+        if (dist <= reach) {
+            statusDiv.innerHTML = "PASS - Cable Reaches";
+            statusDiv.className = "status pass";
+            ctx.strokeStyle = "lime";
+        } else {
+            statusDiv.innerHTML = "FAIL - Too Far";
+            statusDiv.className = "status fail";
+            ctx.strokeStyle = "red";
+        }
+
+        // Draw cable line
+        ctx.beginPath();
+        ctx.moveTo(postX, postY);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+    }
+
+    // Initial draw
+    drawSimulations();
+</script>
+
+</body>
+</html>

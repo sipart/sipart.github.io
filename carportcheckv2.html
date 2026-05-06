@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Tesla Cable Simulator</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 20px auto; background: #1a1a1a; color: #e0e0e0; }
+        .container { background: #2d2d2d; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 0.9em; color: #aaa; margin-bottom: 5px; }
+        input, select { background: #3d3d3d; border: 1px solid #555; color: white; padding: 10px; border-radius: 4px; }
+        button { background: #e31937; color: white; border: none; padding: 15px; font-weight: bold; cursor: pointer; border-radius: 4px; width: 100%; margin-top: 10px; transition: 0.2s; }
+        button:hover { background: #ff1a3c; }
+        #sim-viewport { display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 30px; gap: 20px; }
+        .sim-box { background: #252525; border: 1px solid #444; padding: 15px; border-radius: 8px; flex: 1; min-width: 300px; }
+        canvas { background: #111; display: block; margin: 15px auto; border-radius: 4px; border: 1px solid #000; }
+        .status { font-size: 1.1em; font-weight: bold; text-align: center; padding: 8px; border-radius: 4px; }
+        .pass { background: rgba(0, 255, 0, 0.1); color: #4caf50; }
+        .fail { background: rgba(255, 0, 0, 0.1); color: #f44336; }
+        .legend { text-align: center; color: #888; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 style="margin-top:0">EV Supercharger Reach Simulator</h2>
+    
+    <div class="grid-inputs">
+        <div class="input-group">
+            <label>Length (mm) - from EV-Database</label>
+            <input type="number" id="carLength" value="4635">
+        </div>
+        <div class="input-group">
+            <label>Width (mm) - from EV-Database</label>
+            <input type="number" id="carWidth" value="1890">
+        </div>
+        <div class="input-group">
+            <label>Port Location</label>
+            <select id="portLocation">
+                <option value="Left Rear">Left Rear</option>
+                <option value="Right Rear">Right Rear</option>
+                <option value="Left Front">Left Front</option>
+                <option value="Right Front">Right Front</option>
+                <option value="Front Grille">Front Grille</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Parking Maneuver</label>
+            <select id="parkDir">
+                <option value="reverse">Reverse In (Back-in)</option>
+                <option value="forward">Forward In (Nose-in)</option>
+            </select>
+        </div>
+    </div>
+
+    <button onclick="runSim()">Update Simulation</button>
+
+    <div id="sim-viewport">
+        <div class="sim-box">
+            <div id="v3Status" class="status">--</div>
+            <canvas id="v3Canvas" width="280" height="380"></canvas>
+            <div class="legend"><b>Tesla V2 / V3</b><br>Short Cable (1.98m Reach)</div>
+        </div>
+        <div class="sim-box">
+            <div id="v4Status" class="status">--</div>
+            <canvas id="v4Canvas" width="280" height="380"></canvas>
+            <div class="legend"><b>Tesla V4</b><br>Long Cable (3.0m Reach)</div>
+        </div>
+    </div>
+</div>
+
+<script>
+function runSim() {
+    const L = parseInt(document.getElementById('carLength').value);
+    const W = parseInt(document.getElementById('carWidth').value);
+    const port = document.getElementById('portLocation').value;
+    const dir = document.getElementById('parkDir').value;
+
+    // Cable Reach Constants
+    const V3_REACH = 1980; 
+    const V4_REACH = 3000;
+
+    render('v3Canvas', 'v3Status', L, W, port, dir, V3_REACH, "V3");
+    render('v4Canvas', 'v4Status', L, W, port, dir, V4_REACH, "V4");
+}
+
+function render(canvasId, statusId, L, W, portLoc, dir, reachMm, type) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+    const statusDiv = document.getElementById(statusId);
+    
+    // Scale: 1px = 20mm
+    const scale = 20;
+    const drawW = W / scale;
+    const drawL = L / scale;
+    const drawReach = reachMm / scale;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // --- Draw Bay ---
+    ctx.strokeStyle = "#444";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(40, 40, 200, 300);
+
+    // --- Draw Tesla Post ---
+    // V2/V3 are side-mounted (back left), V4 is center-mounted back.
+    let postX, postY;
+    if (type === "V3") {
+        postX = 55; // Offset to the side
+        postY = 340; // At the back line
+    } else {
+        postX = 140; // Center-aligned for V4
+        postY = 345;
+    }
+
+    ctx.fillStyle = "#e31937";
+    ctx.beginPath();
+    ctx.arc(postX, postY, 6, 0, Math.PI*2);
+    ctx.fill();
+
+    // --- Draw Car ---
+    const carX = (canvas.width / 2) - (drawW / 2);
+    // Parked roughly 30cm (15px) from the back line
+    const carY = 340 - drawL - 15; 
+    
+    ctx.fillStyle = "#555";
+    ctx.fillRect(carX, carY, drawW, drawL);
+    
+    // Windshield to indicate direction
+    ctx.fillStyle = "#88bbee";
+    if (dir === "reverse") {
+        ctx.fillRect(carX + 5, carY + (drawL * 0.2), drawW - 10, 15); // Front is "up"
+    } else {
+        ctx.fillRect(carX + 5, carY + (drawL * 0.7), drawW - 10, 15); // Front is "down"
+    }
+
+    // --- Calculate Port X/Y ---
+    let px, py;
+    const margin = 5; // offset port slightly inside car perimeter
+
+    if (dir === "reverse") {
+        // Front of car is "Top", Rear is "Bottom"
+        if (portLoc === "Left Rear")   { px = carX; py = carY + drawL - margin; }
+        if (portLoc === "Right Rear")  { px = carX + drawW; py = carY + drawL - margin; }
+        if (portLoc === "Left Front")  { px = carX; py = carY + margin; }
+        if (portLoc === "Right Front") { px = carX + drawW; py = carY + margin; }
+        if (portLoc === "Front Grille"){ px = carX + (drawW/2); py = carY; }
+    } else {
+        // Car is flipped 180. Front is "Bottom", Rear is "Top"
+        if (portLoc === "Left Rear")   { px = carX + drawW; py = carY + margin; }
+        if (portLoc === "Right Rear")  { px = carX; py = carY + margin; }
+        if (portLoc === "Left Front")  { px = carX + drawW; py = carY + drawL - margin; }
+        if (portLoc === "Right Front") { px = carX; py = carY + drawL - margin; }
+        if (portLoc === "Front Grille"){ px = carX + (drawW/2); py = carY + drawL; }
+    }
+
+    // --- Draw Cable Reach Circle ---
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+    ctx.arc(postX, postY, drawReach, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // --- Draw Port ---
+    ctx.fillStyle = "#00f2ff";
+    ctx.beginPath();
+    ctx.arc(px, py, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // --- Calculate Distance and Result ---
+    const dist = Math.sqrt(Math.pow(px - postX, 2) + Math.pow(py - postY, 2));
+    
+    if (dist <= drawReach) {
+        statusDiv.innerText = "PASS - REACHES";
+        statusDiv.className = "status pass";
+        ctx.strokeStyle = "#4caf50";
+    } else {
+        statusDiv.innerText = "FAIL - TOO SHORT";
+        statusDiv.className = "status fail";
+        ctx.strokeStyle = "#f44336";
+    }
+
+    // Draw the cable line
+    ctx.setLineDash([5, 3]);
+    ctx.beginPath();
+    ctx.moveTo(postX, postY);
+    ctx.lineTo(px, py);
+    ctx.stroke();
+    ctx.setLineDash([]);
+}
+
+// Run on load
+runSim();
+</script>
+
+</body>
+</html>

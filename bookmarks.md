@@ -15,6 +15,7 @@ Note: when I say **free** I mean **free to use** - please donate or contribute t
 * My EV Charging [Summary](https://sipart.github.io/evstats){:target="_blank"}
 * EV Charge [Stats for All](https://sipart.github.io/evstatsforall){:target="_blank"}
 * Tesla Charge Point [Port Checker](https://sipart.github.io/chargeportcheck){:target="_blank"}
+* Tesla Super [Charger Info Map](https://supercharge.info/map){:target="_blank"}
 
 ## Tech Snippets Guidance Posts
 

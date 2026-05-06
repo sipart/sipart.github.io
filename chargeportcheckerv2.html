@@ -3,41 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EV Supercharger Reach Simulator</title>
+    <title>EV Supercharger Reach Simulator - Photo-Realistic</title>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --accent: #3498db;
-            --success: #2ecc71;
-            --danger: #e74c3c;
+            --bg: #1a1c1e;
+            --panel: #25282b;
+            --accent: #e31937;
+            --tarmac: #2c2f33;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-color); color: white; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .controls { background: var(--card-bg); padding: 20px; border-radius: 12px; width: 100%; max-width: 900px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; border-bottom: 4px solid var(--accent); }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .controls { background: var(--panel); padding: 25px; border-radius: 12px; width: 100%; max-width: 950px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 25px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
         .input-group { display: flex; flex-direction: column; }
-        label { font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px; color: #888; }
-        input, select { background: #2a2a2a; border: 1px solid #444; color: white; padding: 10px; border-radius: 6px; }
-        .viewport { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; }
-        .sim-container { background: var(--card-bg); border-radius: 15px; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .label-bar { padding: 15px; text-align: center; font-weight: bold; background: rgba(0,0,0,0.3); border-bottom: 1px solid #333; }
-        canvas { display: block; width: 100%; height: auto; background: #252525; }
-        .status-badge { position: absolute; top: 70px; right: 20px; padding: 8px 15px; border-radius: 5px; font-weight: bold; text-transform: uppercase; z-index: 10; }
+        label { font-size: 0.75rem; font-weight: 700; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        input, select { background: #111; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 6px; font-size: 1rem; }
+        .viewport { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; }
+        .sim-card { background: var(--panel); border-radius: 16px; overflow: hidden; position: relative; border: 1px solid #333; }
+        .header { padding: 15px; background: rgba(0,0,0,0.4); text-align: center; font-weight: bold; font-size: 1.1rem; }
+        canvas { display: block; width: 100%; height: auto; background: var(--tarmac); cursor: crosshair; }
+        .badge { position: absolute; top: 75px; right: 25px; padding: 10px 20px; border-radius: 8px; font-weight: 900; letter-spacing: 1px; z-index: 5; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
 <div class="controls">
     <div class="input-group">
-        <label>Car Length (mm)</label>
-        <input type="number" id="carL" value="4635" oninput="drawAll()">
+        <label>Length (mm)</label>
+        <input type="number" id="carL" value="4635" oninput="run()">
     </div>
     <div class="input-group">
-        <label>Car Width (mm)</label>
-        <input type="number" id="carW" value="1890" oninput="drawAll()">
+        <label>Width (mm)</label>
+        <input type="number" id="carW" value="1890" oninput="run()">
     </div>
     <div class="input-group">
         <label>Port Location</label>
-        <select id="portLoc" onchange="drawAll()">
+        <select id="portLoc" onchange="run()">
             <option value="Left Rear">Left Rear</option>
             <option value="Right Rear">Right Rear</option>
             <option value="Left Front">Left Front</option>
@@ -47,7 +46,7 @@
     </div>
     <div class="input-group">
         <label>Maneuver</label>
-        <select id="maneuver" onchange="drawAll()">
+        <select id="maneuver" onchange="run()">
             <option value="reverse">Reverse In</option>
             <option value="forward">Forward In</option>
         </select>
@@ -55,156 +54,158 @@
 </div>
 
 <div class="viewport">
-    <div class="sim-container">
-        <div class="label-bar">V2 / V3 POST (Short Cable)</div>
-        <div id="v3Badge" class="status-badge">--</div>
-        <canvas id="v3Canvas" width="500" height="650"></canvas>
+    <div class="sim-card">
+        <div class="header">V2/V3 SUPERCHARGER (1.98m)</div>
+        <div id="v3Badge" class="badge">--</div>
+        <canvas id="v3Canvas" width="600" height="800"></canvas>
     </div>
-    <div class="sim-container">
-        <div class="label-bar">V4 POST (Long Cable)</div>
-        <div id="v4Badge" class="status-badge">--</div>
-        <canvas id="v4Canvas" width="500" height="650"></canvas>
+    <div class="sim-card">
+        <div class="header">V4 SUPERCHARGER (3.0m)</div>
+        <div id="v4Badge" class="badge">--</div>
+        <canvas id="v4Canvas" width="600" height="800"></canvas>
     </div>
 </div>
 
 <script>
-function drawPost(ctx, x, y, type) {
-    // Realistic top-down post rendering
-    ctx.shadowBlur = 10;
-    ctx.shadowColor = "black";
-    
-    if(type === 'V3') {
-        // V2/V3 has the "hollow" aesthetic
+function drawPost(ctx, x, y, isV4) {
+    ctx.save();
+    ctx.shadowBlur = 15; ctx.shadowColor = "rgba(0,0,0,0.8)";
+    ctx.shadowOffsetY = 5;
+
+    if (!isV4) {
+        // Realistic V2/V3 "O" Shape
         ctx.fillStyle = "#fff";
         ctx.beginPath();
-        ctx.roundRect(x-15, y-10, 30, 20, 5);
-        ctx.fill();
-        ctx.fillStyle = "#d00"; // Inner accent
-        ctx.fillRect(x-10, y-5, 20, 10);
-    } else {
-        // V4 is taller and solid
-        ctx.fillStyle = "#fff";
-        ctx.beginPath();
-        ctx.roundRect(x-18, y-8, 36, 16, 2);
+        ctx.roundRect(x - 25, y - 15, 50, 30, 8);
         ctx.fill();
         ctx.fillStyle = "#333";
-        ctx.fillRect(x-12, y-3, 24, 6);
+        ctx.beginPath();
+        ctx.roundRect(x - 18, y - 8, 36, 16, 4);
+        ctx.fill();
+        // Cable exit point
+        ctx.fillStyle = "#e31937";
+        ctx.fillRect(x + 10, y - 4, 8, 8);
+    } else {
+        // Realistic V4 Solid Tall Unit
+        ctx.fillStyle = "#fff";
+        ctx.beginPath();
+        ctx.roundRect(x - 30, y - 12, 60, 24, 4);
+        ctx.fill();
+        ctx.fillStyle = "#222";
+        ctx.fillRect(x - 22, y - 4, 44, 8);
     }
-    ctx.shadowBlur = 0;
-}
-
-function drawCarOutline(ctx, x, y, w, l, dir) {
-    ctx.save();
-    ctx.translate(x + w/2, y + l/2);
-    
-    // Shadow
-    ctx.shadowBlur = 15;
-    ctx.shadowColor = "rgba(0,0,0,0.6)";
-    
-    // Body
-    ctx.strokeStyle = "rgba(255,255,255,0.8)";
-    ctx.lineWidth = 2;
-    ctx.fillStyle = "rgba(100, 100, 100, 0.2)";
-    ctx.beginPath();
-    ctx.roundRect(-w/2, -l/2, w, l, 15);
-    ctx.fill();
-    ctx.stroke();
-    
-    // Windshield/Roof Details
-    ctx.strokeStyle = "rgba(255,255,255,0.3)";
-    const glassOffset = dir === 'reverse' ? -l/4 : l/4;
-    ctx.strokeRect(-w/2.5, glassOffset - 10, w/1.25, 20);
-    
     ctx.restore();
 }
 
-function simulate(canvasId, badgeId, isV4) {
+function drawCar(ctx, x, y, w, l, maneuver) {
+    ctx.save();
+    ctx.translate(x + w/2, y + l/2);
+    
+    // Ambient Shadow
+    ctx.shadowBlur = 20; ctx.shadowColor = "rgba(0,0,0,0.5)";
+    ctx.shadowOffsetY = 10;
+
+    // Blueprint Outline
+    ctx.strokeStyle = "rgba(255,255,255,0.7)";
+    ctx.lineWidth = 2;
+    ctx.fillStyle = "rgba(255,255,255,0.05)";
+    ctx.beginPath();
+    ctx.roundRect(-w/2, -l/2, w, l, 18);
+    ctx.fill();
+    ctx.stroke();
+
+    // Technical details
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(255,255,255,0.2)";
+    const glassPos = (maneuver === 'reverse') ? -l/4 : l/4;
+    ctx.strokeRect(-w/2.5, glassPos - 15, w/1.25, 30); // Windshield
+    ctx.strokeRect(-w/3, -l/2 + 10, w/1.5, l - 20); // Roof line
+
+    ctx.restore();
+}
+
+function renderScene(canvasId, badgeId, isV4) {
     const canvas = document.getElementById(canvasId);
     const ctx = canvas.getContext('2d');
     const L = document.getElementById('carL').value;
     const W = document.getElementById('carW').value;
     const port = document.getElementById('portLoc').value;
-    const maneuver = document.getElementById('maneuver').value;
+    const man = document.getElementById('maneuver').value;
     const badge = document.getElementById(badgeId);
 
-    const scale = 0.12; // Adjusted for 500px canvas
-    const drawW = W * scale;
-    const drawL = L * scale;
+    const scale = 0.12; 
+    const dW = W * scale;
+    const dL = L * scale;
     const reach = (isV4 ? 3000 : 1980) * scale;
 
     ctx.clearRect(0,0, canvas.width, canvas.height);
 
-    // Draw Tarmac/Lines
-    ctx.fillStyle = "#1a1a1a";
+    // Realistic Tarmac texture
+    ctx.fillStyle = "#2c2f33";
     ctx.fillRect(0,0, canvas.width, canvas.height);
-    ctx.strokeStyle = "#444";
-    ctx.lineWidth = 1;
-    for(let i=0; i<canvas.width; i+=20) { // Subtle texture
-        ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i, canvas.height); ctx.stroke();
-    }
+    
+    // Parking Markings (distressed yellow)
+    ctx.strokeStyle = "rgba(241, 196, 15, 0.6)";
+    ctx.lineWidth = 6;
+    ctx.strokeRect(100, 100, 400, 600);
 
-    // Parking Lines
-    ctx.strokeStyle = "#f1c40f";
-    ctx.lineWidth = 4;
-    ctx.strokeRect(100, 100, 300, 500);
+    // Charge Post
+    const pX = isV4 ? 300 : 130;
+    const pY = 680;
+    drawPost(ctx, pX, pY, isV4);
 
-    // Post Position
-    const postX = isV4 ? 250 : 130;
-    const postY = 580;
-    drawPost(ctx, postX, postY, isV4 ? 'V4' : 'V3');
+    // Car Position (Parked close to rear)
+    const cX = 300 - (dW/2);
+    const cY = 650 - dL;
+    drawCar(ctx, cX, cY, dW, dL, man);
 
-    // Car Position (Curb stop simulation)
-    const carX = 250 - (drawW/2);
-    const carY = 560 - drawL;
-    drawCarOutline(ctx, carX, carY, drawW, drawL, maneuver);
-
-    // Calculate Port
+    // Port Calc
     let px, py;
-    const m = 6; // port margin from edge
-    if(maneuver === 'reverse') {
-        if(port === "Left Rear") { px = carX; py = carY + drawL - m; }
-        else if(port === "Right Rear") { px = carX + drawW; py = carY + drawL - m; }
-        else if(port === "Left Front") { px = carX; py = carY + m; }
-        else if(port === "Right Front") { px = carX + drawW; py = carY + m; }
-        else { px = 250; py = carY; }
+    const offset = 8;
+    if(man === 'reverse') {
+        if(port === "Left Rear") { px = cX; py = cY + dL - offset; }
+        else if(port === "Right Rear") { px = cX + dW; py = cY + dL - offset; }
+        else if(port === "Left Front") { px = cX; py = cY + offset; }
+        else if(port === "Right Front") { px = cX + dW; py = cY + offset; }
+        else { px = 300; py = cY; }
     } else {
-        if(port === "Left Rear") { px = carX + drawW; py = carY + m; }
-        else if(port === "Right Rear") { px = carX; py = carY + m; }
-        else if(port === "Left Front") { px = carX + drawW; py = carY + drawL - m; }
-        else if(port === "Right Front") { px = carX; py = carY + drawL - m; }
-        else { px = 250; py = carY + drawL; }
+        if(port === "Left Rear") { px = cX + dW; py = cY + offset; }
+        else if(port === "Right Rear") { px = cX; py = cY + offset; }
+        else if(port === "Left Front") { px = cX + dW; py = cY + dL - offset; }
+        else if(port === "Right Front") { px = cX; py = cY + dL - offset; }
+        else { px = 300; py = cY + dL; }
     }
 
-    // Reach Calculation
-    const dist = Math.sqrt(Math.pow(px-postX, 2) + Math.pow(py-postY, 2));
-    const canReach = dist <= reach;
+    const dist = Math.sqrt(Math.pow(px-pX, 2) + Math.pow(py-pY, 2));
+    const pass = dist <= reach;
 
-    // Cable Drawing
+    // Realistic Cable Glow
     ctx.beginPath();
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 6;
     ctx.lineCap = "round";
-    ctx.strokeStyle = canReach ? "rgba(46, 204, 113, 0.6)" : "rgba(231, 76, 60, 0.6)";
-    ctx.moveTo(postX, postY);
-    ctx.bezierCurveTo(postX, postY - 50, px, py + 50, px, py);
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = pass ? "#2ecc71" : "#e74c3c";
+    ctx.strokeStyle = pass ? "#2ecc71" : "#e74c3c";
+    ctx.moveTo(pX, pY);
+    ctx.bezierCurveTo(pX, pY - 80, px, py + 80, px, py);
     ctx.stroke();
-
-    // Port Indicator
-    ctx.fillStyle = "#00d4ff";
-    ctx.shadowBlur = 10; ctx.shadowColor = "#00d4ff";
-    ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI*2); ctx.fill();
     ctx.shadowBlur = 0;
 
-    // Update Badge
-    badge.innerText = canReach ? "Pass" : "Too Short";
-    badge.style.background = canReach ? "var(--success)" : "var(--danger)";
+    // Port Indicator
+    ctx.fillStyle = "#00f2ff";
+    ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI*2); ctx.fill();
+
+    // Status
+    badge.innerText = pass ? "CABLE REACHES" : "TOO SHORT";
+    badge.style.background = pass ? "rgba(46, 204, 113, 0.9)" : "rgba(231, 76, 60, 0.9)";
 }
 
-function drawAll() {
-    simulate('v3Canvas', 'v3Badge', false);
-    simulate('v4Canvas', 'v4Badge', true);
+function run() {
+    renderScene('v3Canvas', 'v3Badge', false);
+    renderScene('v4Canvas', 'v4Badge', true);
 }
 
-window.onload = drawAll;
+window.onload = run;
 </script>
 
 </body>

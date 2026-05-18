@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rebellion 2026 Clash Finder & Planner</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --panel-bg: #2d2d2d;
+            --text-color: #ffffff;
+            --accent-color: #ff4757;
+            --accent-hover: #ff6b81;
+            --border-color: #444;
+            --selected-bg: #2ed573;
+            --overlap-bg: #ffa502;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        h1 { margin: 0 0 10px 0; color: var(--accent-color); }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            background: var(--panel-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover { background: var(--border-color); }
+        .tab-btn.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .layout-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .layout-container { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .panel h2 { margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+
+        .stage-group { margin-bottom: 20px; }
+        .stage-title {
+            font-weight: bold;
+            color: var(--accent-hover);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .band-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        .band-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .band-card:hover { background: rgba(255,255,255,0.1); }
+        .band-card.selected {
+            background: rgba(46, 213, 115, 0.2);
+            border-color: var(--selected-bg);
+        }
+
+        .band-name { font-weight: bold; font-size: 14px; margin-bottom: 4px; }
+        .band-time { font-size: 12px; color: #aaa; }
+
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sched-item {
+            display: grid;
+            grid-template-columns: 90px 1fr 1fr;
+            padding: 12px;
+            background: rgba(255,255,255,0.03);
+            border-left: 4px solid var(--selected-bg);
+            border-radius: 0 4px 4px 0;
+            font-size: 14px;
+        }
+
+        .sched-item.clash {
+            border-left-color: var(--overlap-bg);
+            background: rgba(255, 165, 2, 0.1);
+        }
+
+        .sched-time { font-weight: bold; }
+        .sched-name { font-weight: bold; color: #fff; }
+        .sched-stage { color: #aaa; font-style: italic; text-align: right; }
+        
+        .clash-warning {
+            grid-column: 1 / -1;
+            color: var(--overlap-bg);
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .empty-prompt { color: #888; text-align: center; padding: 4px 0; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Rebellion Festival 2026 Planner</h1>
+        <p>Select your favorite bands to build your personalized clash-aware daily schedule.</p>
+    </header>
+
+    <div class="tabs" id="dayTabs"></div>
+
+    <div class="layout-container">
+        <div class="panel">
+            <h2 id="selectionTitle">Lineup</h2>
+            <div id="lineupContainer"></div>
+        </div>
+
+        <div class="panel">
+            <h2 id="scheduleTitle">My Schedule</h2>
+            <div id="myScheduleContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Full Dataset extracted from the festival sheet
+        const festivalData = {
+            "Thursday 6th August": {
+                "Empress Ballroom": [
+                    { name: "18 Fevers", start: "12:30", end: "13:00" },
+                    { name: "Face Up", start: "13:20", end: "13:55" },
+                    { name: "The Dollheads", start: "14:15", end: "14:50" },
+                    { name: "The Good The Bad and The Zugly", start: "15:10", end: "15:50" },
+                    { name: "The Courettes", start: "16:10", end: "16:50" },
+                    { name: "Bar Stool Preachers", start: "17:10", end: "17:55" },
+                    { name: "UK Subs", start: "18:20", end: "19:20" },
+                    { name: "Steve Ignorant Band Crass Set", start: "19:45", end: "20:45" },
+                    { name: "Slaughter & The Dogs", start: "21:15", end: "22:15" },
+                    { name: "The Stranglers", start: "22:45", end: "00:15" }
+                ],
+                "Club Casbah": [
+                    { name: "The Liabilitys", start: "12:15", end: "12:45" },
+                    { name: "Dog Rotten", start: "13:05", end: "13:35" },
+                    { name: "Subalternos", start: "13:55", end: "14:30" },
+                    { name: "Slacker", start: "14:50", end: "15:25" },
+                    { name: "Popes of Chillitown", start: "15:45", end: "16:25" },
+                    { name: "Control", start: "16:45", end: "17:25" },
+                    { name: "Bad Cop Bad Cop", start: "17:45", end: "18:30" },
+                    { name: "The Drowns", start: "18:50", end: "19:35" },
+                    { name: "The Adolescents", start: "19:55", end: "20:45" },
+                    { name: "Scream", start: "21:10", end: "22:00" },
+                    { name: "Maid of Ace", start: "22:25", end: "23:15" },
+                    { name: "Millie Manders & The Shut Up", start: "23:45", end: "00:45" }
+                ],
+                "Arena": [
+                    { name: "Litterbug", start: "12:45", end: "13:15" },
+                    { name: "Noose", start: "13:35", end: "14:05" },
+                    { name: "Dead Dates", start: "14:25", end: "14:55" },
+                    { name: "Splodgenessabounds", start: "15:15", end: "16:00" },
+                    { name: "Ambition Demolition", start: "16:20", end: "16:50" },
+                    { name: "Foreign Legion", start: "17:10", end: "17:45" },
+                    { name: "Headstone Horrors", start: "18:05", end: "18:40" },
+                    { name: "Janus Stark", start: "19:00", end: "19:40" },
+                    { name: "Kombi Killers", start: "20:00", end: "20:30" },
+                    { name: "Bite Back", start: "20:50", end: "21:30" },
+                    { name: "The Bolokos", start: "21:50", end: "22:30" },
+                    { name: "Riot City Radio", start: "22:50", end: "23:30" },
+                    { name: "Sick On The Bus", start: "23:50", end: "00:50" }
+                ],
+                "Opera House": [
+                    { name: "Hagar The Womb", start: "12:00", end: "12:35" },
+                    { name: "Menace", start: "12:55", end: "13:35" },
+                    { name: "Carol Hodge Band", start: "13:55", end: "14:35" },
+                    { name: "Blyth Power", start: "14:55", end: "15:35" },
+                    { name: "Molly Vulpyne Band", start: "15:55", end: "16:25" },
+                    { name: "Black Water County", start: "16:45", end: "17:20" },
+                    { name: "Light of Eternity", start: "17:50", end: "18:30" },
+                    { name: "Zion Train", start: "18:50", end: "19:35" },
+                    { name: "The Vapors", start: "19:55", end: "20:45" },
+                    { name: "Au Pairs", start: "21:05", end: "21:55" },
+                    { name: "Bow Wow Wow", start: "22:15", end: "23:05" },
+                    { name: "Buzzcocks", start: "23:25", end: "00:25" }
+                ],
+                "Almost Acoustic (Spanish Hall)": [
+                    { name: "David Delinquent", start: "13:00", end: "13:30" },
+                    { name: "In Evil Hour", start: "13:40", end: "14:10" },
+                    { name: "Kent Nielsen", start: "14:20", end: "14:50" },
+                    { name: "Henshaw", start: "15:00", end: "15:30" },
+                    { name: "Jess Silk", start: "15:40", end: "16:15" },
+                    { name: "Attila the Stockbroker", start: "16:25", end: "17:00" },
+                    { name: "Babar Luck", start: "17:10", end: "17:45" },
+                    { name: "Blyth Power", start: "17:55", end: "18:30" },
+                    { name: "Subalternos", start: "18:40", end: "19:15" },
+                    { name: "Popes of Chillitown", start: "19:25", end: "20:00" },
+                    { name: "Muddy Summers & The DFWs", start: "20:10", end: "20:45" },
+                    { name: "Beans on Toast", start: "20:55", end: "21:45" }
+                ],
+                "Reb Intro Stage & After Dark (Pavilion)": [
+                    { name: "Thrown Away", start: "11:45", end: "12:15" },
+                    { name: "Smoking Fingers", start: "12:35", end: "13:05" },
+                    { name: "Attrshocks", start: "13:25", end: "13:55" },
+                    { name: "Minimal Half", start: "14:15", end: "14:45" },
+                    { name: "The Glitterbombs", start: "15:05", end: "15:35" },
+                    { name: "The Dollies", start: "15:55", end: "16:25" },
+                    { name: "Hairdye", start: "16:45", end: "17:15" },
+                    { name: "Be Nice", start: "17:35", end: "18:05" },
+                    { name: "Grail Guard", start: "18:25", end: "18:55" },
+                    { name: "Red Moon Heroes", start: "19:15", end: "19:45" },
+                    { name: "Ex-", start: "20:05", end: "20:35" },
+                    { name: "Pizzatramp", start: "21:00", end: "21:35" },
+                    { name: "Skeptix", start: "21:55", end: "22:30" },
+                    { name: "Vomit", start: "22:50", end: "23:25" },
+                    { name: "Drongos for Europe", start: "23:45", end: "00:30" }
+                ],
+                "The Old Victoria (Bar)": [
+                    { name: "Bingo (Max Splodge)", start: "11:45", end: "12:15" },
+                    { name: "Rat Boys Magic Show", start: "12:25", end: "12:45" },
+                    { name: "Battery Acid Acoustic", start: "12:55", end: "13:25" },
+                    { name: "Nell Davies", start: "13:35", end: "14:05" },
+                    { name: "Ramona's Tea Party acoustic", start: "14:15", end: "14:45" },
+                    { name: "Static Kill Acoustic Sessions", start: "15:00", end: "17:00" },
+                    { name: "DJs Scarlet & Ayako", start: "17:00", end: "19:00" }
+                ],
+                "Literary Stage (Conference Centre)": [
+                    { name: "The Countess of Fife", start: "20:30", end: "21:10" },
+                    { name: "TV Smith", start: "21:30", end: "22:15" },
+                    { name: "The Mob", start: "22:40", end: "23:40" }
+                ]
+            },
+            "Friday 7th August": {
+                "Empress Ballroom": [
+                    { name: "The Whops", start: "12:45", end: "13:15" },
+                    { name: "Rumkicks", start: "13:35", end: "14:10" },
+                    { name: "Split Dogs", start: "14:30", end: "15:05" },
+                    { name: "Lower Class Brats", start: "15:25", end: "16:05" },
+                    { name: "Riskee & The Ridicule", start: "16:25", end: "17:10" },
+                    { name: "TV Smith & The Bored Teenagers", start: "17:30", end: "18:30" },
+                    { name: "Goldblade", start: "18:50", end: "19:40" },
+                    { name: "Ferocious Dog", start: "20:00", end: "21:00" },
+                    { name: "Anti Nowhere League", start: "21:30", end: "22:30" },
+                    { name: "Sham 69", start: "23:00", end: "00:00" }
+                ],
+                "Club Casbah": [
+                    { name: "Battery Acid", start: "12:55", end: "13:25" },
+                    { name: "Fantazmaz", start: "13:45", end: "14:15" },
+                    { name: "Broken 3 Ways", start: "14:35", end: "15:05" },
+                    { name: "Unrivalled", start: "15:25", end: "15:55" },
+                    { name: "Citizen Fish", start: "16:15", end: "17:00" },
+                    { name: "Meryl Streek", start: "17:20", end: "18:00" },
+                    { name: "The Kids", start: "18:20", end: "19:10" },
+                    { name: "Random Hand", start: "19:30", end: "20:15" },
+                    { name: "The Queers", start: "20:35", end: "21:25" },
+                    { name: "Booze & Glory", start: "21:45", end: "22:35" },
+                    { name: "The Boys", start: "22:55", end: "23:45" },
+                    { name: "The Business", start: "00:10", end: "01:00" }
+                ],
+                "Arena": [
+                    { name: "Spleen", start: "12:45", end: "13:15" },
+                    { name: "Covid 21", start: "13:35", end: "14:05" },
+                    { name: "Club Brat", start: "14:25", end: "14:55" },
+                    { name: "Anti Virus", start: "15:15", end: "15:45" },
+                    { name: "Rivalry", start: "16:05", end: "16:40" },
+                    { name: "Bullitz 23", start: "17:00", end: "17:35" },
+                    { name: "Spectrum 4", start: "17:55", end: "18:30" },
+                    { name: "MDM", start: "18:50", end: "19:30" },
+                    { name: "Gatecrash", start: "19:50", end: "20:30" },
+                    { name: "The Samples", start: "20:50", end: "21:30" },
+                    { name: "Special Duties", start: "21:50", end: "22:40" },
+                    { name: "Cult Maniax", start: "23:00", end: "23:45" },
+                    { name: "Bite Me Bambi", start: "00:10", end: "01:00" }
+                ],
+                "Opera House": [
+                    { name: "Marc Valentine", start: "13:00", end: "13:35" },
+                    { name: "50 Foot Woman", start: "13:55", end: "14:30" },
+                    { name: "Lost Cherrees", start: "14:50", end: "15:30" },
+                    { name: "Gypsy Pistoleros", start: "15:50", end: "16:30" },
+                    { name: "Radical Architects", start: "16:50", end: "17:30" },
+                    { name: "John Otway & Wild Willy Barrett", start: "17:50", end: "18:35" },
+                    { name: "Roman Jugg Band", start: "18:55", end: "19:40" },
+                    { name: "Mick Rossis Gun St", start: "20:00", end: "20:45" },
+                    { name: "Bar Stool Preachers acoustic", start: "21:05", end: "21:50" },
+                    { name: "Lene Lovich", start: "22:10", end: "23:00" },
+                    { name: "Rezillos", start: "23:30", end: "00:30" }
+                ],
+                "Almost Acoustic (Spanish Hall)": [
+                    { name: "Fire Exit", start: "12:35", end: "13:05" },
+                    { name: "Cryssis", start: "13:15", end: "13:45" },
+                    { name: "Emily Flea plays The Damned", start: "13:55", end: "14:30" },
+                    { name: "Voodoo Radio", start: "14:40", end: "15:10" },
+                    { name: "Jo Carley and The Old Dry Skulls", start: "15:25", end: "16:00" },
+                    { name: "Menace with LH(#1)", start: "16:10", end: "16:45" },
+                    { name: "Random Hand", start: "17:00", end: "17:35" },
+                    { name: "Chron Gen", start: "17:50", end: "18:25" },
+                    { name: "Last Tree Squad", start: "18:40", end: "19:15" },
+                    { name: "The Outcasts", start: "19:30", end: "20:05" },
+                    { name: "1, Doris", start: "20:15", end: "20:50" },
+                    { name: "Johnny Moped", start: "21:00", end: "21:45" }
+                ],
+                "Reb Intro Stage & After Dark (Pavilion)": [
+                    { name: "Malad", start: "12:30", end: "13:00" },
+                    { name: "Inronk", start: "13:20", end: "13:50" },
+                    { name: "R.P.C.", start: "14:10", end: "14:40" },
+                    { name: "Wrishlas", start: "15:00", end: "15:30" },
+                    { name: "Catfight", start: "15:50", end: "16:20" },
+                    { name: "Critical Candy", start: "16:40", end: "17:10" },
+                    { name: "Versaints", start: "17:30", end: "18:00" },
+                    { name: "Defused", start: "18:20", end: "18:50" },
+                    { name: "A Murder of Crows", start: "19:10", end: "19:40" },
+                    { name: "The Coathanger Solution", start: "20:00", end: "20:30" },
+                    { name: "Tomorrow Burns", start: "20:50", end: "21:20" },
+                    { name: "The Puncturists", start: "21:40", end: "22:10" },
+                    { name: "Borrowed Time", start: "22:30", end: "23:05" },
+                    { name: "Deal Devils", start: "23:25", end: "00:00" },
+                    { name: "Screaming Dead", start: "00:20", end: "01:00" }
+                ],
+                "The Old Victoria (Bar)": [
+                    { name: "Bingo (Max Splodge)", start: "12:45", end: "13:15" },
+                    { name: "Rat Boys Magic Show", start: "13:25", end: "13:45" },
+                    { name: "Bitzy", start: "13:55", end: "14:25" },
+                    { name: "Mauri Clash", start: "14:35", end: "15:05" },
+                    { name: "Carol Hodge", start: "15:15", end: "15:45" },
+                    { name: "Christmas Kwon from 18 Fevers", start: "15:55", end: "16:30" },
+                    { name: "Static Kill Acoustic Sessions", start: "16:45", end: "18:45" },
+                    { name: "DJ Scratchy", start: "18:50", end: "20:30" }
+                ],
+                "Literary Stage (Conference Centre)": [
+                    { name: "tbc", start: "20:40", end: "21:20" },
+                    { name: "Eater", start: "21:40", end: "22:30" },
+                    { name: "Spear of Destiny", start: "23:00", end: "00:00" }
+                ]
+            },
+            "Saturday 8th August": {
+                "Empress Ballroom": [
+                    { name: "Pubic Enemy", start: "12:40", end: "13:15" },
+                    { name: "Los Fastidios", start: "13:35", end: "14:15" },
+                    { name: "999", start: "14:35", end: "15:20" },
+                    { name: "Gimp Fist", start: "15:40", end: "16:25" },
+                    { name: "Subhumans", start: "16:45", end: "17:35" },
+                    { name: "Chron Gen", start: "17:55", end: "18:50" },
+                    { name: "GBH", start: "19:10", end: "20:00" },
+                    { name: "Die Toten Hosen", start: "20:25", end: "21:25" },
+                    { name: "Cock Sparrer", start: "23:25", end: "00:35" }
+                ],
+                "Club Casbah": [
+                    { name: "Phat Problem", start: "12:35", end: "13:05" },
+                    { name: "Spunk", start: "13:25", end: "13:55" },
+                    { name: "Hung Like Hanratty", start: "14:15", end: "14:50" },
+                    { name: "Paranoid Visions", start: "15:10", end: "15:50" },
+                    { name: "Knock Off", start: "16:10", end: "16:50" },
+                    { name: "Tear Up", start: "17:10", end: "17:50" },
+                    { name: "Deadline", start: "18:10", end: "18:50" },
+                    { name: "Spunk Volcano & The Eruptions", start: "19:10", end: "19:55" },
+                    { name: "The Wurzels", start: "20:20", end: "21:20" },
+                    { name: "The Chameleons", start: "21:50", end: "22:50" },
+                    { name: "Skids", start: "23:20", end: "00:20" }
+                ],
+                "Arena": [
+                    { name: "Under The Influence", start: "12:45", end: "13:15" },
+                    { name: "Diaz Brothers", start: "13:35", end: "14:05" },
+                    { name: "4ft Fingers", start: "14:25", end: "15:00" },
+                    { name: "Dead Pollys", start: "15:20", end: "15:55" },
+                    { name: "Fire Exit", start: "16:15", end: "16:55" },
+                    { name: "The Gakk", start: "17:15", end: "17:55" },
+                    { name: "Grippers", start: "18:15", end: "18:55" },
+                    { name: "Liberty & Justice", start: "19:15", end: "19:55" },
+                    { name: "Last Tree Squad", start: "20:25", end: "21:05" },
+                    { name: "The Attack", start: "21:30", end: "22:10" },
+                    { name: "Notsensibles", start: "22:30", end: "23:15" },
+                    { name: "Rubella Ballet", start: "23:35", end: "00:25" }
+                ],
+                "Opera House": [
+                    { name: "Voodoo Radio", start: "12:40", end: "13:10" },
+                    { name: "1, Doris", start: "13:30", end: "14:10" },
+                    { name: "Heathen Apostles", start: "14:30", end: "15:10" },
+                    { name: "Johnny Moped", start: "15:30", end: "16:10" },
+                    { name: "The Outcasts", start: "16:30", end: "17:10" },
+                    { name: "Anderson from Crazyhead", start: "17:30", end: "18:15" },
+                    { name: "Ruts D.C. acoustic", start: "18:35", end: "19:20" },
+                    { name: "Salford Jets", start: "19:40", end: "20:25" },
+                    { name: "Spizz Energi", start: "20:45", end: "21:30" },
+                    { name: "Dave Formula & Noko", start: "22:00", end: "22:50" },
+                    { name: "Penetration", start: "23:15", end: "00:15" }
+                ],
+                "Almost Acoustic (Spanish Hall)": [
+                    { name: "Bite Me Bambi", start: "12:45", end: "13:00" },
+                    { name: "Jonny Robson", start: "13:10", end: "13:40" },
+                    { name: "Jessi Eastfield", start: "13:50", end: "14:20" },
+                    { name: "Cherry and Peesh", start: "14:30", end: "15:00" },
+                    { name: "Music In Our Underpants", start: "15:10", end: "15:40" },
+                    { name: "Ricky Warwick", start: "15:50", end: "16:20" },
+                    { name: "Rev Peters", start: "15:30", end: "17:00" },
+                    { name: "Charlie Harper", start: "17:05", end: "17:40" },
+                    { name: "Nick Cash", start: "17:50", end: "18:20" },
+                    { name: "Helen McCookerybook", start: "18:30", end: "19:00" },
+                    { name: "Mick Rossi", start: "19:10", end: "19:50" },
+                    { name: "Henry Cluney", start: "20:00", end: "20:45" }
+                ],
+                "Reb Intro Stage & After Dark (Pavilion)": [
+                    { name: "Tallion", start: "12:30", end: "13:00" },
+                    { name: "Bambees", start: "13:20", end: "13:50" },
+                    { name: "Skint Knees", start: "14:10", end: "14:40" },
+                    { name: "Clitspit", start: "15:00", end: "15:30" },
+                    { name: "Wrex", start: "15:50", end: "16:20" },
+                    { name: "Bloody Benders", start: "16:40", end: "17:10" },
+                    { name: "The Nanaz", start: "17:30", end: "18:00" },
+                    { name: "The Jungles", start: "18:20", end: "18:50" },
+                    { name: "Nothing Thrives", start: "19:10", end: "19:40" },
+                    { name: "River Ratts", start: "20:00", end: "20:30" },
+                    { name: "Xtine & The Reckless Hearts", start: "20:50", end: "21:20" },
+                    { name: "Pussyliquor", start: "21:40", end: "22:15" },
+                    { name: "Resistance 77", start: "22:35", end: "23:15" },
+                    { name: "The Restarts", start: "23:35", end: "00:15" },
+                    { name: "Disorder", start: "00:35", end: "01:15" }
+                ],
+                "The Old Victoria (Bar)": [
+                    { name: "Bingo (Max Splodge)", start: "12:45", end: "13:15" },
+                    { name: "Rat Boys Magic Show", start: "13:25", end: "13:45" },
+                    { name: "Emily Flea", start: "13:55", end: "14:25" },
+                    { name: "Maisie Jo & The Rogans", start: "14:35", end: "15:05" },
+                    { name: "Shell The Alternative Folkie", start: "15:15", end: "15:45" },
+                    { name: "Spectrum 4 acoustic", start: "15:55", end: "16:25" },
+                    { name: "Static Kill Acoustic Sessions", start: "16:30", end: "18:30" },
+                    { name: "Dinner Ladies Disco", start: "18:30", end: "20:30" }
+                ],
+                "Literary Stage (Conference Centre)": [
+                    { name: "tbc", start: "20:30", end: "21:15" },
+                    { name: "Ricky Warwick & The Fighting Hearts", start: "21:35", end: "22:20" },
+                    { name: "EXTC", start: "23:15", end: "00:15" }
+                ]
+            },
+            "Sunday 9th August": {
+                "Empress Ballroom": [
+                    { name: "Mikabomb", start: "12:45", end: "13:15" },
+                    { name: "Rat Hole", start: "13:35", end: "14:10" },
+                    { name: "Channel 3", start: "14:30", end: "15:10" },
+                    { name: "Chelsea", start: "15:30", end: "16:10" },
+                    { name: "Haywire", start: "16:30", end: "17:15" },
+                    { name: "Cro-Mags", start: "17:35", end: "18:20" },
+                    { name: "Discharge", start: "18:45", end: "19:35" },
+                    { name: "The Godfathers", start: "20:00", end: "20:50" },
+                    { name: "The Dickies", start: "21:15", end: "22:15" },
+                    { name: "Stiff Little Fingers", start: "22:45", end: "00:00" }
+                ],
+                "Club Casbah": [
+                    { name: "Segregates", start: "13:00", end: "13:30" },
+                    { name: "On The Huh", start: "13:50", end: "14:25" },
+                    { name: "Las Fokin Biches", start: "14:45", end: "15:20" },
+                    { name: "Mess", start: "15:40", end: "16:20" },
+                    { name: "Culture Shock", start: "16:40", end: "17:30" },
+                    { name: "The Insane", start: "17:50", end: "18:35" },
+                    { name: "Shanghai Treason", start: "18:50", end: "19:35" },
+                    { name: "Total Chaos", start: "19:55", end: "20:40" },
+                    { name: "M.D.C.", start: "21:00", end: "21:50" },
+                    { name: "Dirtbox Disco", start: "22:20", end: "23:20" }
+                ],
+                "Arena": [
+                    { name: "All Coasted", start: "13:00", end: "13:30" },
+                    { name: "John E Vistic Rock n Roll Soundsystem", start: "13:50", end: "14:20" },
+                    { name: "Choking Susan", start: "14:40", end: "15:10" },
+                    { name: "Convict Class", start: "15:30", end: "16:00" },
+                    { name: "Threats", start: "16:20", end: "16:55" },
+                    { name: "MC16", start: "17:15", end: "17:50" },
+                    { name: "Black September", start: "18:10", end: "18:50" },
+                    { name: "Pete Bentham & The Dinner Ladies", start: "19:10", end: "19:55" },
+                    { name: "Iconoclasts", start: "20:15", end: "21:00" },
+                    { name: "Sensa Yuma", start: "21:20", end: "22:05" },
+                    { name: "One Way System", start: "22:30", end: "23:30" }
+                ],
+                "Opera House": [
+                    { name: "Dash!", start: "13:00", end: "13:30" },
+                    { name: "The London Sewage Company", start: "13:50", end: "14:25" },
+                    { name: "Eastfield", start: "14:45", end: "15:25" },
+                    { name: "Oorya", start: "15:55", end: "16:35" },
+                    { name: "The Darling Buds", start: "16:55", end: "17:40" },
+                    { name: "Attila & Otway present Cheryl-A Rock Opera", start: "18:00", end: "18:50" },
+                    { name: "The Members play At The Chelsea Night Club", start: "19:10", end: "19:55" },
+                    { name: "Gina Birch & The Unreasonables", start: "20:20", end: "21:05" },
+                    { name: "UK Decay", start: "21:30", end: "22:20" },
+                    { name: "Ruts D.C.", start: "22:45", end: "23:45" }
+                ],
+                "Almost Acoustic (Spanish Hall)": [
+                    { name: "Los Fastidios", start: "13:00", end: "13:35" },
+                    { name: "The Bolokos", start: "13:45", end: "14:20" },
+                    { name: "Millie Manders", start: "14:30", end: "15:05" },
+                    { name: "Pete Bentham & The Dinner Ladies.", start: "15:15", end: "15:50" },
+                    { name: "JC Carroll", start: "16:00", end: "16:35" },
+                    { name: "The Whops", start: "16:45", end: "17:20" },
+                    { name: "Arturo Lurkers/999 Punktry Set", start: "17:30", end: "18:05" },
+                    { name: "M.D.C.", start: "18:15", end: "18:50" },
+                    { name: "Faebhean Kwest (Feat. Rachel Darq)", start: "19:00", end: "19:35" },
+                    { name: "The Antipoet", start: "19:45", end: "20:20" }
+                ],
+                "Reb Intro Stage & After Dark (Pavilion)": [
+                    { name: "Violet Violet", start: "12:30", end: "13:00" },
+                    { name: "Hex Poseur", start: "13:20", end: "13:50" },
+                    { name: "Gaydar", start: "14:10", end: "14:40" },
+                    { name: "Thwack!", start: "15:00", end: "15:30" },
+                    { name: "Mona Freaka", start: "15:50", end: "16:20" },
+                    { name: "Witch Spit", start: "16:40", end: "17:10" },
+                    { name: "Wokerati Party", start: "17:30", end: "18:00" },
+                    { name: "Breakup Haircut", start: "18:20", end: "18:50" },
+                    { name: "Yakkie", start: "19:10", end: "19:40" },
+                    { name: "Whoremones", start: "20:00", end: "20:30" },
+                    { name: "Hawo", start: "20:50", end: "21:20" },
+                    { name: "Lady Lazarus", start: "21:40", end: "22:10" },
+                    { name: "Dummy Toys", start: "22:35", end: "23:30" }
+                ],
+                "The Old Victoria (Bar)": [
+                    { name: "Bingo (Max Splodge)", start: "13:00", end: "13:30" },
+                    { name: "Rat Boys Magic Show", start: "13:40", end: "14:10" },
+                    { name: "Spizzology", start: "14:20", end: "14:50" },
+                    { name: "Sally Pepper", start: "15:00", end: "15:30" },
+                    { name: "Molly Vulpyne", start: "15:40", end: "16:10" },
+                    { name: "Nye Foxx", start: "16:20", end: "16:50" },
+                    { name: "Static Kill Acoustic Sessions", start: "17:00", end: "19:00" },
+                    { name: "DJ-Guy Jardine", start: "19:00", end: "21:00" }
+                ]
+            }
+        };
+
+        // Track selected bands by ID: "Day|Stage|BandName"
+        let selectedBands = new Set();
+        let currentDay = Object.keys(festivalData)[0];
+
+        // Load selections from localStorage if they exist
+        if(localStorage.getItem('rebellion_selections')) {
+            try {
+                selectedBands = new Set(JSON.parse(localStorage.getItem('rebellion_selections')));
+            } catch(e) { console.error(e); }
+        }
+
+        // Convert time string "HH:MM" into minutes from start of day for comparison calculations
+        function timeToMins(timeStr) {
+            let [h, m] = timeStr.split(':').map(Number);
+            // Handle sets stretching past midnight
+            if (h < 5) h += 24; 
+            return (h * 60) + m;
+        }
+
+        // Check if two acts overlap
+        function isClashing(act1, act2) {
+            const start1 = timeToMins(act1.start);
+            const end1 = timeToMins(act1.end);
+            const start2 = timeToMins(act2.start);
+            const end2 = timeToMins(act2.end);
+            return start1 < end2 && start2 < end1;
+        }
+
+        function saveSelections() {
+            localStorage.setItem('rebellion_selections', JSON.stringify([...selectedBands]));
+        }
+
+        function initTabs() {
+            const container = document.getElementById('dayTabs');
+            Object.keys(festivalData).forEach((day, index) => {
+                const btn = document.createElement('button');
+                btn.className = `tab-btn ${day === currentDay ? 'active' : ''}`;
+                btn.innerText = day;
+                btn.onclick = () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentDay = day;
+                    render();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function toggleBand(day, stage, band) {
+            const id = `${day}|${stage}|${band.name}`;
+            if(selectedBands.has(id)) {
+                selectedBands.delete(id);
+            } else {
+                selectedBands.add(id);
+            }
+            saveSelections();
+            render();
+        }
+
+        function render() {
+            document.getElementById('selectionTitle').innerText = `${currentDay} - Lineup Selection`;
+            document.getElementById('scheduleTitle').innerText = `${currentDay} - My Schedule`;
+
+            renderLineup();
+            renderSchedule();
+        }
+
+        function renderLineup() {
+            const container = document.getElementById('lineupContainer');
+            container.innerHTML = '';
+
+            const dayData = festivalData[currentDay];
+            Object.keys(dayData).forEach(stage => {
+                const stageGroup = document.createElement('div');
+                stageGroup.className = 'stage-group';
+
+                const title = document.createElement('div');
+                title.className = 'stage-title';
+                title.innerText = stage;
+                stageGroup.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'band-grid';
+
+                dayData[stage].forEach(band => {
+                    const id = `${currentDay}|${stage}|${band.name}`;
+                    const card = document.createElement('div');
+                    card.className = `band-card ${selectedBands.has(id) ? 'selected' : ''}`;
+                    
+                    card.innerHTML = `
+                        <div class="band-name">${band.name}</div>
+                        <div class="band-time">${band.start} - ${band.end}</div>
+                    `;
+                    card.onclick = () => toggleBand(currentDay, stage, band);
+                    grid.appendChild(card);
+                });
+
+                stageGroup.appendChild(grid);
+                container.appendChild(stageGroup);
+            });
+        }
+
+        function renderSchedule() {
+            const container = document.getElementById('myScheduleContainer');
+            container.innerHTML = '';
+
+            // Filter out selections belonging to the active day view
+            let activeSelections = [];
+            selectedBands.forEach(id => {
+                const [day, stage, name] = id.split('|');
+                if (day === currentDay) {
+                    const act = festivalData[day][stage].find(b => b.name === name);
+                    if(act) {
+                        activeSelections.push({ ...act, stage });
+                    }
+                }
+            });
+
+            if(activeSelections.length === 0) {
+                container.innerHTML = '<p class="empty-prompt">No bands selected for this day yet. Click on bands on the left panel to populate your schedule!</p>';
+                return;
+            }
+
+            // Sort schedule Chronologically
+            activeSelections.sort((a, b) => timeToMins(a.start) - timeToMins(b.start));
+
+            const list = document.createElement('div');
+            list.className = 'schedule-list';
+
+            activeSelections.forEach((act, index) => {
+                const item = document.createElement('div');
+                item.className = 'sched-item';
+
+                // Look for overlaps across all other choices for the day
+                let clashes = activeSelections.filter((other, idx) => idx !== index && isClashing(act, other));
+                
+                if(clashes.length > 0) {
+                    item.classList.add('clash');
+                }
+
+                let clashMessage = '';
+                if(clashes.length > 0) {
+                    clashMessage = `<div class="clash-warning">⚠️ Clashes with: ${clashes.map(c => c.name).join(', ')}</div>`;
+                }
+
+                item.innerHTML = `
+                    <div class="sched-time">${act.start} - ${act.end}</div>
+                    <div class="sched-name">${act.name}</div>
+                    <div class="sched-stage">${act.stage}</div>
+                    ${clashMessage}
+                `;
+                list.appendChild(item);
+            });
+
+            container.appendChild(list);
+        }
+
+        // Execute initialization routines on window mount
+        initTabs();
+        render();
+    </script>
+</body>
+</html>

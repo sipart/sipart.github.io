@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Charge Calculator</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --primary-color: #2c3e50;
+            --accent-color: #10b981;
+            --border-color: #e2e8f0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #0f172a;
+                --card-bg: #1e293b;
+                --text-color: #f8fafc;
+                --primary-color: #38bdf8;
+                --accent-color: #34d399;
+                --border-color: #334155;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .calculator-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .specs {
+            font-size: 0.85rem;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            padding-right: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: transparent;
+            color: var(--text-color);
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent-color);
+        }
+
+        .unit {
+            position: absolute;
+            right: 12px;
+            color: #64748b;
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        .results {
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 2px dashed var(--border-color);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .result-label {
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+        .result-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-card">
+        <h1>EV Charge Calculator</h1>
+        <div class="specs">
+            Renault Zoe (52 kWh) <br>
+            MyEnergi Zappi V2 (7.2 kW)
+        </div>
+
+        <div class="input-group">
+            <label for="current-soc">Current State of Charge</label>
+            <div class="input-wrapper">
+                <input type="number" id="current-soc" min="0" max="100" value="20" oninput="calculateCharge()">
+                <span class="unit">%</span>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="target-soc">Target State of Charge</label>
+            <div class="input-wrapper">
+                <input type="number" id="target-soc" min="0" max="100" value="80" oninput="calculateCharge()">
+                <span class="unit">%</span>
+            </div>
+        </div>
+
+        <div class="error-message" id="error-zone">
+            Target charge must be greater than current charge!
+        </div>
+
+        <div class="results">
+            <div class="result-row">
+                <span class="result-label">Energy Needed:</span>
+                <span class="result-value" id="energy-needed">0 kWh</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">Estimated Time:</span>
+                <span class="result-value" id="time-required">0h 0m</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const BATTERY_CAPACITY = 52; // Renault Zoe 52kWh
+        const CHARGING_POWER = 7.2;   // Zappi V2 7.2kW
+        const CHARGING_EFFICIENCY = 0.90; // Approx 90% real-world efficiency (AC to DC losses)
+
+        function calculateCharge() {
+            const currentSoc = parseFloat(document.getElementById('current-soc').value) || 0;
+            const targetSoc = parseFloat(document.getElementById('target-soc').value) || 0;
+            const errorZone = document.getElementById('error-zone');
+            
+            const energyNeededElem = document.getElementById('energy-needed');
+            const timeRequiredElem = document.getElementById('time-required');
+
+            // Validation
+            if (currentSoc >= targetSoc) {
+                errorZone.style.display = 'block';
+                energyNeededElem.innerText = '0 kWh';
+                timeRequiredElem.innerText = '0h 0m';
+                return;
+            } else {
+                errorZone.style.display = 'none';
+            }
+
+            // Calculate percentage difference
+            const socDifference = targetSoc - currentSoc;
+
+            // Calculate pure energy needed added to the battery (kWh)
+            const energyNeeded = (socDifference / 100) * BATTERY_CAPACITY;
+
+            // Calculate total energy drawn from the wall considering charging efficiency losses
+            const energyFromWall = energyNeeded / CHARGING_EFFICIENCY;
+
+            // Calculate total hours required
+            const totalHours = energyFromWall / CHARGING_POWER;
+
+            // Split into hours and minutes
+            const hours = Math.floor(totalHours);
+            const minutes = Math.round((totalHours - hours) * 60);
+
+            // Display results
+            energyNeededElem.innerText = `${energyNeeded.toFixed(1)} kWh`;
+            timeRequiredElem.innerText = `${hours}h ${minutes}m`;
+        }
+
+        // Run initial calculation on page load
+        window.onload = calculateCharge;
+    </script>
+
+</body>
+</html>

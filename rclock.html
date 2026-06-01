@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retirement Countdown</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(255, 255, 255, 0.08);
+      --panel-strong: rgba(255, 255, 255, 0.12);
+      --text: #f3f6ff;
+      --muted: #c7cce0;
+      --accent: #ff5f9e;
+      --accent-2: #7c6cff;
+      --accent-3: #2dd4bf;
+      --accent-4: #f59e0b;
+      --border: rgba(255, 255, 255, 0.12);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124, 108, 255, 0.22), transparent 30%),
+        radial-gradient(circle at top right, rgba(255, 95, 158, 0.20), transparent 28%),
+        linear-gradient(160deg, #08101e 0%, #11172a 55%, #0d1222 100%);
+    }
+
+    .wrapper {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .hero {
+      padding: 28px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: #ffe2ee;
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    h1 {
+      margin: 16px 0 10px;
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      line-height: 1.03;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 860px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      padding: 24px;
+      min-height: 170px;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: auto -40px -40px auto;
+      width: 150px;
+      height: 150px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255,255,255,0.11), rgba(255,255,255,0));
+      pointer-events: none;
+    }
+
+    .span-12 { grid-column: span 12; }
+    .span-8  { grid-column: span 8; }
+    .span-6  { grid-column: span 6; }
+    .span-4  { grid-column: span 4; }
+    .span-3  { grid-column: span 3; }
+
+    .card h2, .card h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #e8ecff;
+      letter-spacing: 0.01em;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .big {
+      font-size: clamp(2.1rem, 3.4vw, 4rem);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 10px 0 0;
+    }
+
+    .big small {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .mini {
+      border-radius: 22px;
+      padding: 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+
+    .mini .value {
+      display: block;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .mini .label {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .accent-pink { border-top: 4px solid var(--accent); }
+    .accent-purple { border-top: 4px solid var(--accent-2); }
+    .accent-teal { border-top: 4px solid var(--accent-3); }
+    .accent-gold { border-top: 4px solid var(--accent-4); }
+
+    .progress-wrap {
+      margin-top: 20px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .progress-bar > span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+      box-shadow: inset 0 0 16px rgba(255,255,255,0.18);
+      transition: width 0.8s ease;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed rgba(255,255,255,0.10);
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .list-item strong {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .footnote {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      font-size: 0.9rem;
+      margin: 6px 8px 0 0;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    @media (max-width: 1080px) {
+      .span-8, .span-6, .span-4, .span-3 { grid-column: span 12; }
+      .mini-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .wrapper { padding: 16px; }
+      .hero, .card { padding: 18px; }
+      .mini-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .mini { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <section class="hero">
+      <span class="eyebrow">🎉 Retirement countdown • Bento dashboard</span>
+      <h1>Counting down to retirement</h1>
+      <p>
+        This dashboard is configured for a final working day of <strong>Wednesday 30 September 2026</strong>,
+        with retirement starting after your shift ends at <strong>4:00 pm</strong>.
+        It uses your working pattern of <strong>8:00 am–4:00 pm Monday to Thursday</strong> and
+        <strong>8:00 am–3:30 pm Friday</strong>, excludes weekends, and skips the England &amp; Wales
+        bank holiday on <strong>Monday 31 August 2026</strong>.
+      </p>
+    </section>
+
+    <section class="bento">
+      <article class="card span-8 accent-pink">
+        <h2>Retirement clock</h2>
+        <div class="mini-grid">
+          <div class="mini"><span class="value" id="calDays">0</span><span class="label">Days</span></div>
+          <div class="mini"><span class="value" id="calHours">0</span><span class="label">Hours</span></div>
+          <div class="mini"><span class="value" id="calMinutes">0</span><span class="label">Minutes</span></div>
+          <div class="mini"><span class="value" id="calSeconds">0</span><span class="label">Seconds</span></div>
+        </div>
+        <div class="progress-wrap">
+          <div class="list-item" style="border-bottom: none; padding-bottom: 12px;">
+            <span class="muted">Progress from now to retirement moment</span>
+            <strong id="progressLabel">0%</strong>
+          </div>
+          <div class="progress-bar"><span id="progressBar"></span></div>
+        </div>
+      </article>
+
+      <article class="card span-4 accent-purple">
+        <h2>Retirement moment</h2>
+        <div class="big" id="retireMoment">Wed 30 Sep 2026, 4:00 pm</div>
+        <p class="muted" id="retireMessage">One final finish line, then freedom.</p>
+      </article>
+
+      <article class="card span-4 accent-teal">
+        <h3>Working time left</h3>
+        <div class="big"><span id="workHours">0.0</span><small>Total scheduled working hours remaining</small></div>
+      </article>
+
+      <article class="card span-4 accent-gold">
+        <h3>Working days left</h3>
+        <div class="big"><span id="workDays">0</span><small>Remaining work shifts (counting today if time is left)</small></div>
+      </article>
+
+      <article class="card span-4 accent-purple">
+        <h3>Working weeks left</h3>
+        <div class="big"><span id="workWeeks">0.00</span><small>Based on your 39.5 hour working week</small></div>
+      </article>
+
+      <article class="card span-4 accent-pink">
+        <h3>Weekends before retirement</h3>
+        <div class="big"><span id="weekendsLeft">0</span><small>Complete weekends still to enjoy</small></div>
+      </article>
+
+      <article class="card span-4 accent-teal">
+        <h3>Bank holidays left</h3>
+        <div class="big"><span id="bankHolidayCount">0</span><small>Working days skipped because of bank holidays</small></div>
+      </article>
+
+      <article class="card span-8 accent-gold">
+        <h2>Breakdown</h2>
+        <div class="list">
+          <div class="list-item">
+            <span class="muted">Next bank holiday</span>
+            <strong id="nextBankHoliday">—</strong>
+          </div>
+          <div class="list-item">
+            <span class="muted">Full workdays after today</span>
+            <strong id="fullWorkdaysAfterToday">0</strong>
+          </div>
+          <div class="list-item">
+            <span class="muted">Average hours per remaining workday</span>
+            <strong id="avgHoursPerDay">0.0</strong>
+          </div>
+          <div class="list-item">
+            <span class="muted">Working pattern</span>
+            <strong>Mon–Thu 8:00–16:00 • Fri 8:00–15:30</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="card span-4 accent-purple">
+        <h2>Included bank holidays</h2>
+        <div id="bankHolidayTags"></div>
+      </article>
+    </section>
+
+    <p class="footnote">
+      Notes: the working timers update live in your browser and are designed for UK time. If you want to reuse this after opening it later,
+      just change the <span class="mono">RETIREMENT_DATE</span>, the work schedule, or the holiday list in the script.
+    </p>
+  </div>
+
+  <script>
+    const CONFIG = {
+      RETIREMENT_DATE: '2026-09-30T16:00:00',
+      WORK_SCHEDULE: {
+        0: { start: '08:00', end: '16:00' },
+        1: { start: '08:00', end: '16:00' },
+        2: { start: '08:00', end: '16:00' },
+        3: { start: '08:00', end: '16:00' },
+        4: { start: '08:00', end: '15:30' }
+      },
+      BANK_HOLIDAYS: [
+        { date: '2026-08-31', name: 'Summer bank holiday (England & Wales)' }
+      ],
+      WEEKLY_HOURS: 39.5
+    };
+
+    const retirementDate = new Date(CONFIG.RETIREMENT_DATE);
+    const bankHolidaySet = new Set(CONFIG.BANK_HOLIDAYS.map(h => h.date));
+
+    function parseTimeParts(value) {
+      const [hours, minutes] = value.split(':').map(Number);
+      return { hours, minutes };
+    }
+
+    function toDateKey(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function startOfDay(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+    }
+
+    function endOfDay(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+    }
+
+    function addDays(date, days) {
+      const copy = new Date(date);
+      copy.setDate(copy.getDate() + days);
+      return copy;
+    }
+
+    function isBankHoliday(date) {
+      return bankHolidaySet.has(toDateKey(date));
+    }
+
+    function getShiftBounds(date) {
+      const weekday = date.getDay();
+      const shift = CONFIG.WORK_SCHEDULE[weekday - 1 < 0 ? 6 : weekday - 1];
+      // JavaScript: Sunday=0, Monday=1 ... Saturday=6.
+      // The line above remaps Monday->0 ... Friday->4; weekends won't have a shift.
+      if (date.getDay() === 0 || date.getDay() === 6) return null;
+      const remapped = date.getDay() - 1;
+      const actualShift = CONFIG.WORK_SCHEDULE[remapped];
+      if (!actualShift || isBankHoliday(date)) return null;
+      const startParts = parseTimeParts(actualShift.start);
+      const endParts = parseTimeParts(actualShift.end);
+      const start = new Date(date.getFullYear(), date.getMonth(), date.getDate(), startParts.hours, startParts.minutes, 0, 0);
+      const end = new Date(date.getFullYear(), date.getMonth(), date.getDate(), endParts.hours, endParts.minutes, 0, 0);
+      return { start, end };
+    }
+
+    function formatClockPart(value) {
+      return String(Math.max(0, value)).padStart(2, '0');
+    }
+
+    function formatDateHuman(date) {
+      return new Intl.DateTimeFormat('en-GB', {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit'
+      }).format(date);
+    }
+
+    function formatDateLong(dateString) {
+      const date = new Date(`${dateString}T12:00:00`);
+      return new Intl.DateTimeFormat('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }).format(date);
+    }
+
+    function getCountdown(now) {
+      const totalMs = retirementDate - now;
+      const safeMs = Math.max(0, totalMs);
+      const totalSeconds = Math.floor(safeMs / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      return { totalMs: safeMs, days, hours, minutes, seconds };
+    }
+
+    function getWorkingMetrics(now) {
+      let workingMs = 0;
+      let workDays = 0;
+      let fullWorkdaysAfterToday = 0;
+      let weekendsLeft = 0;
+      let bankHolidaysLeft = 0;
+
+      const todayStart = startOfDay(now);
+      const retirementDay = startOfDay(retirementDate);
+      let cursor = new Date(todayStart);
+
+      while (cursor <= retirementDay) {
+        const dayKey = toDateKey(cursor);
+        const shift = getShiftBounds(cursor);
+
+        if (shift) {
+          const effectiveStart = shift.start > now ? shift.start : now;
+          const effectiveEnd = shift.end < retirementDate ? shift.end : retirementDate;
+          if (effectiveEnd > effectiveStart) {
+            workingMs += effectiveEnd - effectiveStart;
+            workDays += 1;
+            if (toDateKey(cursor) !== toDateKey(now)) {
+              fullWorkdaysAfterToday += 1;
+            }
+          }
+        }
+
+        if (cursor > now && cursor.getDay() === 6) {
+          const sunday = addDays(cursor, 1);
+          if (endOfDay(sunday) < retirementDate) {
+            weekendsLeft += 1;
+          }
+        }
+
+        if (bankHolidaySet.has(dayKey) && startOfDay(cursor) >= todayStart && startOfDay(cursor) <= retirementDay) {
+          const weekday = cursor.getDay();
+          if (weekday >= 1 && weekday <= 5) {
+            bankHolidaysLeft += 1;
+          }
+        }
+
+        cursor = addDays(cursor, 1);
+      }
+
+      const workingHours = workingMs / 36e5;
+      return {
+        workingHours,
+        workDays,
+        workWeeks: workingHours / CONFIG.WEEKLY_HOURS,
+        fullWorkdaysAfterToday,
+        weekendsLeft,
+        bankHolidaysLeft,
+        avgHoursPerDay: workDays ? (workingHours / workDays) : 0
+      };
+    }
+
+    function getNextBankHoliday(now) {
+      const upcoming = CONFIG.BANK_HOLIDAYS
+        .filter(item => new Date(`${item.date}T00:00:00`) >= startOfDay(now))
+        .sort((a, b) => a.date.localeCompare(b.date));
+      return upcoming[0] || null;
+    }
+
+    function renderHolidayTags() {
+      const wrap = document.getElementById('bankHolidayTags');
+      wrap.innerHTML = '';
+      if (!CONFIG.BANK_HOLIDAYS.length) {
+        wrap.innerHTML = '<span class="muted">No bank holidays configured.</span>';
+        return;
+      }
+      CONFIG.BANK_HOLIDAYS.forEach(item => {
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.textContent = `${formatDateLong(item.date)} • ${item.name}`;
+        wrap.appendChild(tag);
+      });
+    }
+
+    function update() {
+      const now = new Date();
+      const countdown = getCountdown(now);
+      const work = getWorkingMetrics(now);
+
+      document.getElementById('calDays').textContent = countdown.days;
+      document.getElementById('calHours').textContent = formatClockPart(countdown.hours);
+      document.getElementById('calMinutes').textContent = formatClockPart(countdown.minutes);
+      document.getElementById('calSeconds').textContent = formatClockPart(countdown.seconds);
+
+      document.getElementById('workHours').textContent = work.workingHours.toFixed(1);
+      document.getElementById('workDays').textContent = work.workDays;
+      document.getElementById('workWeeks').textContent = work.workWeeks.toFixed(2);
+      document.getElementById('weekendsLeft').textContent = work.weekendsLeft;
+      document.getElementById('bankHolidayCount').textContent = work.bankHolidaysLeft;
+      document.getElementById('fullWorkdaysAfterToday').textContent = work.fullWorkdaysAfterToday;
+      document.getElementById('avgHoursPerDay').textContent = `${work.avgHoursPerDay.toFixed(1)} hrs`;
+
+      const totalWindowMs = Math.max(1, retirementDate - new Date('2026-06-01T09:18:00'));
+      const elapsedWindowMs = Math.max(0, Math.min(totalWindowMs, now - new Date('2026-06-01T09:18:00')));
+      const progressPct = (elapsedWindowMs / totalWindowMs) * 100;
+      document.getElementById('progressBar').style.width = `${progressPct.toFixed(1)}%`;
+      document.getElementById('progressLabel').textContent = `${progressPct.toFixed(1)}%`;
+
+      document.getElementById('retireMoment').textContent = formatDateHuman(retirementDate);
+
+      const nextHoliday = getNextBankHoliday(now);
+      document.getElementById('nextBankHoliday').textContent = nextHoliday
+        ? `${formatDateLong(nextHoliday.date)} • ${nextHoliday.name}`
+        : 'No bank holidays left before retirement';
+
+      if (countdown.totalMs <= 0) {
+        document.getElementById('retireMessage').textContent = 'Congratulations — you are retired!';
+      } else if (work.workDays <= 1) {
+        document.getElementById('retireMessage').textContent = 'Final stretch — nearly there.';
+      } else if (work.weekendsLeft <= 4) {
+        document.getElementById('retireMessage').textContent = 'Only a handful of weekends to go.';
+      } else {
+        document.getElementById('retireMessage').textContent = 'Every tick is one step closer to retirement.';
+      }
+    }
+
+    renderHolidayTags();
+    update();
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>

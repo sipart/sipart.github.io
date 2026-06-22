@@ -80,10 +80,9 @@
             align-items: center;
         }
 
-        input[type="number"] {
+        input[type="number"], select {
             width: 100%;
             padding: 12px;
-            padding-right: 40px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 1rem;
@@ -93,7 +92,26 @@
             outline: none;
         }
 
-        input[type="number"]:focus {
+        input[type="number"] {
+            padding-right: 40px;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Dark mode option text fix */
+        select option {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        input[type="number"]:focus, select:focus {
             border-color: var(--accent-color);
         }
 
@@ -143,8 +161,15 @@
     <div class="calculator-card">
         <h1>EV Charge Calculator</h1>
         <div class="specs">
-            Renault Zoe (52 kWh) <br>
             MyEnergi Zappi V2 (7.2 kW)
+        </div>
+
+        <div class="input-group">
+            <label for="vehicle-select">Vehicle</label>
+            <select id="vehicle-select" onchange="calculateCharge()">
+                <option value="52">Renault Zoe (52 kWh)</option>
+                <option value="70.5">Mercedes Benz EQA 250+ (70.5 kWh)</option>
+            </select>
         </div>
 
         <div class="input-group">
@@ -180,11 +205,13 @@
     </div>
 
     <script>
-        const BATTERY_CAPACITY = 52; // Renault Zoe 52kWh
         const CHARGING_POWER = 7.2;   // Zappi V2 7.2kW
         const CHARGING_EFFICIENCY = 0.90; // Approx 90% real-world efficiency (AC to DC losses)
 
         function calculateCharge() {
+            // Dynamically get the battery capacity from the dropdown selection
+            const batteryCapacity = parseFloat(document.getElementById('vehicle-select').value);
+            
             const currentSoc = parseFloat(document.getElementById('current-soc').value) || 0;
             const targetSoc = parseFloat(document.getElementById('target-soc').value) || 0;
             const errorZone = document.getElementById('error-zone');
@@ -206,7 +233,7 @@
             const socDifference = targetSoc - currentSoc;
 
             // Calculate pure energy needed added to the battery (kWh)
-            const energyNeeded = (socDifference / 100) * BATTERY_CAPACITY;
+            const energyNeeded = (socDifference / 100) * batteryCapacity;
 
             // Calculate total energy drawn from the wall considering charging efficiency losses
             const energyFromWall = energyNeeded / CHARGING_EFFICIENCY;

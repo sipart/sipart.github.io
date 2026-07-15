@@ -471,9 +471,9 @@ footer{
     <h1>With an added pinch of salt!</h1>
     <p class="lede">
       A non-linear EV battery degradation estimator with optimistic / typical / pessimistic bands,
-      vehicle-family curves, calibration for BMW i3 and Nissan Leaf forum examples, gentler handling
-      of brief 100% charging, passive-cooling penalties that depend on heat and rapid charging, and an
-      option to account for buffer-masked usable capacity.
+      vehicle-family curves, gentler handling of brief 100% charging, 
+      passive-cooling penalties that depend on heat and rapid charging, 
+      and an option to account for buffer-masked usable capacity.
     </p>
     <div class="toolbar">
       <button onclick="calculate()">Recalculate</button>
@@ -623,20 +623,6 @@ footer{
     <div class="field">
       <label for="knownSoh">Known current SoH override (%)</label>
       <input id="knownSoh" type="number" step="0.1" placeholder="Optional">
-    </div>
-
-    <div class="field full">
-      <label for="preset">Forum sanity-check presets</label>
-      <select id="preset" onchange="applyPreset()">
-        <option value="">Choose a preset...</option>
-        <option value="i3_60_daily">BMW i3 60Ah · 10 yrs · 130k miles · daily 100%</option>
-        <option value="leaf40_low">Nissan Leaf 40kWh · 8 yrs · 24k miles · UK low use</option>
-        <option value="ioniq5_typical">Ioniq 5 / EV6 style · 3 yrs · 36k miles</option>
-      </select>
-      <div class="hint">
-        These are not hidden corrections; they simply demonstrate that v3 no longer collapses
-        old i3s/low-use Leafs unrealistically.
-      </div>
     </div>
   </div>
 </section>

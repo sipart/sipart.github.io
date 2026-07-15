@@ -1,0 +1,1444 @@
+
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EV Battery Degradation Estimator v3</title>
+
+<style>
+:root{
+  --bg:#081021;
+  --panel:rgba(255,255,255,.085);
+  --panel2:rgba(255,255,255,.13);
+  --text:#eef6ff;
+  --muted:#aebbd2;
+  --line:rgba(255,255,255,.18);
+  --accent:#6ee7d8;
+  --accent2:#8ab4ff;
+  --good:#40d98d;
+  --warn:#ffd166;
+  --bad:#ff6b6b;
+  --shadow:0 24px 70px rgba(0,0,0,.35);
+  --radius:24px;
+  --input:rgba(5,12,30,.78);
+}
+
+[data-theme="light"]{
+  --bg:#f5f8fc;
+  --panel:rgba(255,255,255,.92);
+  --panel2:#fff;
+  --text:#112137;
+  --muted:#53637a;
+  --line:rgba(12,35,64,.16);
+  --accent:#008c78;
+  --accent2:#2c66d9;
+  --good:#087b43;
+  --warn:#9b6200;
+  --bad:#c83333;
+  --shadow:0 18px 42px rgba(25,45,70,.14);
+  --input:#fff;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at top left,rgba(110,231,216,.25),transparent 34rem),
+    radial-gradient(circle at top right,rgba(138,180,255,.2),transparent 32rem),
+    linear-gradient(135deg,var(--bg),var(--bg));
+}
+
+.wrap{
+  width:min(1240px,calc(100% - 28px));
+  margin:0 auto;
+  padding:25px 0 44px;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(14px);
+}
+
+.hero{
+  display:grid;
+  grid-template-columns:1.35fr .65fr;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.hero-main{
+  padding:34px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-main:after{
+  content:"";
+  position:absolute;
+  right:-95px;
+  bottom:-125px;
+  width:310px;
+  height:310px;
+  border-radius:999px;
+  background:radial-gradient(circle,rgba(110,231,216,.22),transparent 66%);
+}
+
+.eyebrow{
+  color:var(--accent);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-size:.78rem;
+}
+
+h1{
+  font-size:clamp(2.05rem,4.8vw,4.35rem);
+  line-height:.98;
+  letter-spacing:-.055em;
+  margin:10px 0 12px;
+}
+
+.lede{
+  font-size:1.08rem;
+  line-height:1.62;
+  color:var(--muted);
+  max-width:780px;
+  margin:0;
+}
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:22px;
+}
+
+button{
+  border:0;
+  border-radius:999px;
+  padding:12px 16px;
+  font-weight:850;
+  cursor:pointer;
+  color:#06131d;
+  background:linear-gradient(135deg,var(--accent),#c6fff1);
+  box-shadow:0 12px 28px rgba(110,231,216,.18);
+}
+
+button.secondary{
+  background:var(--panel2);
+  border:1px solid var(--line);
+  color:var(--text);
+  box-shadow:none;
+}
+
+button:hover{
+  filter:brightness(1.04);
+  transform:translateY(-1px);
+}
+
+.side{
+  padding:20px;
+  display:grid;
+  gap:12px;
+}
+
+.mini{
+  padding:16px;
+  border-radius:18px;
+  background:var(--panel2);
+  border:1px solid var(--line);
+}
+
+.mini strong{
+  display:block;
+  font-size:1.26rem;
+  margin-bottom:4px;
+}
+
+.mini span{
+  color:var(--muted);
+  font-size:.91rem;
+  line-height:1.42;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:.94fr 1.06fr;
+  gap:20px;
+  align-items:start;
+}
+
+.section{padding:23px}
+
+.section h2{
+  margin:0 0 15px;
+  font-size:1.22rem;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.full{grid-column:1/-1}
+
+label{
+  font-size:.87rem;
+  color:var(--muted);
+  font-weight:800;
+}
+
+input,select{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--input);
+  color:var(--text);
+  font:inherit;
+  outline:0;
+}
+
+input[type=range]{
+  padding:0;
+  accent-color:var(--accent);
+}
+
+.range-line{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:.8rem;
+}
+
+.hint{
+  font-size:.83rem;
+  line-height:1.43;
+  color:var(--muted);
+}
+
+.chips{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:15px 0 4px;
+}
+
+.chip{
+  border:1px solid var(--line);
+  background:var(--panel2);
+  border-radius:15px;
+  padding:12px;
+  min-height:72px;
+}
+
+.chip span{
+  display:block;
+  color:var(--muted);
+  font-size:.76rem;
+  margin-bottom:5px;
+}
+
+.chip strong{font-size:.94rem}
+
+.results{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+}
+
+.result{
+  padding:17px;
+  border-radius:19px;
+  background:var(--panel2);
+  border:1px solid var(--line);
+}
+
+.result small{
+  color:var(--muted);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.value{
+  font-size:clamp(1.68rem,3vw,2.55rem);
+  font-weight:950;
+  letter-spacing:-.045em;
+  margin:5px 0;
+}
+
+.sub{
+  color:var(--muted);
+  font-size:.88rem;
+  line-height:1.35;
+}
+
+.band{
+  font-size:1.3rem;
+  font-weight:900;
+  color:var(--accent);
+}
+
+.gauge-wrap{
+  display:grid;
+  grid-template-columns:215px 1fr;
+  gap:20px;
+  align-items:center;
+  margin:16px 0;
+}
+
+.gauge{
+  width:215px;
+  height:215px;
+  position:relative;
+  display:grid;
+  place-items:center;
+}
+
+.gauge svg{
+  width:215px;
+  height:215px;
+  transform:rotate(-90deg);
+}
+
+.centre{
+  position:absolute;
+  text-align:center;
+}
+
+.centre b{
+  font-size:2rem;
+  display:block;
+}
+
+.centre span{
+  font-size:.8rem;
+  color:var(--muted);
+}
+
+.bar-row{
+  display:grid;
+  grid-template-columns:162px 1fr 78px;
+  gap:10px;
+  align-items:center;
+  margin:9px 0;
+}
+
+.bar-label{
+  color:var(--muted);
+  font-size:.88rem;
+}
+
+.bar{
+  height:12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.12);
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.bar i{
+  display:block;
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--accent2),var(--accent));
+  transition:width .25s;
+}
+
+.bar-value{
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+
+canvas{
+  width:100%;
+  height:285px;
+  border-radius:18px;
+  border:1px solid var(--line);
+  background:rgba(0,0,0,.08);
+}
+
+.explain{
+  margin-top:14px;
+  padding:16px;
+  border-radius:18px;
+  background:var(--panel2);
+  border:1px solid var(--line);
+  color:var(--muted);
+  line-height:1.55;
+}
+
+.risk{font-weight:900}
+.risk.low{color:var(--good)}
+.risk.moderate{color:var(--warn)}
+.risk.high{color:var(--bad)}
+
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  margin-top:12px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+}
+
+th,td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+  text-align:left;
+}
+
+th{
+  color:var(--muted);
+  background:var(--panel2);
+  font-size:.82rem;
+}
+
+tr:last-child td{border-bottom:0}
+
+footer{
+  padding:20px;
+  margin-top:20px;
+  color:var(--muted);
+  line-height:1.55;
+}
+
+.foot-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.note{
+  border:1px dashed var(--line);
+  background:rgba(255,255,255,.05);
+  border-radius:16px;
+  padding:14px;
+}
+
+.calib{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.calib .note{font-size:.9rem}
+
+@media(max-width:950px){
+  .hero,.grid,.gauge-wrap,.foot-grid{grid-template-columns:1fr}
+  .results{grid-template-columns:1fr}
+  .chips{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:620px){
+  .wrap{width:min(100% - 18px,1240px);padding-top:12px}
+  .hero-main,.section{padding:18px}
+  .form-grid,.chips,.calib{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:1fr}
+  .bar-value{text-align:left}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<section class="hero">
+  <div class="card hero-main">
+    <div class="eyebrow">EV battery health estimator · version 3</div>
+    <h1>With a added pinch of salt!</h1>
+    <p class="lede">
+      A non-linear EV battery degradation estimator with optimistic / typical / pessimistic bands,
+      vehicle-family curves, calibration for BMW i3 and Nissan Leaf forum examples, gentler handling
+      of brief 100% charging, passive-cooling penalties that depend on heat and rapid charging, and an
+      option to account for buffer-masked usable capacity.
+    </p>
+    <div class="toolbar">
+      <button onclick="calculate()">Recalculate</button>
+      <button class="secondary" onclick="resetDefaults()">Reset example</button>
+      <button class="secondary" onclick="toggleTheme()">Toggle light/dark</button>
+    </div>
+  </div>
+
+  <aside class="card side">
+    <div class="mini">
+      <strong>Non-linear ageing</strong>
+      <span>Models a quicker early drop, a flatter middle life, and optional late-life acceleration rather than age × flat percentage.</span>
+    </div>
+    <div class="mini">
+      <strong>Likely range</strong>
+      <span>Shows a band because individual EVs vary wildly by climate, pack revision, BMS behaviour and hidden history.</span>
+    </div>
+    <div class="mini">
+      <strong>Buffers matter</strong>
+      <span>Displayed 100% is often not cell-level 100%; some cars mask early cell ageing from driver-visible range.</span>
+    </div>
+  </aside>
+</section>
+
+<main class="grid">
+
+<section class="card section">
+  <h2>1. Vehicle and battery</h2>
+
+  <div class="form-grid">
+    <div class="field full">
+      <label for="vehicle">Car make / model / battery</label>
+      <select id="vehicle" onchange="loadVehicle()"></select>
+      <div class="hint">
+        Starter profiles are approximate and editable. If you have LeafSpy, OBD, Aviloo,
+        manufacturer app or service-menu SoH data, use the override.
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="grossKwh">Gross battery size (kWh)</label>
+      <input id="grossKwh" type="number" step="0.1">
+    </div>
+
+    <div class="field">
+      <label for="usableKwh">Usable battery size when new (kWh)</label>
+      <input id="usableKwh" type="number" step="0.1">
+    </div>
+
+    <div class="field">
+      <label for="chemistry">Battery chemistry</label>
+      <select id="chemistry">
+        <option value="lfp">LFP</option>
+        <option value="nmc">NMC / NCM</option>
+        <option value="nca">NCA</option>
+        <option value="lmo">LMO / early mixed chemistry</option>
+        <option value="unknown">Unknown</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="thermal">Temperature management</label>
+      <select id="thermal">
+        <option value="liquid">Active liquid cooled</option>
+        <option value="air">Active air cooled</option>
+        <option value="passive">Passive / limited cooling</option>
+        <option value="unknown">Unknown</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="maxDcKw">Max DC charging power (kW)</label>
+      <input id="maxDcKw" type="number" step="1">
+    </div>
+
+    <div class="field">
+      <label for="efficiency">Typical efficiency (miles/kWh)</label>
+      <input id="efficiency" type="number" step="0.1">
+    </div>
+
+    <div class="field full">
+      <label for="viewMode">What should the estimate represent?</label>
+      <select id="viewMode">
+        <option value="driver">Driver-visible usable capacity / practical range</option>
+        <option value="cell">Underlying cell degradation before manufacturer buffer masking</option>
+      </select>
+      <div class="hint">
+        For some vehicles with conservative or dynamic buffers, driver-visible range may stay healthier
+        than raw cell degradation for several years.
+      </div>
+    </div>
+  </div>
+
+  <div class="chips" id="vehicleSummary"></div>
+
+  <h2 style="margin-top:24px">2. Usage and charging habits</h2>
+
+  <div class="form-grid">
+    <div class="field">
+      <label for="ageYears">Age of car (years)</label>
+      <input id="ageYears" type="number" step="0.1" value="5">
+    </div>
+
+    <div class="field">
+      <label for="annualMileage">Annual mileage</label>
+      <input id="annualMileage" type="number" step="500" value="10000">
+    </div>
+
+    <div class="field">
+      <label for="charges100">Charges to 100% per year</label>
+      <input id="charges100" type="number" step="1" value="24">
+    </div>
+
+    <div class="field">
+      <label for="hoursAt100">Average hours sitting at 100% before driving</label>
+      <input id="hoursAt100" type="number" step="0.5" value="2">
+    </div>
+
+    <div class="field full">
+      <label for="dcPercent">Charging done on DC rapid / ultra-rapid: <span id="dcReadout">10%</span></label>
+      <input id="dcPercent" type="range" min="0" max="100" value="10" oninput="syncReadouts();calculate()">
+      <div class="range-line">
+        <span>Mostly home / AC</span>
+        <span>Mostly rapid DC</span>
+      </div>
+    </div>
+
+    <div class="field full">
+      <label for="highPowerShare">Of DC charging, share above 100kW: <span id="hpReadout">30%</span></label>
+      <input id="highPowerShare" type="range" min="0" max="100" value="30" oninput="syncReadouts();calculate()">
+      <div class="range-line">
+        <span>50–100kW</span>
+        <span>Mostly 100kW+</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="climate">Typical climate / storage</label>
+      <select id="climate">
+        <option value="cool">Cool / mostly garaged</option>
+        <option value="mild" selected>Mild / UK-like</option>
+        <option value="hot">Hot climate / frequent heat</option>
+        <option value="mixed">Mixed / unknown</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="knownSoh">Known current SoH override (%)</label>
+      <input id="knownSoh" type="number" step="0.1" placeholder="Optional">
+    </div>
+
+    <div class="field full">
+      <label for="preset">Forum sanity-check presets</label>
+      <select id="preset" onchange="applyPreset()">
+        <option value="">Choose a preset...</option>
+        <option value="i3_60_daily">BMW i3 60Ah · 10 yrs · 130k miles · daily 100%</option>
+        <option value="leaf40_low">Nissan Leaf 40kWh · 8 yrs · 24k miles · UK low use</option>
+        <option value="ioniq5_typical">Ioniq 5 / EV6 style · 3 yrs · 36k miles</option>
+      </select>
+      <div class="hint">
+        These are not hidden corrections; they simply demonstrate that v3 no longer collapses
+        old i3s/low-use Leafs unrealistically.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="card section">
+  <h2>Estimated result</h2>
+
+  <div class="results">
+    <div class="result">
+      <small>Typical SoH</small>
+      <div class="value" id="sohValue">--</div>
+      <div class="sub" id="riskText">Risk: --</div>
+    </div>
+
+    <div class="result">
+      <small>Likely band</small>
+      <div class="value band" id="bandValue">--</div>
+      <div class="sub">Optimistic to pessimistic estimate</div>
+    </div>
+
+    <div class="result">
+      <small>Practical range now</small>
+      <div class="value" id="rangeValue">--</div>
+      <div class="sub" id="kwhValue">Estimated usable kWh</div>
+    </div>
+  </div>
+
+  <div class="gauge-wrap">
+    <div class="gauge">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.13)" stroke-width="12"></circle>
+        <circle id="gaugeArc" cx="60" cy="60" r="52" fill="none" stroke="url(#grad)" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7"></circle>
+        <defs>
+          <linearGradient id="grad" x1="0" x2="1">
+            <stop offset="0" stop-color="#8ab4ff"/>
+            <stop offset="1" stop-color="#6ee7d8"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="centre">
+        <b id="gaugeText">--</b>
+        <span>typical SoH</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="bar-row"><div class="bar-label">Curve / age loss</div><div class="bar"><i id="curveBar"></i></div><div class="bar-value" id="curveAdj">--</div></div>
+      <div class="bar-row"><div class="bar-label">Mileage cycles</div><div class="bar"><i id="mileBar"></i></div><div class="bar-value" id="mileAdj">--</div></div>
+      <div class="bar-row"><div class="bar-label">Rapid charging</div><div class="bar"><i id="dcBar"></i></div><div class="bar-value" id="dcAdj">--</div></div>
+      <div class="bar-row"><div class="bar-label">100% dwell</div><div class="bar"><i id="socBar"></i></div><div class="bar-value" id="socAdj">--</div></div>
+      <div class="bar-row"><div class="bar-label">Cooling / climate</div><div class="bar"><i id="thermalBar"></i></div><div class="bar-value" id="thermalAdj">--</div></div>
+      <div class="bar-row"><div class="bar-label">Buffer masking</div><div class="bar"><i id="bufferBar"></i></div><div class="bar-value" id="bufferAdj">--</div></div>
+    </div>
+  </div>
+
+  <canvas id="projection" width="900" height="320"></canvas>
+
+  <div class="explain" id="explanation">
+    Enter the vehicle and usage pattern to see the estimate.
+  </div>
+
+  <h2 style="margin-top:24px">Model breakdown</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>Typical effect</th>
+        <th>What changed in v3</th>
+      </tr>
+    </thead>
+    <tbody id="modelRows"></tbody>
+  </table>
+
+  <div class="calib">
+    <div class="note">
+      <strong>Sanity-check target</strong><br>
+      BMW i3 60Ah, 10 years, 130k miles and daily displayed-100% charging should now land broadly
+      around high-80s to low-90s unless long high-SoC dwell or fault-like assumptions are entered.
+    </div>
+    <div class="note">
+      <strong>Sanity-check target</strong><br>
+      UK-like, low-mileage later Leaf profiles should no longer be punished as if they were
+      hot-climate, taxi/rapid-charge Leafs.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="card">
+  <div class="foot-grid">
+    <div class="note">
+      <strong>Important disclaimer</strong><br>
+      This is an estimator, not a diagnostic. Real SoH needs BMS/OBD/app data or a battery health test.
+      It gives a plausible range, not a guarantee, valuation, warranty opinion or engineering test result.
+    </div>
+    <div class="note">
+      <strong>Version 3 model notes</strong><br>
+      Uses non-linear degradation, vehicle-family calibration, confidence bands, reduced penalties for
+      brief 100% dwell, passive-cooling penalties tied to heat/DC use, and optional buffer masking for
+      driver-visible usable capacity.
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const vehicles = [
+  {
+    name:'Custom / average modern EV',
+    gross:60, usable:57, chem:'unknown', thermal:'unknown',
+    maxDc:100, eff:3.6,
+    family:'generic',
+    init:4.0, plateau:1.05, late:0.25, lateStart:13,
+    mile:0.020, spread:7, buffer:0,
+    socSens:1, dcSens:1,
+    note:'Population-average modern EV profile.'
+  },
+  {
+    name:'BMW i3 60Ah 22kWh 2013-2016',
+    gross:22, usable:18.8, chem:'lmo', thermal:'liquid',
+    maxDc:50, eff:4.1,
+    family:'i3',
+    init:3.6, plateau:0.40, late:0.42, lateStart:13,
+    mile:0.020, spread:8, buffer:1.9,
+    socSens:.20, dcSens:.52,
+    note:'i3 BMS/buffer reduces displayed-100% stress; wide variation on early packs.'
+  },
+  {
+    name:'BMW i3 94Ah 33kWh 2017-2018',
+    gross:33.2, usable:27.2, chem:'nmc', thermal:'liquid',
+    maxDc:50, eff:4.0,
+    family:'i3',
+    init:2.8, plateau:0.34, late:0.32, lateStart:14,
+    mile:0.018, spread:6, buffer:1.9,
+    socSens:.20, dcSens:.50,
+    note:'Improved i3 pack; strong buffer and conservative BMS.'
+  },
+  {
+    name:'BMW i3 120Ah 42kWh 2019-2022',
+    gross:42.2, usable:37.9, chem:'nmc', thermal:'liquid',
+    maxDc:50, eff:4.1,
+    family:'i3',
+    init:2.4, plateau:0.30, late:0.24, lateStart:15,
+    mile:0.016, spread:5, buffer:1.7,
+    socSens:.18, dcSens:.45,
+    note:'Later i3 pack; generally better degradation resilience.'
+  },
+  {
+    name:'Nissan Leaf 24kWh 2013-2016 lizard pack',
+    gross:24, usable:21.3, chem:'lmo', thermal:'passive',
+    maxDc:50, eff:3.8,
+    family:'leaf_old',
+    init:6.3, plateau:1.05, late:0.70, lateStart:10,
+    mile:0.030, spread:11, buffer:.2,
+    socSens:1.10, dcSens:1.35,
+    note:'Passive cooling; very climate and history sensitive.'
+  },
+  {
+    name:'Nissan Leaf 30kWh 2016-2017',
+    gross:30, usable:28, chem:'nmc', thermal:'passive',
+    maxDc:50, eff:3.7,
+    family:'leaf_30',
+    init:7.0, plateau:1.45, late:0.82, lateStart:9,
+    mile:0.033, spread:12, buffer:.2,
+    socSens:1.12, dcSens:1.45,
+    note:'30kWh pack gets a cautious profile due to reputation for faster loss.'
+  },
+  {
+    name:'Nissan Leaf 40kWh 2018-2022',
+    gross:40, usable:37, chem:'nmc', thermal:'passive',
+    maxDc:50, eff:3.7,
+    family:'leaf_40',
+    init:3.4, plateau:0.48, late:0.40, lateStart:12,
+    mile:0.022, spread:7, buffer:.3,
+    socSens:.80, dcSens:1.20,
+    note:'Later Leaf profile; passive cooling mainly matters with heat/DC use.'
+  },
+  {
+    name:'Nissan Leaf e+ 62kWh 2019-2024',
+    gross:62, usable:56, chem:'nmc', thermal:'passive',
+    maxDc:100, eff:3.6,
+    family:'leaf_62',
+    init:3.1, plateau:0.44, late:0.35, lateStart:12,
+    mile:0.020, spread:6.5, buffer:.4,
+    socSens:.75, dcSens:1.15,
+    note:'Best Leaf profile here, but still no liquid cooling.'
+  },
+  {
+    name:'Tesla Model 3 RWD LFP 2022-2024',
+    gross:60, usable:57.5, chem:'lfp', thermal:'liquid',
+    maxDc:170, eff:4.0,
+    family:'lfp_liquid',
+    init:2.2, plateau:0.40, late:0.20, lateStart:14,
+    mile:0.014, spread:4.5, buffer:.4,
+    socSens:.30, dcSens:.85,
+    note:'LFP and liquid cooling; lower high-SoC sensitivity.'
+  },
+  {
+    name:'Tesla Model 3 Long Range 2021-2023',
+    gross:82, usable:75, chem:'nca', thermal:'liquid',
+    maxDc:250, eff:3.9,
+    family:'tesla',
+    init:4.2, plateau:0.58, late:0.24, lateStart:13,
+    mile:0.016, spread:5.5, buffer:.8,
+    socSens:.72, dcSens:.90,
+    note:'Early drop then flatter behaviour.'
+  },
+  {
+    name:'Tesla Model Y Long Range 2022-2024',
+    gross:82, usable:75, chem:'nca', thermal:'liquid',
+    maxDc:250, eff:3.6,
+    family:'tesla',
+    init:4.0, plateau:0.58, late:0.24, lateStart:13,
+    mile:0.016, spread:5.5, buffer:.8,
+    socSens:.72, dcSens:.90,
+    note:'Similar profile to Model 3 LR.'
+  },
+  {
+    name:'Hyundai Kona Electric 64kWh 2019-2023',
+    gross:67.5, usable:64, chem:'nmc', thermal:'liquid',
+    maxDc:77, eff:4.1,
+    family:'hyundai_kia_buffer',
+    init:3.1, plateau:0.50, late:0.22, lateStart:13,
+    mile:0.017, spread:5, buffer:2.8,
+    socSens:.66, dcSens:.82,
+    note:'Liquid cooled; driver-visible capacity may be buffered.'
+  },
+  {
+    name:'Hyundai Ioniq 5 77kWh 2022-2024',
+    gross:77.4, usable:74, chem:'nmc', thermal:'liquid',
+    maxDc:230, eff:3.4,
+    family:'hyundai_kia_buffer',
+    init:3.3, plateau:0.55, late:0.24, lateStart:13,
+    mile:0.018, spread:5.5, buffer:2.6,
+    socSens:.72, dcSens:.92,
+    note:'High charging power; includes buffer masking in driver view.'
+  },
+  {
+    name:'Kia e-Niro 64kWh 2019-2022',
+    gross:67.5, usable:64, chem:'nmc', thermal:'liquid',
+    maxDc:77, eff:4.0,
+    family:'hyundai_kia_buffer',
+    init:3.0, plateau:0.48, late:0.20, lateStart:13,
+    mile:0.017, spread:5, buffer:2.8,
+    socSens:.66, dcSens:.82,
+    note:'Liquid cooled; conservative driver-visible model.'
+  },
+  {
+    name:'Kia EV6 77kWh 2022-2024',
+    gross:77.4, usable:74, chem:'nmc', thermal:'liquid',
+    maxDc:230, eff:3.4,
+    family:'hyundai_kia_buffer',
+    init:3.3, plateau:0.55, late:0.24, lateStart:13,
+    mile:0.018, spread:5.5, buffer:2.6,
+    socSens:.72, dcSens:.92,
+    note:'800V high-power DC capable.'
+  },
+  {
+    name:'MG4 Standard Range 51kWh LFP 2022-2024',
+    gross:51, usable:50.8, chem:'lfp', thermal:'liquid',
+    maxDc:117, eff:3.8,
+    family:'lfp_liquid',
+    init:2.4, plateau:0.42, late:0.20, lateStart:14,
+    mile:0.014, spread:4.8, buffer:.5,
+    socSens:.33, dcSens:.86,
+    note:'LFP profile with low SoC sensitivity.'
+  },
+  {
+    name:'MG4 Long Range 64kWh 2022-2024',
+    gross:64, usable:61.7, chem:'nmc', thermal:'liquid',
+    maxDc:135, eff:3.7,
+    family:'modern_liquid',
+    init:3.4, plateau:0.64, late:0.24, lateStart:13,
+    mile:0.018, spread:5.7, buffer:.7,
+    socSens:.78, dcSens:.92,
+    note:'Modern liquid-cooled NMC profile.'
+  },
+  {
+    name:'VW ID.3 Pro 58kWh 2020-2024',
+    gross:62, usable:58, chem:'nmc', thermal:'liquid',
+    maxDc:120, eff:3.8,
+    family:'modern_liquid',
+    init:3.7, plateau:0.66, late:0.24, lateStart:13,
+    mile:0.018, spread:5.7, buffer:.8,
+    socSens:.78, dcSens:.90,
+    note:'MEB liquid-cooled profile.'
+  },
+  {
+    name:'VW ID.4 Pro 77kWh 2021-2024',
+    gross:82, usable:77, chem:'nmc', thermal:'liquid',
+    maxDc:135, eff:3.3,
+    family:'modern_liquid',
+    init:3.7, plateau:0.66, late:0.24, lateStart:13,
+    mile:0.018, spread:5.7, buffer:.8,
+    socSens:.78, dcSens:.90,
+    note:'MEB SUV profile.'
+  },
+  {
+    name:'Renault Zoe ZE50 52kWh 2020-2024',
+    gross:54.7, usable:52, chem:'nmc', thermal:'air',
+    maxDc:50, eff:3.9,
+    family:'air_cooled',
+    init:3.8, plateau:0.78, late:0.34, lateStart:12,
+    mile:0.020, spread:7, buffer:.4,
+    socSens:.92, dcSens:1.05,
+    note:'Air-cooled profile; moderate climate/history sensitivity.'
+  },
+  {
+    name:'Peugeot e-208 / Corsa-e 50kWh 2020-2023',
+    gross:50, usable:45, chem:'nmc', thermal:'liquid',
+    maxDc:100, eff:3.7,
+    family:'modern_liquid',
+    init:3.8, plateau:0.72, late:0.28, lateStart:12,
+    mile:0.020, spread:6, buffer:.5,
+    socSens:.86, dcSens:.90,
+    note:'Compact liquid-cooled Stellantis profile.'
+  },
+  {
+    name:'Polestar 2 Long Range 78kWh 2021-2023',
+    gross:78, usable:75, chem:'nmc', thermal:'liquid',
+    maxDc:155, eff:3.2,
+    family:'modern_liquid',
+    init:3.8, plateau:0.72, late:0.28, lateStart:12,
+    mile:0.019, spread:6, buffer:.6,
+    socSens:.82, dcSens:.95,
+    note:'Large liquid-cooled NMC pack.'
+  }
+];
+
+const $ = id => document.getElementById(id);
+
+function clamp(n,min,max){
+  return Math.max(min,Math.min(max,n));
+}
+
+function num(id,f=0){
+  const v = parseFloat($(id).value);
+  return Number.isFinite(v) ? v : f;
+}
+
+function pct(n){
+  return `${n.toFixed(1)}%`;
+}
+
+function labelChem(c){
+  return {
+    lfp:'LFP',
+    nmc:'NMC / NCM',
+    nca:'NCA',
+    lmo:'LMO / early mixed',
+    unknown:'Unknown'
+  }[c] || c;
+}
+
+function labelThermal(t){
+  return {
+    liquid:'Active liquid',
+    air:'Active air',
+    passive:'Passive / limited',
+    unknown:'Unknown'
+  }[t] || t;
+}
+
+function init(){
+  vehicles.forEach((v,i)=>{
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = v.name;
+    $('vehicle').appendChild(o);
+  });
+
+  $('vehicle').value = 0;
+  loadVehicle();
+
+  [
+    'grossKwh','usableKwh','chemistry','thermal','maxDcKw','efficiency',
+    'viewMode','ageYears','annualMileage','charges100','hoursAt100',
+    'climate','knownSoh'
+  ].forEach(id => $(id).addEventListener('input', calculate));
+
+  syncReadouts();
+  calculate();
+}
+
+function currentVehicle(){
+  return vehicles[+$('vehicle').value];
+}
+
+function loadVehicle(){
+  const v = currentVehicle();
+
+  $('grossKwh').value = v.gross;
+  $('usableKwh').value = v.usable;
+  $('chemistry').value = v.chem;
+  $('thermal').value = v.thermal;
+  $('maxDcKw').value = v.maxDc;
+  $('efficiency').value = v.eff;
+
+  renderVehicleSummary(v);
+  calculate();
+}
+
+function renderVehicleSummary(v){
+  const buffer = Math.max(0,(1 - v.usable / v.gross) * 100);
+
+  $('vehicleSummary').innerHTML = [
+    ['Gross',`${v.gross} kWh`],
+    ['Usable new',`${v.usable} kWh`],
+    ['Static buffer',`${buffer.toFixed(1)}%`],
+    ['Chemistry',labelChem(v.chem)],
+    ['Cooling',labelThermal(v.thermal)],
+    ['Profile',v.note]
+  ].map(([a,b]) => `
+    <div class="chip">
+      <span>${a}</span>
+      <strong>${b}</strong>
+    </div>
+  `).join('');
+}
+
+function syncReadouts(){
+  $('dcReadout').textContent = $('dcPercent').value + '%';
+  $('hpReadout').textContent = $('highPowerShare').value + '%';
+}
+
+function baseCurveLoss(v,age){
+  const early = v.init * (1 - Math.exp(-age / 1.18));
+  const mid = v.plateau * Math.pow(Math.max(age - 1,0),0.78);
+  const late = age > v.lateStart
+    ? v.late * Math.pow(age - v.lateStart,1.35)
+    : 0;
+
+  return early + mid + late;
+}
+
+function calculate(){
+  syncReadouts();
+
+  const v = currentVehicle();
+  const age = Math.max(0,num('ageYears'));
+  const miles = Math.max(0,num('annualMileage'));
+  const usable = num('usableKwh',v.usable);
+  const eff = num('efficiency',v.eff);
+  const chem = $('chemistry').value;
+  const thermal = $('thermal').value;
+  const climate = $('climate').value;
+  const view = $('viewMode').value;
+
+  const dc = num('dcPercent') / 100;
+  const hp = num('highPowerShare') / 100;
+  const charges100 = num('charges100');
+  const hours100 = num('hoursAt100');
+  const known = num('knownSoh',NaN);
+  const totalMiles = miles * age;
+
+  let curve = baseCurveLoss(v,age);
+
+  if(chem === 'lfp') curve *= .86;
+  if(chem === 'lmo') curve *= 1.04;
+  if(chem === 'unknown') {
+    curve = Math.max(curve,baseCurveLoss(vehicles[0],age) * .85);
+  }
+
+  const mileageLoss = (totalMiles / 100000) * v.mile * 100;
+
+  const hpIntensity = dc * (0.32 + 0.68 * hp);
+  let dcLoss = age * hpIntensity * 0.90 * v.dcSens;
+
+  if(num('maxDcKw') <= 75) dcLoss *= .70;
+
+  const hoursAt100Year = charges100 * hours100;
+
+  let socLoss = 0;
+
+  // 100% is only heavily penalised when it actually sits there a long time.
+  socLoss += age * clamp((hoursAt100Year - 500) / 1600,0,1) * 0.65;
+  socLoss += age * clamp((hoursAt100Year - 2200) / 3000,0,1) * 1.05;
+
+  socLoss *= v.socSens;
+
+  if(chem === 'lfp') socLoss *= .55;
+
+  let climateLoss = {
+    cool:-0.7,
+    mild:0,
+    hot:1.7,
+    mixed:.45
+  }[climate] || 0;
+
+  climateLoss *= Math.min(1.2,Math.max(.15,age / 8));
+
+  let thermalLoss = 0;
+
+  if(thermal === 'passive') {
+    thermalLoss =
+      (climate === 'hot' ? age * .55 : age * .07) +
+      (dc > .2 ? age * (dc - .2) * 1.10 : 0);
+  } else if(thermal === 'air') {
+    thermalLoss =
+      (climate === 'hot' ? age * .30 : age * .05) +
+      (dc > .25 ? age * (dc - .25) * .52 : 0);
+  } else if(thermal === 'liquid') {
+    thermalLoss = climate === 'hot' ? age * .07 : 0;
+  }
+
+  const rawLoss =
+    curve +
+    mileageLoss +
+    dcLoss +
+    socLoss +
+    climateLoss +
+    thermalLoss;
+
+  const bufferMask = view === 'driver'
+    ? Math.min(v.buffer,rawLoss * .40)
+    : 0;
+
+  let typical = clamp(100 - rawLoss + bufferMask,45,100);
+
+  const uncertainty =
+    v.spread +
+    (thermal === 'passive' ? 2 : 0) +
+    (climate === 'mixed' ? 1.5 : 0) +
+    (age > 10 ? 1.5 : 0);
+
+  let optimistic = clamp(typical + uncertainty * .48,45,100);
+  let pessimistic = clamp(typical - uncertainty * .62,40,100);
+
+  let source = 'model estimate';
+
+  if(Number.isFinite(known) && known > 0 && known <= 100) {
+    typical = known;
+    optimistic = clamp(known + Math.max(2,uncertainty * .25),45,100);
+    pessimistic = clamp(known - Math.max(2,uncertainty * .35),40,100);
+    source = 'user supplied SoH override';
+  }
+
+  const kwh = usable * typical / 100;
+  const range = kwh * eff;
+  const oldRange = usable * eff;
+  const annualEquivalent = age > 0 ? (100 - typical) / age : 0;
+
+  const risk = annualEquivalent < 1.4
+    ? 'low'
+    : annualEquivalent < 2.6
+      ? 'moderate'
+      : 'high';
+
+  const riskLabel = risk === 'low'
+    ? 'Low'
+    : risk === 'moderate'
+      ? 'Moderate'
+      : 'High';
+
+  $('sohValue').textContent = typical.toFixed(1) + '%';
+  $('gaugeText').textContent = typical.toFixed(1) + '%';
+  $('bandValue').textContent = `${pessimistic.toFixed(0)}–${optimistic.toFixed(0)}%`;
+  $('rangeValue').textContent = Math.round(range) + ' miles';
+  $('kwhValue').textContent =
+    `${kwh.toFixed(1)} kWh usable now · ${Math.round(oldRange - range)} miles estimated loss`;
+
+  $('riskText').innerHTML =
+    `Risk: <span class="risk ${risk}">${riskLabel}</span> · ${annualEquivalent.toFixed(2)}%/yr equivalent`;
+
+  $('gaugeArc').style.strokeDashoffset =
+    (326.7 * (1 - typical / 100)).toFixed(1);
+
+  setBar('curveBar','curveAdj',curve,22,pct(curve));
+  setBar('mileBar','mileAdj',mileageLoss,8,pct(mileageLoss));
+  setBar('dcBar','dcAdj',dcLoss,8,pct(dcLoss));
+  setBar('socBar','socAdj',socLoss,8,pct(socLoss));
+  setBar('thermalBar','thermalAdj',thermalLoss + climateLoss,8,pct(thermalLoss + climateLoss));
+  setBar('bufferBar','bufferAdj',bufferMask,5,bufferMask ? `+${bufferMask.toFixed(1)}%` : '0.0%');
+
+  $('explanation').innerHTML = `
+    <strong>Reading:</strong> This ${source} estimates typical SoH at
+    <strong>${typical.toFixed(1)}%</strong>, with a likely band of
+    <strong>${pessimistic.toFixed(1)}–${optimistic.toFixed(1)}%</strong>.
+    That gives about <strong>${kwh.toFixed(1)} kWh</strong> usable capacity and roughly
+    <strong>${Math.round(range)} miles</strong> of practical range using the selected efficiency.
+    <br><br>
+    <strong>Why v3 is different:</strong> it no longer simply multiplies age by a flat annual rate.
+    It assumes an early drop followed by a flatter middle-life phase. Passive cooling is mainly
+    punished when combined with heat or repeated rapid charging. Brief charges to 100% before travel
+    are treated as low concern; long dwell at 100% still adds stress.
+    ${bufferMask ? `This profile is showing driver-visible capacity, so an estimated <strong>${bufferMask.toFixed(1)}%</strong> is masked by manufacturer buffer behaviour.` : ''}
+  `;
+
+  $('modelRows').innerHTML = [
+    ['Non-linear age curve',pct(curve),'Replaces flat year × percentage model.'],
+    ['Mileage cycle load',pct(mileageLoss),`${Math.round(totalMiles).toLocaleString('en-GB')} total miles modelled from age × annual mileage.`],
+    ['Rapid / high-power DC',pct(dcLoss),`${Math.round(dc * 100)}% DC charging; ${Math.round(hp * 100)}% of DC above 100kW.`],
+    ['100% dwell',pct(socLoss),`${Math.round(hoursAt100Year)} hours/year at displayed 100%; brief pre-trip charging is lightly weighted.`],
+    ['Cooling and climate',pct(thermalLoss + climateLoss),`${labelThermal(thermal)}; ${$('climate').options[$('climate').selectedIndex].text}.`],
+    ['Buffer masking',bufferMask ? `+${bufferMask.toFixed(1)}%` : '0.0%','Only applied in driver-visible capacity mode.'],
+    ['Likely band',`${pessimistic.toFixed(1)}–${optimistic.toFixed(1)}%`,'Represents uncertainty between individual vehicles, pack revisions and history.']
+  ].map(r => `
+    <tr>
+      <td>${r[0]}</td>
+      <td>${r[1]}</td>
+      <td>${r[2]}</td>
+    </tr>
+  `).join('');
+
+  drawProjection(v,age,typical,known);
+}
+
+function setBar(bar,value,val,max,label){
+  $(bar).style.width = clamp(Math.abs(val) / max * 100,0,100) + '%';
+  $(value).textContent = label;
+}
+
+function drawProjection(v,age,typ,known){
+  const c = $('projection');
+  const ctx = c.getContext('2d');
+  const w = c.width;
+  const h = c.height;
+
+  ctx.clearRect(0,0,w,h);
+
+  const cs = getComputedStyle(document.body);
+  const text = cs.getPropertyValue('--text').trim();
+  const muted = cs.getPropertyValue('--muted').trim();
+  const line = cs.getPropertyValue('--line').trim();
+  const accent = cs.getPropertyValue('--accent').trim();
+  const accent2 = cs.getPropertyValue('--accent2').trim();
+
+  const pad = {l:58,r:24,t:26,b:46};
+  const maxX = Math.max(12,Math.ceil(age + 4));
+  const yMin = 60;
+  const yMax = 100;
+
+  const x = yr => pad.l + (yr / maxX) * (w - pad.l - pad.r);
+  const y = s => pad.t + (1 - (s - yMin) / (yMax - yMin)) * (h - pad.t - pad.b);
+
+  ctx.font = '20px system-ui';
+  ctx.fillStyle = text;
+  ctx.fillText('Projected State of Health band',pad.l,32);
+
+  ctx.font = '13px system-ui';
+  ctx.fillStyle = muted;
+  ctx.fillText('Typical curve with optimistic and pessimistic bounds',pad.l,52);
+
+  ctx.strokeStyle = line;
+  ctx.lineWidth = 1;
+
+  for(let s = 60; s <= 100; s += 5){
+    ctx.beginPath();
+    ctx.moveTo(pad.l,y(s));
+    ctx.lineTo(w - pad.r,y(s));
+    ctx.stroke();
+
+    ctx.fillStyle = muted;
+    ctx.fillText(s + '%',12,y(s) + 4);
+  }
+
+  for(let yr = 0; yr <= maxX; yr += 2){
+    ctx.fillStyle = muted;
+    ctx.fillText(yr + 'y',x(yr) - 8,h - 16);
+  }
+
+  const project = (yr,shift=0) =>
+    clamp(100 - (baseCurveLoss(v,yr) + shift),40,100);
+
+  const uncertainty = v.spread;
+
+  ctx.beginPath();
+
+  for(let yr = 0; yr <= maxX; yr += .25){
+    const yy = y(project(yr,-uncertainty * .35));
+    if(yr === 0) ctx.moveTo(x(yr),yy);
+    else ctx.lineTo(x(yr),yy);
+  }
+
+  for(let yr = maxX; yr >= 0; yr -= .25){
+    ctx.lineTo(x(yr),y(project(yr,uncertainty * .50)));
+  }
+
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(110,231,216,.13)';
+  ctx.fill();
+
+  const grad = ctx.createLinearGradient(pad.l,0,w - pad.r,0);
+  grad.addColorStop(0,accent2);
+  grad.addColorStop(1,accent);
+
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+
+  for(let yr = 0; yr <= maxX; yr += .25){
+    let s = project(yr,0);
+
+    if(Number.isFinite(known) && known > 0 && yr >= age){
+      s = clamp(typ - (100 - project(yr - age,0)),40,100);
+    }
+
+    if(yr === 0) ctx.moveTo(x(yr),y(s));
+    else ctx.lineTo(x(yr),y(s));
+  }
+
+  ctx.stroke();
+
+  [0,age,5,8,10,12]
+    .filter((v2,i,a)=>v2 >= 0 && v2 <= maxX && a.indexOf(v2) === i)
+    .sort((a,b)=>a-b)
+    .forEach(yr=>{
+      let s = project(yr,0);
+
+      if(Number.isFinite(known) && known > 0 && yr >= age){
+        s = clamp(typ - (100 - project(yr - age,0)),40,100);
+      }
+
+      ctx.beginPath();
+      ctx.fillStyle = accent;
+      ctx.arc(x(yr),y(s),5,0,Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = text;
+      ctx.font = '13px system-ui';
+      ctx.fillText(s.toFixed(1) + '%',x(yr) + 8,y(s) - 8);
+    });
+}
+
+function applyPreset(){
+  const p = $('preset').value;
+  if(!p) return;
+
+  if(p === 'i3_60_daily'){
+    $('vehicle').value = 1;
+    loadVehicle();
+    $('ageYears').value = 10;
+    $('annualMileage').value = 13000;
+    $('charges100').value = 365;
+    $('hoursAt100').value = 2;
+    $('dcPercent').value = 5;
+    $('highPowerShare').value = 0;
+    $('climate').value = 'mild';
+    $('viewMode').value = 'driver';
+  }
+
+  if(p === 'leaf40_low'){
+    $('vehicle').value = 6;
+    loadVehicle();
+    $('ageYears').value = 8;
+    $('annualMileage').value = 3000;
+    $('charges100').value = 52;
+    $('hoursAt100').value = 2;
+    $('dcPercent').value = 2;
+    $('highPowerShare').value = 0;
+    $('climate').value = 'mild';
+    $('viewMode').value = 'driver';
+  }
+
+  if(p === 'ioniq5_typical'){
+    $('vehicle').value = 12;
+    loadVehicle();
+    $('ageYears').value = 3;
+    $('annualMileage').value = 12000;
+    $('charges100').value = 20;
+    $('hoursAt100').value = 2;
+    $('dcPercent').value = 20;
+    $('highPowerShare').value = 60;
+    $('climate').value = 'mild';
+    $('viewMode').value = 'driver';
+  }
+
+  $('knownSoh').value = '';
+  syncReadouts();
+  calculate();
+}
+
+function resetDefaults(){
+  $('vehicle').value = 0;
+  loadVehicle();
+
+  $('ageYears').value = 5;
+  $('annualMileage').value = 10000;
+  $('charges100').value = 24;
+  $('hoursAt100').value = 2;
+  $('dcPercent').value = 10;
+  $('highPowerShare').value = 30;
+  $('climate').value = 'mild';
+  $('viewMode').value = 'driver';
+  $('knownSoh').value = '';
+  $('preset').value = '';
+
+  syncReadouts();
+  calculate();
+}
+
+function toggleTheme(){
+  const t = document.documentElement.getAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme',t === 'light' ? 'dark' : 'light');
+  calculate();
+}
+
+init();
+</script>
+
+</body>
+</html>

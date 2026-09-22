@@ -46,19 +46,17 @@ avatar: "/img/tech cloud.png"
 author:
   name: Simon Partridge
   email: "simon_partridge@hotmail.com"
-  twitter: sipart
-  linkedin: simon-partridge-24a66b40
 
 # Select which links to show in the footer
 footer-links-active:
   rss: true
   facebook: false
   email: true
-  twitter: true
+  twitter: false
   google-plus: false
   github: false
   reddit: false
-  linkedin: true
+  linkedin: false
   xing: false
   stackoverflow: false
   snapchat: false

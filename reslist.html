@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peak District Reservoirs Tracker</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    :root {
+      --primary: #1e5a3a;
+      --primary-light: #2e7d32;
+      --accent: #2563eb;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1f2937;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --visited: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; color: var(--text); background: var(--bg); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.025em; }
+
+    .stats-card {
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.4rem 0.8rem;
+      border-radius: 9999px;
+    }
+
+    .progress-bar-bg {
+      margin-top: 0.75rem;
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #34d399;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .main-container {
+      flex: 1;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #map {
+      flex: 1;
+      height: 100%;
+      z-index: 10;
+    }
+
+    .sidebar {
+      width: 420px;
+      max-width: 100%;
+      background: var(--card-bg);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      z-index: 20;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .toolbar {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      background: #fff;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--accent); }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid var(--border);
+      background: white;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .list-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.5rem;
+    }
+
+    .reservoir-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 0.35rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      transition: background 0.15s, border-color 0.15s;
+      cursor: pointer;
+    }
+
+    .reservoir-item:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .reservoir-item.checked {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+    }
+
+    .reservoir-item.active-pin {
+      outline: 2px solid var(--accent);
+    }
+
+    .reservoir-checkbox {
+      width: 1.15rem;
+      height: 1.15rem;
+      accent-color: var(--visited);
+      cursor: pointer;
+    }
+
+    .reservoir-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 0.75rem;
+      font-weight: bold;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .reservoir-item.checked .reservoir-badge {
+      background: var(--visited);
+      color: white;
+    }
+
+    .res-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .res-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .res-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Custom Leaflet Number Markers */
+    .custom-div-icon {
+      background: transparent;
+      border: none;
+    }
+
+    .marker-pin {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      border: 2px solid #ffffff;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .marker-pin.visited {
+      background: #10b981;
+    }
+
+    @media (max-width: 800px) {
+      .main-container { flex-direction: column-reverse; }
+      .sidebar { width: 100%; height: 45vh; }
+      #map { height: 55vh; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <h1>Peak District Reservoirs Tracker</h1>
+      <div class="stats-card">
+        Visited: <span id="visited-count">0</span> / <span id="total-count">62</span> (<span id="percentage">0%</span>)
+      </div>
+    </div>
+    <div class="progress-bar-bg">
+      <div id="progress-fill" class="progress-bar-fill"></div>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <div id="map"></div>
+
+    <aside class="sidebar">
+      <div class="toolbar">
+        <input type="text" id="search-box" class="search-input" placeholder="Search reservoir name..." />
+        <div class="filter-tabs">
+          <button class="tab-btn active" data-filter="all">All</button>
+          <button class="tab-btn" data-filter="visited">Visited</button>
+          <button class="tab-btn" data-filter="unvisited">To Visit</button>
+        </div>
+      </div>
+      <div class="list-container" id="list"></div>
+    </aside>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // Full dataset directly extracted from the PeakDistrict.org ranked list
+    const reservoirs = [
+      { id: 1, name: "Ladybower Reservoir", year: 1943, capacity: "27,800,000 m³", lat: 53.3761, lng: -1.7139 },
+      { id: 2, name: "Derwent Reservoir", year: 1914, capacity: "9,640,000 m³", lat: 53.4144, lng: -1.7375 },
+      { id: 3, name: "Winscar Reservoir", year: 1975, capacity: "9,169,194 m³", lat: 53.5186, lng: -1.7828 },
+      { id: 4, name: "Howden Reservoir", year: 1912, capacity: "8,600,000 m³", lat: 53.4475, lng: -1.7583 },
+      { id: 5, name: "Torside Reservoir", year: 1864, capacity: "6,700,000 m³", lat: 53.4870, lng: -1.9366 },
+      { id: 6, name: "Tittesworth Reservoir", year: 1858, capacity: "6,440,000 m³", lat: 53.1250, lng: -2.0003 },
+      { id: 7, name: "Langsett Reservoir", year: 1904, capacity: "6,400,000 m³", lat: 53.4998, lng: -1.6961 },
+      { id: 8, name: "Woodhead Reservoir", year: 1877, capacity: "5,370,000 m³", lat: 53.4947, lng: -1.8845 },
+      { id: 9, name: "Dovestone Reservoir", year: 1968, capacity: "5,048,000 m³", lat: 53.5375, lng: -1.9806 },
+      { id: 10, name: "Fernilee Reservoir", year: 1938, capacity: "5,000,000 m³", lat: 53.2844, lng: -1.9867 },
+      { id: 11, name: "Broomhead Reservoir", year: 1929, capacity: "4,937,282 m³", lat: 53.4683, lng: -1.6094 },
+      { id: 12, name: "Damflask Reservoir", year: 1896, capacity: "4,250,900 m³", lat: 53.4072, lng: -1.5794 },
+      { id: 13, name: "Errwood Reservoir", year: 1967, capacity: "4,215,000 m³", lat: 53.2661, lng: -1.9886 },
+      { id: 14, name: "Dale Dike Reservoir", year: 1864, capacity: "3,240,000 m³", lat: 53.4258, lng: -1.6258 },
+      { id: 15, name: "Bottoms Reservoir", year: 1877, capacity: "3,000,000 m³", lat: 53.4861, lng: -1.9961 },
+      { id: 16, name: "Digley Reservoir", year: 1954, capacity: "3,000,000 m³", lat: 53.5606, lng: -1.8219 },
+      { id: 17, name: "Valehouse Reservoir", year: 1869, capacity: "2,688,000 m³", lat: 53.4792, lng: -1.9686 },
+      { id: 18, name: "Kinder Reservoir", year: 1911, capacity: "2,340,000 m³", lat: 53.3883, lng: -1.9056 },
+      { id: 19, name: "Rhodeswood Reservoir", year: 1855, capacity: "2,270,000 m³", lat: 53.4811, lng: -1.9542 },
+      { id: 20, name: "More Hall Reservoir", year: 1929, capacity: "2,172,989 m³", lat: 53.4667, lng: -1.5833 },
+      { id: 21, name: "Agden Reservoir", year: 1869, capacity: "2,100,000 m³", lat: 53.4239, lng: -1.6117 },
+      { id: 22, name: "Strines Reservoir", year: 1869, capacity: "2,059,000 m³", lat: 53.4189, lng: -1.6444 },
+      { id: 23, name: "Lamaload Reservoir", year: 1964, capacity: "1,910,000 m³", lat: 53.2725, lng: -2.0436 },
+      { id: 24, name: "Midhope Reservoir", year: 1903, capacity: "1,859,000 m³", lat: 53.4939, lng: -1.6667 },
+      { id: 25, name: "Butterley Reservoir", year: 1794, capacity: "1,773,000 m³", lat: 53.5936, lng: -1.9161 },
+      { id: 26, name: "Redmires Upper Reservoir", year: 1854, capacity: "1,559,310 m³", lat: 53.3644, lng: -1.6128 },
+      { id: 27, name: "Combs Reservoir", year: 1797, capacity: "1,484,000 m³", lat: 53.3083, lng: -1.9667 },
+      { id: 28, name: "Bosley Reservoir", year: 1831, capacity: "1,460,000 m³", lat: 53.1972, lng: -2.1389 },
+      { id: 29, name: "Toddbrook Reservoir", year: 1838, capacity: "1,288,000 m³", lat: 53.3308, lng: -1.9961 },
+      { id: 30, name: "Brownhill Reservoir", year: 1932, capacity: "1,209,000 m³", lat: 53.5414, lng: -1.8292 },
+      { id: 31, name: "Arnfield Reservoir", year: 1854, capacity: "950,000 m³", lat: 53.4736, lng: -2.0014 },
+      { id: 32, name: "Chew Reservoir", year: 1912, capacity: "936,500 m³", lat: 53.5250, lng: -1.9547 },
+      { id: 33, name: "Redmires Middle Reservoir", year: 1854, capacity: "855,000 m³", lat: 53.3672, lng: -1.6033 },
+      { id: 34, name: "Rivelin Dams Lower", year: 1845, capacity: "800,000 m³", lat: 53.3833, lng: -1.5794 },
+      { id: 35, name: "Yeoman Hey Reservoir", year: 1880, capacity: "780,000 m³", lat: 53.5439, lng: -1.9694 },
+      { id: 36, name: "Rudyard Lake", year: 1799, capacity: "640,000 m³", lat: 53.1256, lng: -2.0736 },
+      { id: 37, name: "Redmires Lower Reservoir", year: 1847, capacity: "634,180 m³", lat: 53.3694, lng: -1.5956 },
+      { id: 38, name: "Trentabank Reservoir", year: 1929, capacity: "631,900 m³", lat: 53.2281, lng: -2.0547 },
+      { id: 39, name: "Linacre Upper Reservoir", year: 1885, capacity: "575,000 m³", lat: 53.2503, lng: -1.5033 },
+      { id: 40, name: "Ridgegate Reservoir", year: 1850, capacity: "545,530 m³", lat: 53.2325, lng: -2.0594 },
+      { id: 41, name: "Wessenden Reservoir", year: 1836, capacity: "486,430 m³", lat: 53.5783, lng: -1.9306 },
+      { id: 42, name: "Greenfield Reservoir", year: 1870, capacity: "464,000 m³", lat: 53.5478, lng: -1.9619 },
+      { id: 43, name: "Yateholme Reservoir", year: 1878, capacity: "415,000 m³", lat: 53.5350, lng: -1.8483 },
+      { id: 44, name: "Linacre Middle Reservoir", year: 1904, capacity: "410,000 m³", lat: 53.2500, lng: -1.4981 },
+      { id: 45, name: "Ramsden Reservoir", year: 1883, capacity: "394,000 m³", lat: 53.5442, lng: -1.8389 },
+      { id: 46, name: "Bollinhurst Reservoir", year: 1872, capacity: "384,145 m³", lat: 53.3517, lng: -2.0597 },
+      { id: 47, name: "Wessenden Head Reservoir", year: 1881, capacity: "372,780 m³", lat: 53.5683, lng: -1.9286 },
+      { id: 48, name: "Blakeley Reservoir", year: 1904, capacity: "363,690 m³", lat: 53.5886, lng: -1.9222 },
+      { id: 49, name: "Horse Coppice Reservoir", year: 1861, capacity: "331,865 m³", lat: 53.3556, lng: -2.0625 },
+      { id: 50, name: "Bilberry Reservoir", year: 1840, capacity: "254,000 m³", lat: 53.5572, lng: -1.8292 },
+      { id: 51, name: "Riding Wood Reservoir", year: 1878, capacity: "235,000 m³", lat: 53.5469, lng: -1.8436 },
+      { id: 52, name: "Rivelin Dams Upper", year: 1848, capacity: "220,000 m³", lat: 53.3831, lng: -1.5861 },
+      { id: 53, name: "Snailsden Reservoir", year: "1870s", capacity: "196,440 m³", lat: 53.5222, lng: -1.7944 },
+      { id: 54, name: "Hurst Reservoir", year: 1837, capacity: "Drained 2013", lat: 53.4564, lng: -1.9333 },
+      { id: 55, name: "Linacre Lower Reservoir", year: 1855, capacity: "140,000 m³", lat: 53.2508, lng: -1.4914 },
+      { id: 56, name: "Black Moss Reservoir", year: "Unknown", capacity: "Unknown", lat: 53.5939, lng: -1.9567 },
+      { id: 57, name: "Diggle Reservoir", year: "Unknown", capacity: "Unknown", lat: 53.5858, lng: -1.9861 },
+      { id: 58, name: "Redbrook Reservoir", year: "Unknown", capacity: "Unknown", lat: 53.5986, lng: -1.9519 },
+      { id: 59, name: "Swellands Reservoir", year: "Unknown", capacity: "Unknown", lat: 53.5975, lng: -1.9472 },
+      { id: 60, name: "Swineshaw Reservoir", year: 1864, capacity: "Unknown", lat: 53.4989, lng: -2.0089 },
+      { id: 61, name: "Windleden Lower Reservoir", year: "Unknown", capacity: "Unknown", lat: 53.5131, lng: -1.7761 },
+      { id: 62, name: "Windleden Upper Reservoir", year: "Unknown", capacity: "Unknown", lat: 53.5117, lng: -1.7867 }
+    ];
+
+    // Local Storage State
+    const STORAGE_KEY = 'peak_district_visited_reservoirs';
+    let visitedSet = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+    let currentFilter = 'all';
+    let currentSearch = '';
+    const markers = {};
+
+    // Initialize Map
+    const map = L.map('map').setView([53.40, -1.82], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    function createMarkerIcon(id, isVisited) {
+      return L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div class="marker-pin ${isVisited ? 'visited' : ''}">${id}</div>`,
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+    }
+
+    // Render Markers
+    reservoirs.forEach(res => {
+      const isVisited = visitedSet.has(res.id);
+      const marker = L.marker([res.lat, res.lng], {
+        icon: createMarkerIcon(res.id, isVisited)
+      }).addTo(map);
+
+      marker.bindPopup(`
+        <strong>#${res.id} ${res.name}</strong><br>
+        Built: ${res.year}<br>
+        Capacity: ${res.capacity}<br><br>
+        <button onclick="toggleVisited(${res.id})" style="padding:4px 8px; cursor:pointer;">
+          ${isVisited ? 'Mark Unvisited' : 'Mark Visited'}
+        </button>
+      `);
+
+      marker.on('click', () => {
+        highlightListItem(res.id);
+      });
+
+      markers[res.id] = marker;
+    });
+
+    // Update Progress
+    function updateProgress() {
+      const count = visitedSet.size;
+      const total = reservoirs.length;
+      const pct = Math.round((count / total) * 100);
+
+      document.getElementById('visited-count').textContent = count;
+      document.getElementById('total-count').textContent = total;
+      document.getElementById('percentage').textContent = `${pct}%`;
+      document.getElementById('progress-fill').style.width = `${pct}%`;
+    }
+
+    // Toggle Checkbox
+    window.toggleVisited = function(id) {
+      if (visitedSet.has(id)) {
+        visitedSet.delete(id);
+      } else {
+        visitedSet.add(id);
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...visitedSet]));
+
+      // Update Marker
+      if (markers[id]) {
+        markers[id].setIcon(createMarkerIcon(id, visitedSet.has(id)));
+        markers[id].setPopupContent(`
+          <strong>#${id} ${reservoirs[id - 1].name}</strong><br>
+          Built: ${reservoirs[id - 1].year}<br>
+          Capacity: ${reservoirs[id - 1].capacity}<br><br>
+          <button onclick="toggleVisited(${id})" style="padding:4px 8px; cursor:pointer;">
+            ${visitedSet.has(id) ? 'Mark Unvisited' : 'Mark Visited'}
+          </button>
+        `);
+      }
+
+      updateProgress();
+      renderList();
+    };
+
+    function highlightListItem(id) {
+      document.querySelectorAll('.reservoir-item').forEach(el => el.classList.remove('active-pin'));
+      const activeEl = document.getElementById(`res-item-${id}`);
+      if (activeEl) {
+        activeEl.classList.add('active-pin');
+        activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function panToMarker(id) {
+      const res = reservoirs.find(r => r.id === id);
+      if (res && markers[id]) {
+        map.flyTo([res.lat, res.lng], 13);
+        markers[id].openPopup();
+        highlightListItem(id);
+      }
+    }
+
+    // Render List
+    function renderList() {
+      const container = document.getElementById('list');
+      container.innerHTML = '';
+
+      const filtered = reservoirs.filter(res => {
+        const matchesSearch = res.name.toLowerCase().includes(currentSearch.toLowerCase());
+        const isVisited = visitedSet.has(res.id);
+        if (currentFilter === 'visited') return matchesSearch && isVisited;
+        if (currentFilter === 'unvisited') return matchesSearch && !isVisited;
+        return matchesSearch;
+      });
+
+      filtered.forEach(res => {
+        const isVisited = visitedSet.has(res.id);
+        const item = document.createElement('div');
+        item.className = `reservoir-item ${isVisited ? 'checked' : ''}`;
+        item.id = `res-item-${res.id}`;
+        
+        item.innerHTML = `
+          <input type="checkbox" class="reservoir-checkbox" ${isVisited ? 'checked' : ''} onclick="event.stopPropagation(); toggleVisited(${res.id})">
+          <span class="reservoir-badge">${res.id}</span>
+          <div class="res-info">
+            <div class="res-name">${res.name}</div>
+            <div class="res-meta">${res.year} &bull; ${res.capacity}</div>
+          </div>
+        `;
+
+        item.addEventListener('click', () => panToMarker(res.id));
+        container.appendChild(item);
+      });
+    }
+
+    // Event Listeners
+    document.getElementById('search-box').addEventListener('input', (e) => {
+      currentSearch = e.target.value;
+      renderList();
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderList();
+      });
+    });
+
+    // Initial Load
+    updateProgress();
+    renderList();
+  </script>
+</body>
+</html>

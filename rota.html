@@ -1,0 +1,326 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monthly Rota Planner - D & T</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            memberD: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+            },
+            memberT: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background-color: white !important;
+        color: black !important;
+        padding: 0 !important;
+      }
+      .print-shadow-none {
+        box-shadow: none !important;
+        border: 1px solid #e5e7eb !important;
+      }
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-800">
+
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-100 font-bold text-lg tracking-wider">
+          D•T
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            Team Rota Planner
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold uppercase tracking-wider">Live Sync</span>
+          </h1>
+          <p class="text-xs text-slate-500 font-medium">Monthly shift schedule for D and T</p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center flex-wrap gap-2 text-sm">
+        <!-- View Toggle -->
+        <div class="bg-slate-100 p-1 rounded-xl flex items-center border border-slate-200">
+          <button id="viewGridBtn" onclick="switchView('grid')" class="px-3 py-1.5 rounded-lg font-medium text-xs sm:text-sm transition-all flex items-center gap-1.5 bg-white shadow-sm text-slate-800">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+            Calendar
+          </button>
+          <button id="viewListBtn" onclick="switchView('list')" class="px-3 py-1.5 rounded-lg font-medium text-xs sm:text-sm transition-all flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            Table
+          </button>
+        </div>
+
+        <button onclick="exportToCSV()" title="Export CSV" class="p-2 sm:px-3 sm:py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium text-xs sm:text-sm transition flex items-center gap-1.5 shadow-sm">
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span class="hidden sm:inline">Export CSV</span>
+        </button>
+
+        <button onclick="window.print()" title="Print Rota" class="p-2 sm:px-3 sm:py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium text-xs sm:text-sm transition flex items-center gap-1.5 shadow-sm">
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          <span class="hidden sm:inline">Print</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 flex-1">
+    
+    <!-- Controls Bar -->
+    <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <!-- Month & Year Selector -->
+      <div class="flex items-center gap-2">
+        <div class="flex items-center border border-slate-200 rounded-xl bg-slate-50 p-1">
+          <button onclick="changeMonth(-1)" class="p-2 rounded-lg hover:bg-white hover:shadow-xs transition text-slate-600 hover:text-slate-900" title="Previous Month">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <button onclick="goToCurrentMonth()" class="px-3 py-1.5 text-xs font-semibold rounded-lg hover:bg-white text-slate-700 hover:text-indigo-600 transition">
+            Today
+          </button>
+          <button onclick="changeMonth(1)" class="p-2 rounded-lg hover:bg-white hover:shadow-xs transition text-slate-600 hover:text-slate-900" title="Next Month">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <select id="monthSelect" onchange="onMonthYearSelect()" class="bg-slate-50 border border-slate-200 font-semibold text-slate-800 text-sm rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 transition cursor-pointer">
+            <!-- Populated dynamically via JS -->
+          </select>
+          <select id="yearSelect" onchange="onMonthYearSelect()" class="bg-slate-50 border border-slate-200 font-semibold text-slate-800 text-sm rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 transition cursor-pointer">
+            <!-- Populated dynamically via JS -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick Shift Automation Presets -->
+      <div class="flex items-center flex-wrap gap-2">
+        <div class="relative group">
+          <button class="px-3 py-2 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center gap-1.5 border border-slate-200">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Auto Presets
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="absolute right-0 mt-1 w-56 bg-white border border-slate-200 rounded-xl shadow-xl py-1.5 z-40 hidden group-hover:block hover:block">
+            <button onclick="applyPreset('alternate_dt')" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 transition flex items-center justify-between">
+              <span>Alternate Days (D / T)</span>
+              <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-mono">D / N</span>
+            </button>
+            <button onclick="applyPreset('alternate_days')" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 transition flex items-center justify-between">
+              <span>D on Day, T on Night</span>
+              <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-mono">24/7</span>
+            </button>
+            <button onclick="applyPreset('weekdays_only')" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 transition flex items-center justify-between">
+              <span>Weekdays Both Day (Off Wknd)</span>
+              <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-mono">Mon-Fri</span>
+            </button>
+            <div class="border-t border-slate-100 my-1"></div>
+            <button onclick="promptClearMonth()" class="w-full text-left px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 transition flex items-center gap-1.5 font-medium">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              Clear Current Month
+            </button>
+          </div>
+        </div>
+
+        <!-- Legend / Fast Help Indicator -->
+        <div class="hidden xl:flex items-center gap-3 text-xs text-slate-600 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+          <span class="font-medium text-slate-500">Legend:</span>
+          <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Day (☀️)</span>
+          <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Night (🌙)</span>
+          <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-300"></span> Off (⚪)</span>
+          <span class="text-slate-400">| Tip: Click badge to quick-toggle</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Person D Summary Card -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden group">
+        <div class="absolute -right-3 -top-3 w-16 h-16 bg-emerald-50 rounded-full group-hover:scale-110 transition-transform"></div>
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-emerald-600 text-white font-bold flex items-center justify-center text-sm shadow-sm shadow-emerald-200">D</span>
+            <span class="font-bold text-slate-800 text-sm">Person D</span>
+          </div>
+          <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100" id="statDPercentage">0% of month</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-2xl font-black text-slate-900 tracking-tight" id="statDTotal">0</span>
+          <span class="text-xs text-slate-500 font-medium">shifts total</span>
+        </div>
+        <div class="mt-2 text-xs flex justify-between text-slate-500 border-t border-slate-100 pt-2 font-medium">
+          <span>☀️ Day: <strong id="statDDay" class="text-slate-800">0</strong></span>
+          <span>🌙 Night: <strong id="statDNight" class="text-slate-800">0</strong></span>
+          <span>⚪ Off: <strong id="statDOff" class="text-slate-800">0</strong></span>
+        </div>
+      </div>
+
+      <!-- Person T Summary Card -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden group">
+        <div class="absolute -right-3 -top-3 w-16 h-16 bg-indigo-50 rounded-full group-hover:scale-110 transition-transform"></div>
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-sm shadow-sm shadow-indigo-200">T</span>
+            <span class="font-bold text-slate-800 text-sm">Person T</span>
+          </div>
+          <span class="text-[11px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100" id="statTPercentage">0% of month</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-2xl font-black text-slate-900 tracking-tight" id="statTTotal">0</span>
+          <span class="text-xs text-slate-500 font-medium">shifts total</span>
+        </div>
+        <div class="mt-2 text-xs flex justify-between text-slate-500 border-t border-slate-100 pt-2 font-medium">
+          <span>☀️ Day: <strong id="statTDay" class="text-slate-800">0</strong></span>
+          <span>🌙 Night: <strong id="statTNight" class="text-slate-800">0</strong></span>
+          <span>⚪ Off: <strong id="statTOff" class="text-slate-800">0</strong></span>
+        </div>
+      </div>
+
+      <!-- Balance & Fairness Meter -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Shift Equity</span>
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md" id="fairnessBadge">Balanced</span>
+          </div>
+          <p class="text-xs text-slate-500 mb-3" id="fairnessText">Comparing workload distribution</p>
+          <!-- Ratio Bar -->
+          <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden flex shadow-inner">
+            <div id="ratioBarD" class="bg-emerald-500 transition-all duration-300" style="width: 50%" title="D's share"></div>
+            <div id="ratioBarT" class="bg-indigo-500 transition-all duration-300" style="width: 50%" title="T's share"></div>
+          </div>
+        </div>
+        <div class="flex justify-between text-[11px] text-slate-500 mt-2 font-medium">
+          <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> D: <span id="ratioPctD">50%</span></span>
+          <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-indigo-500"></span> T: <span id="ratioPctT">50%</span></span>
+        </div>
+      </div>
+
+      <!-- Coverage / Open Slots -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Coverage Overview</span>
+          <span class="text-xs font-bold text-slate-800" id="totalDaysInMonth">31 Days</span>
+        </div>
+        <div class="space-y-1.5 my-2">
+          <div class="flex justify-between text-xs font-medium">
+            <span class="text-slate-500">Both working:</span>
+            <span class="font-bold text-slate-800" id="statBothWorking">0 days</span>
+          </div>
+          <div class="flex justify-between text-xs font-medium">
+            <span class="text-slate-500">Single person:</span>
+            <span class="font-bold text-slate-800" id="statSingleWorking">0 days</span>
+          </div>
+          <div class="flex justify-between text-xs font-medium">
+            <span class="text-slate-500">Neither (Uncovered):</span>
+            <span class="font-bold text-rose-600" id="statZeroWorking">0 days</span>
+          </div>
+        </div>
+        <div class="text-[11px] text-slate-400 border-t border-slate-100 pt-1.5">
+          Local auto-saved instantly
+        </div>
+      </div>
+    </div>
+
+    <div id="calendarGridView" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden print-shadow-none">
+      <!-- Weekday Header -->
+      <div class="grid grid-cols-7 border-b border-slate-200 bg-slate-50/75 text-center font-bold text-xs text-slate-600 tracking-wider uppercase py-3">
+        <div class="text-slate-500">Mon</div>
+        <div class="text-slate-500">Tue</div>
+        <div class="text-slate-500">Wed</div>
+        <div class="text-slate-500">Thu</div>
+        <div class="text-slate-500">Fri</div>
+        <div class="text-indigo-600">Sat</div>
+        <div class="text-indigo-600">Sun</div>
+      </div>
+
+      <!-- Days Grid -->
+      <div id="calendarDaysGrid" class="grid grid-cols-7 gap-px bg-slate-200">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <div id="calendarListView" class="hidden bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden print-shadow-none">
+      <div class="overflow-x-auto custom-scrollbar">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
+              <th class="py-3 px-4 w-32">Date</th>
+              <th class="py-3 px-4 w-24">Day</th>
+              <th class="py-3 px-4 w-64 text-emerald-800 bg-emerald-50/50">Person D Shift</th>
+              <th class="py-3 px-4 w-64 text-indigo-800 bg-indigo-50/50">Person T Shift</th>
+              <th class="py-3 px-4">Notes</th>
+              <th class="py-3 px-4 text-right w-24 no-print">Action</th>
+            </tr>
+          </thead>
+          <tbody id="calendarListBody" class="divide-y divide-slate-100 text-sm">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div id="editModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden transition-opacity">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-100 overflow-hidden transform transition-all">
+      <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
+        <div>
+          <h3 class="font-bold text-slate-800 text-lg" id="modalDateTitle">Edit Shift</h3>
+          <p class="text-xs text-slate-500 font-medium" id="modalDaySubtitle">Configure assignments for D and T</p>
+        </div>
+        <button onclick="closeEditModal()" class="w-8 h-8 rounded-full bg-white hover:bg-slate-200 text-slate-400 hover:text-slate-600 flex items-center justify-center transition border border-slate-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-6">
+        <!-- Person D Section -->
+        <div class="space-y-3 bg-emerald-50/40 p-4 rounded-2xl border border-emerald-100">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-sm text-emerald-950 flex items-center gap-2">
